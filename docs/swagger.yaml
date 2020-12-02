@@ -1,0 +1,133 @@
+definitions:
+  app.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      msg:
+        type: string
+    type: object
+  gredis.TrailerListParam:
+    type: object
+  stats_service.SdkEvent:
+    properties:
+      app_code:
+        type: string
+      app_name:
+        type: string
+      app_version:
+        type: string
+      channel_code:
+        type: string
+      client_time:
+        type: string
+      device_brand:
+        type: string
+      device_model:
+        type: string
+      device_no:
+        type: string
+      event_name:
+        type: string
+      idfa:
+        type: string
+      imei:
+        type: string
+      ip:
+        type: string
+      net_type:
+        type: string
+      newevent_type:
+        type: integer
+      newpuid:
+        type: string
+      newsession_id:
+        type: string
+      os_version:
+        type: string
+      page_name:
+        type: string
+      screen_height:
+        type: integer
+      screen_width:
+        type: integer
+      sdk_name:
+        type: string
+      sdk_version:
+        type: string
+    required:
+    - app_code
+    - app_name
+    - app_version
+    - channel_code
+    - client_time
+    - device_model
+    - device_no
+    - event_name
+    - imei
+    - net_type
+    - newevent_type
+    - newpuid
+    - newsession_id
+    - os_version
+    - screen_height
+    - screen_width
+    - sdk_name
+    - sdk_version
+    type: object
+info:
+  contact: {}
+  license: {}
+paths:
+  /trailer-api/stats/insert_sdk_event:
+    post:
+      description: Insert SdkEvent
+      operationId: Insert SdkEvent
+      parameters:
+      - description: Event
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/stats_service.SdkEvent'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: Insert SdkEvent
+      tags:
+      - SdkEvent
+  /trailer-api/trailer/get_trailers:
+    post:
+      description: Get TrailerList
+      operationId: Get TrailerList
+      parameters:
+      - description: TrailerListParam
+        in: body
+        name: TotalRegionUV
+        required: true
+        schema:
+          $ref: '#/definitions/gredis.TrailerListParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: Get TrailerList
+      tags:
+      - Trailer
+swagger: "2.0"
