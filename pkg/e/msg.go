@@ -6,7 +6,9 @@ var MsgFlags = map[int]string{
 	InvalidParams: "请求参数错误",
 
 	//
-	ErrorInsertSdkEvent:        "记录 SDK 统计事件时错误",
+	ErrorInsertSdkEvent: "记录 SDK 统计事件时失败",
+	ErrorInsertDevice:   "记录设备信息时失败",
+	ErrorInsertSdkError: "记录 SDK 错误信息时失败",
 }
 
 // GetMsg get error information based on Code

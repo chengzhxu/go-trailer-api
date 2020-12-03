@@ -5,40 +5,33 @@ import (
 	"go-trailer-api/pkg/app"
 	"go-trailer-api/pkg/e"
 	"go-trailer-api/pkg/service/stats_service"
-	"go-trailer-api/pkg/tool"
 	"net/http"
 )
 
-// @tags SdkEvent
-// @Summary SDK 事件统计
-// @Description SDK 事件统计
-// @ID Insert SdkEvent
+// @tags Device
+// @Summary 设备信息上报
+// @Description 设备信息上报
+// @ID Record Device
 // @Produce json
-// @Param name body stats_service.SdkEvent true "Event"
+// @Param name body stats_service.Device true "Device"
 // @Success 200 {object} app.Response
 // @Failure 500 {object} app.Response
-// @Router /trailer_api/stats/record_sdk_event [post]
-func InsertSdkEvent(c *gin.Context) {
+// @Router /trailer_api/stats/record_device [post]
+func InsertDevice(c *gin.Context) {
 	var (
 		appG = app.Gin{C: c}
 		err  error
 	)
 
-	jsonRequest := stats_service.SdkEvent{}
+	jsonRequest := stats_service.Device{}
 	httpCode, errCode, err := app.BindAndValid(c, &jsonRequest)
 	if err != nil {
 		appG.Response(httpCode, errCode, err.Error())
 		return
 	}
 
-	r := c.Request
-	ip := tool.ClientPublicIP(r)
-	if ip == "" {
-		ip = tool.ClientIP(r)
-	}
-	jsonRequest.IP = ip
 	if err := jsonRequest.Insert(); err != nil {
-		appG.Response(http.StatusInternalServerError, e.ErrorInsertSdkEvent, nil)
+		appG.Response(http.StatusInternalServerError, e.ErrorInsertDevice, nil)
 		return
 	}
 

@@ -6,5 +6,7 @@ const (
 	InvalidParams = 400
 
 	// internal
-	ErrorInsertSdkEvent  = 50001
+	ErrorInsertSdkEvent = 50001
+	ErrorInsertDevice   = 50020
+	ErrorInsertSdkError = 50040
 )
