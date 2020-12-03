@@ -18,11 +18,17 @@ func InitRouter() *gin.Engine {
 		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
-	api_stats := r.Group("/trailer_api/stats")
-	//api_stats.Use(jwt.JWT())
+	apiStats := r.Group("/trailer_api/stats")
+	//apiStats.Use(jwt.JWT())
 	{
+		//设备信息上报
+		apiStats.POST("record_device", stats.InsertDevice)
+
 		//记录 SDK 统计事件
-		api_stats.POST("insert_sdk_event", stats.InsertSdkEvent)
+		apiStats.POST("record_sdk_event", stats.InsertSdkEvent)
+
+		//SDK 错误信息上报
+		apiStats.POST("record_sdk_err", stats.InsertSdkError)
 	}
 
 	return r

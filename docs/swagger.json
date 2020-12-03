@@ -5,16 +5,92 @@
         "license": {}
     },
     "paths": {
-        "/trailer_api/stats/insert_sdk_event": {
+        "/trailer_api/stats/record_device": {
             "post": {
-                "description": "Insert SdkEvent",
+                "description": "设备信息上报",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Device"
+                ],
+                "summary": "设备信息上报",
+                "operationId": "Record Device",
+                "parameters": [
+                    {
+                        "description": "Device",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/stats_service.Device"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/trailer_api/stats/record_sdk_err": {
+            "post": {
+                "description": "SDK 错误信息上报",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SdkError"
+                ],
+                "summary": "SDK 错误信息上报",
+                "operationId": "Record SdkError",
+                "parameters": [
+                    {
+                        "description": "SdkError",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/stats_service.SdkError"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/trailer_api/stats/record_sdk_event": {
+            "post": {
+                "description": "SDK 事件统计",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "SdkEvent"
                 ],
-                "summary": "Insert SdkEvent",
+                "summary": "SDK 事件统计",
                 "operationId": "Insert SdkEvent",
                 "parameters": [
                     {
@@ -100,6 +176,114 @@
         "gredis.TrailerListParam": {
             "type": "object"
         },
+        "stats_service.Device": {
+            "type": "object",
+            "required": [
+                "android_version_code",
+                "android_version_name",
+                "app_name",
+                "app_version_code",
+                "app_version_name",
+                "channel_code",
+                "device_model",
+                "device_name",
+                "device_no",
+                "device_vendor",
+                "ip",
+                "resolution"
+            ],
+            "properties": {
+                "android_version_code": {
+                    "type": "string"
+                },
+                "android_version_name": {
+                    "type": "string"
+                },
+                "app_name": {
+                    "type": "string"
+                },
+                "app_version_code": {
+                    "type": "string"
+                },
+                "app_version_name": {
+                    "type": "string"
+                },
+                "channel_code": {
+                    "type": "string"
+                },
+                "device_model": {
+                    "type": "string"
+                },
+                "device_name": {
+                    "type": "string"
+                },
+                "device_no": {
+                    "type": "string"
+                },
+                "device_vendor": {
+                    "type": "string"
+                },
+                "ip": {
+                    "type": "string"
+                },
+                "resolution": {
+                    "type": "string"
+                }
+            }
+        },
+        "stats_service.SdkError": {
+            "type": "object",
+            "required": [
+                "app_name",
+                "app_version_code",
+                "app_version_name",
+                "channel_code",
+                "crash_log",
+                "crash_time",
+                "device_no",
+                "sdk_name",
+                "sdk_version_code",
+                "sdk_version_name"
+            ],
+            "properties": {
+                "app_name": {
+                    "type": "string"
+                },
+                "app_version_code": {
+                    "type": "string"
+                },
+                "app_version_name": {
+                    "type": "string"
+                },
+                "channel_code": {
+                    "type": "string"
+                },
+                "crash_log": {
+                    "type": "string"
+                },
+                "crash_time": {
+                    "type": "string"
+                },
+                "device_no": {
+                    "type": "string"
+                },
+                "ext": {
+                    "type": "string"
+                },
+                "sdk_name": {
+                    "type": "string"
+                },
+                "sdk_version_code": {
+                    "type": "string"
+                },
+                "sdk_version_name": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "stats_service.SdkEvent": {
             "type": "object",
             "required": [
@@ -168,7 +352,7 @@
                     "type": "integer"
                 },
                 "newpuid": {
-                    "description": "IDFA string `json:\"idfa\" `",
+                    "description": "IDFA \t\t\t\t\t\tstring `json:\"idfa\" `",
                     "type": "string"
                 },
                 "newsession_id": {

@@ -6,7 +6,7 @@ type SdkEvent struct {
 	ClientTime string `json:"client_time" binding:"required,bas_time"`
 	DeviceNo   string `json:"device_no" binding:"required"`
 	IMEI       string `json:"imei" binding:"required"`
-	//IDFA string `json:"idfa" `
+	//IDFA 						string `json:"idfa" `
 	NewpUid        string `json:"newpuid" `
 	NewSessionId   string `json:"newsession_id" binding:"required"`
 	ScreenWidth    int    `json:"screen_width" binding:"required"`
