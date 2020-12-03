@@ -2,6 +2,7 @@ package validator
 
 import (
 	"github.com/go-playground/validator/v10"
+	"github.com/haxqer/gintools/logging"
 	"regexp"
 )
 
@@ -22,4 +23,17 @@ func BasTime(fl validator.FieldLevel) bool {
 	}
 
 	return false
+}
+
+func NoMustBasTime(fl validator.FieldLevel) bool {
+	logging.Info("ct_length:" + fl.Field().String())
+	if len(fl.Field().String()) > 0 {
+		if validBasTime.MatchString(fl.Field().String()) {
+			return true
+		}
+
+		return false
+	}
+
+	return true
 }

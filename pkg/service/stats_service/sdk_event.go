@@ -1,9 +1,12 @@
 package stats_service
 
-import "go-trailer-api/pkg/model"
+import (
+	"go-trailer-api/pkg/model"
+	"go-trailer-api/pkg/tool"
+)
 
 type SdkEvent struct {
-	ClientTime string `json:"client_time" binding:"required,bas_time"`
+	ClientTime string `json:"client_time" binding:"nm_bas_time"`
 	DeviceNo   string `json:"device_no" binding:"required"`
 	IMEI       string `json:"imei" binding:"required"`
 	//IDFA 						string `json:"idfa" `
@@ -60,6 +63,9 @@ func mapSdkEvent(se *SdkEvent) map[string]interface{} {
 }
 
 func (se *SdkEvent) Insert() error {
+	if len(se.ClientTime) == 0 {
+		se.ClientTime = tool.GetCurrentTime() //服务器时间
+	}
 	sdkEvent := mapSdkEvent(se)
 
 	if err := model.InsertSdkEvent(sdkEvent); err != nil {

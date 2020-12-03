@@ -311,7 +311,6 @@ var doc = `{
                 "app_version_code",
                 "app_version_name",
                 "channel_code",
-                "client_time",
                 "device_model",
                 "device_no",
                 "event_kv_json",

@@ -15,6 +15,7 @@ func Setup() {
 	arr := map[string]func(fl validator.FieldLevel) bool{
 		"bas_date":       BasDate,
 		"bas_time":       BasTime,
+		"nm_bas_time":    NoMustBasTime,
 		"int_status":     IntStatus,
 		"sdk_event_type": EventType,
 		"sdk_event_kt":   EventKt,
