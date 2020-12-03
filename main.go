@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/haxqer/gintools/logging"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "go-trailer-api/docs"
 	"go-trailer-api/pkg/gredis"
 	"go-trailer-api/pkg/model"
 	"go-trailer-api/pkg/setting"
+	"go-trailer-api/pkg/tool"
 	"go-trailer-api/pkg/validator"
 	"go-trailer-api/routers"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
 	"net/http"
 )
@@ -20,8 +21,9 @@ const (
 )
 
 func init() {
+	logsPath := tool.GetLogsPath() + projectName
 	setting.Setup()
-	logging.Setup(projectName)
+	logging.Setup(logsPath)
 	validator.Setup()
 	gredis.Setup()
 	model.Setup()

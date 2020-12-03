@@ -14,9 +14,10 @@ func Setup() {
 
 	arr := map[string]func(fl validator.FieldLevel) bool{
 		"bas_date":       BasDate,
+		"bas_time":       BasTime,
 		"int_status":     IntStatus,
-		"sdk_event_type":   EventType,
-		"sdk_event_kt":    EventKt,
+		"sdk_event_type": EventType,
+		"sdk_event_kt":   EventKt,
 	}
 
 	for k, v := range arr {

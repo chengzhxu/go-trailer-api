@@ -25,7 +25,7 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/trailer-api/stats/insert_sdk_event": {
+        "/trailer_api/stats/insert_sdk_event": {
             "post": {
                 "description": "Insert SdkEvent",
                 "produces": [
@@ -63,7 +63,7 @@ var doc = `{
                 }
             }
         },
-        "/trailer-api/trailer/get_trailers": {
+        "/trailer_api/trailer/get_trailers": {
             "post": {
                 "description": "Get TrailerList",
                 "produces": [
@@ -123,33 +123,35 @@ var doc = `{
         "stats_service.SdkEvent": {
             "type": "object",
             "required": [
-                "app_code",
                 "app_name",
-                "app_version",
+                "app_version_code",
+                "app_version_name",
                 "channel_code",
                 "client_time",
                 "device_model",
                 "device_no",
+                "event_kv_json",
                 "event_name",
                 "imei",
                 "net_type",
                 "newevent_type",
-                "newpuid",
                 "newsession_id",
-                "os_version",
+                "os_version_code",
+                "os_version_name",
                 "screen_height",
                 "screen_width",
                 "sdk_name",
-                "sdk_version"
+                "sdk_version_code",
+                "sdk_version_name"
             ],
             "properties": {
-                "app_code": {
-                    "type": "string"
-                },
                 "app_name": {
                     "type": "string"
                 },
-                "app_version": {
+                "app_version_code": {
+                    "type": "string"
+                },
+                "app_version_name": {
                     "type": "string"
                 },
                 "channel_code": {
@@ -167,10 +169,10 @@ var doc = `{
                 "device_no": {
                     "type": "string"
                 },
-                "event_name": {
+                "event_kv_json": {
                     "type": "string"
                 },
-                "idfa": {
+                "event_name": {
                     "type": "string"
                 },
                 "imei": {
@@ -186,12 +188,16 @@ var doc = `{
                     "type": "integer"
                 },
                 "newpuid": {
+                    "description": "IDFA string ` + "`" + `json:\"idfa\" ` + "`" + `",
                     "type": "string"
                 },
                 "newsession_id": {
                     "type": "string"
                 },
-                "os_version": {
+                "os_version_code": {
+                    "type": "string"
+                },
+                "os_version_name": {
                     "type": "string"
                 },
                 "page_name": {
@@ -206,7 +212,10 @@ var doc = `{
                 "sdk_name": {
                     "type": "string"
                 },
-                "sdk_version": {
+                "sdk_version_code": {
+                    "type": "string"
+                },
+                "sdk_version_name": {
                     "type": "string"
                 }
             }

@@ -1,10 +1,10 @@
 package routers
 
 import (
-	"go-trailer-api/pkg/setting"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"go-trailer-api/pkg/setting"
 	"go-trailer-api/routers/trailer_api/stats"
 )
 
@@ -18,7 +18,7 @@ func InitRouter() *gin.Engine {
 		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
-	api_stats := r.Group("/trailer-api/stats")
+	api_stats := r.Group("/trailer_api/stats")
 	//api_stats.Use(jwt.JWT())
 	{
 		//记录 SDK 统计事件

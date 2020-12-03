@@ -2,15 +2,44 @@ package tool
 
 import (
 	"github.com/haxqer/gintools/logging"
+	"log"
 	"net"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
 
 /*
 * 工具类
-*/
+ */
+
+// 生成 Logs 路径
+func GetLogsPath() string {
+	date := time.Now().Format("2006-01-02")
+	path := "logs/" + date
+	basePath := GetCurrentPath() + "/runtime"
+
+	folderPath := filepath.Join(basePath, path)
+	if _, err := os.Stat(folderPath); os.IsNotExist(err) {
+		// 必须分成两步
+		// 先创建文件夹
+		os.MkdirAll(folderPath, 0777)
+		// 再修改权限
+		os.Chmod(folderPath, 0777)
+	}
+
+	return path + "/"
+}
+
+func GetCurrentPath() string {
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return strings.Replace(dir, "\\", "/", -1)
+}
 
 //千分位
 func NumFormat(str string) string {
@@ -32,7 +61,7 @@ func GetCurrentTime() string {
 }
 
 //获取服务端IP
-func GetServiceIP() string{
+func GetServiceIP() string {
 	address, err := net.InterfaceAddrs()
 
 	if err != nil {
@@ -53,7 +82,6 @@ func GetServiceIP() string{
 
 	return ip
 }
-
 
 // ClientIP 尽最大努力实现获取客户端 IP 的算法。
 // 解析 X-Real-IP 和 X-Forwarded-For 以便于反向代理（nginx 或 haproxy）可以正常工作。

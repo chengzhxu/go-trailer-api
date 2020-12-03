@@ -14,7 +14,7 @@ import (
 // @Param TotalRegionUV body gredis.TrailerListParam true "TrailerListParam"
 // @Success 200 {object} app.Response
 // @Failure 500 {object} app.Response
-// @Router /trailer-api/trailer/get_trailers [post]
+// @Router /trailer_api/trailer/get_trailers [post]
 func GetTrailers(c *gin.Context) {
 	appG := app.Gin{C: c}
 	jsonRequest := gredis.TrailerListParam{}
@@ -23,8 +23,6 @@ func GetTrailers(c *gin.Context) {
 		appG.Response(httpCode, errCode, err.Error())
 		return
 	}
-
-
 
 	//appG.Response(http.StatusOK, e.Success, data)
 }
