@@ -26,12 +26,12 @@ func InsertDevice(c *gin.Context) {
 	jsonRequest := stats_service.Device{}
 	httpCode, errCode, err := app.BindAndValid(c, &jsonRequest)
 	if err != nil {
-		appG.Response(httpCode, errCode, err.Error())
+		appG.Response(httpCode, errCode, err)
 		return
 	}
 
 	if err := jsonRequest.Insert(); err != nil {
-		appG.Response(http.StatusInternalServerError, e.ErrorInsertDevice, nil)
+		appG.Response(http.StatusInternalServerError, e.ErrorInsertDevice, err)
 		return
 	}
 

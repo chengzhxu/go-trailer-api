@@ -26,12 +26,12 @@ func InsertSdkError(c *gin.Context) {
 	jsonRequest := stats_service.SdkError{}
 	httpCode, errCode, err := app.BindAndValid(c, &jsonRequest)
 	if err != nil {
-		appG.Response(httpCode, errCode, err.Error())
+		appG.Response(httpCode, errCode, err)
 		return
 	}
 
 	if err := jsonRequest.Insert(); err != nil {
-		appG.Response(http.StatusInternalServerError, e.ErrorInsertSdkError, nil)
+		appG.Response(http.StatusInternalServerError, e.ErrorInsertSdkError, err)
 		return
 	}
 
