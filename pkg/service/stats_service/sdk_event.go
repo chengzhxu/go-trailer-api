@@ -2,7 +2,7 @@ package stats_service
 
 import (
 	"go-trailer-api/pkg/model"
-	"go-trailer-api/pkg/tool"
+	"go-trailer-api/pkg/util"
 )
 
 type SdkEvent struct {
@@ -31,6 +31,14 @@ type SdkEvent struct {
 	NewEventType   *int   `json:"newevent_type" binding:"required,sdk_event_type"`
 	EventName      string `json:"event_name" binding:"required"`
 	EventKvJson    string `json:"event_kv_json" binding:"required,sdk_event_kt"`
+}
+
+type ObjSdkEvents struct {
+	SdkEvents string `json:"sdk_events" binding:"required"`
+}
+
+type ArrSdkEvents struct {
+	SdkEvents []SdkEvent
 }
 
 func mapSdkEvent(se *SdkEvent) map[string]interface{} {
@@ -64,7 +72,7 @@ func mapSdkEvent(se *SdkEvent) map[string]interface{} {
 
 func (se *SdkEvent) Insert() error {
 	if len(se.ClientTime) == 0 {
-		se.ClientTime = tool.GetCurrentTime() //服务器时间
+		se.ClientTime = util.GetCurrentTime() //服务器时间
 	}
 	sdkEvent := mapSdkEvent(se)
 

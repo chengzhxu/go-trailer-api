@@ -19,6 +19,7 @@ func Setup() {
 		"int_status":     IntStatus,
 		"sdk_event_type": EventType,
 		"sdk_event_kt":   EventKt,
+		"obj_sdk_events": ObjSdkEvents,
 	}
 
 	for k, v := range arr {

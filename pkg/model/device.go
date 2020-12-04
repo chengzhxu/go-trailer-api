@@ -1,7 +1,7 @@
 package model
 
 import (
-	"go-trailer-api/pkg/tool"
+	"go-trailer-api/pkg/util"
 )
 
 type Device struct {
@@ -40,7 +40,7 @@ func InsertDevice(data map[string]interface{}) error {
 		AppVersionName:     data["app_version_name"].(string),
 		AppVersionCode:     data["app_version_code"].(string),
 		IP:                 data["ip"].(string),
-		CreateTime:         tool.GetCurrentTime(),
+		CreateTime:         util.GetCurrentTime(),
 	}
 	if err := db.Create(&device).Error; err != nil {
 		return err

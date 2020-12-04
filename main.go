@@ -3,13 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/haxqer/gintools/logging"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "go-trailer-api/docs"
 	"go-trailer-api/pkg/gredis"
+	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/model"
 	"go-trailer-api/pkg/setting"
-	"go-trailer-api/pkg/tool"
 	"go-trailer-api/pkg/validator"
 	"go-trailer-api/routers"
 	"log"
@@ -21,15 +20,20 @@ const (
 )
 
 func init() {
-	logsPath := tool.GetLogsPath() + projectName
 	setting.Setup()
-	logging.Setup(logsPath)
+	logging.Setup()
 	validator.Setup()
 	gredis.Setup()
 	model.Setup()
 }
 
 func main() {
+
+	//key := "trailerId"
+	////gredis.Zadd(key)
+	//gredis.ZrByScore(key)
+	//gredis.Zrem(key)
+
 	gin.SetMode(setting.ServerSetting.RunMode)
 
 	routersInit := routers.InitRouter()

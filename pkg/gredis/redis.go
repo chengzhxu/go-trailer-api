@@ -1,12 +1,13 @@
 package gredis
 
 import (
-	"github.com/haxqer/gintools/logging"
-	"go-trailer-api/pkg/setting"
+	"fmt"
 	"github.com/gomodule/redigo/redis"
+	"go-trailer-api/pkg/logging"
+	"go-trailer-api/pkg/setting"
+	"strconv"
 	"time"
 )
-
 
 var RedisConn *redis.Pool
 
@@ -36,7 +37,6 @@ func createRedisConn(redisSetting *setting.Redis) *redis.Pool {
 			_, err := c.Do("PING")
 			return err
 		},
-
 	}
 
 	return redisConn
@@ -51,10 +51,8 @@ func HGetAll(key string) (*map[string]string, error) {
 		return nil, err
 	}
 
-
 	return &reply, nil
 }
-
 
 func SetString(key string, val string) (bool, error) {
 	conn := RedisConn.Get()
@@ -76,4 +74,43 @@ func GetString(key string) (string, error) {
 	}
 
 	return val, err
+}
+
+func Zadd(key string) bool {
+	conn := RedisConn.Get()
+
+	for i := 1; i < 50; i++ {
+		_, err := conn.Do("zadd", key, i, "asset"+strconv.Itoa(i))
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	return true
+}
+
+func Zrem(key string) bool {
+	conn := RedisConn.Get()
+
+	_, err := conn.Do("zrem", key, 99)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return true
+}
+
+func ZrByScore(key string) bool {
+	conn := RedisConn.Get()
+
+	res, err := redis.Values(conn.Do("zrevrangebyscore", key, 99, 99))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for _, v := range res {
+		fmt.Printf("%s ", v)
+	}
+
+	return true
 }

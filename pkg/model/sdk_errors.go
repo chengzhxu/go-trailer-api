@@ -1,7 +1,7 @@
 package model
 
 import (
-	"go-trailer-api/pkg/tool"
+	"go-trailer-api/pkg/util"
 )
 
 type SdkErrors struct {
@@ -40,7 +40,7 @@ func InsertSdkError(data map[string]interface{}) error {
 		AppVersionCode: data["app_version_code"].(string),
 		UserId:         data["user_id"].(int),
 		Ext:            data["ext"].(string),
-		CreateTime:     tool.GetCurrentTime(),
+		CreateTime:     util.GetCurrentTime(),
 	}
 	if err := db.Create(&sdkErr).Error; err != nil {
 		return err

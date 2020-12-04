@@ -1,7 +1,7 @@
 package model
 
 import (
-	"go-trailer-api/pkg/tool"
+	"go-trailer-api/pkg/util"
 )
 
 type SdkEvents struct {
@@ -65,7 +65,7 @@ func InsertSdkEvent(data map[string]interface{}) error {
 		NewEventType:   data["newevent_type"].(int),
 		EventName:      data["event_name"].(string),
 		EventKvJson:    data["event_kv_json"].(string),
-		CreateTime:     tool.GetCurrentTime(),
+		CreateTime:     util.GetCurrentTime(),
 	}
 	if err := db.Create(&event).Error; err != nil {
 		return err

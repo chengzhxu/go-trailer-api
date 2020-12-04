@@ -3,6 +3,7 @@ package validator
 import (
 	"github.com/go-playground/validator/v10"
 	"github.com/pquerna/ffjson/ffjson"
+	"go-trailer-api/pkg/service/stats_service"
 	"go-trailer-api/pkg/util"
 )
 
@@ -25,6 +26,19 @@ func EventType(fl validator.FieldLevel) bool {
 func EventKt(fl validator.FieldLevel) bool {
 	var (
 		v   map[string]string
+		err error
+	)
+	err = ffjson.Unmarshal([]byte(fl.Field().String()), &v)
+	if err != nil {
+		return false
+	}
+
+	return true
+}
+
+func ObjSdkEvents(fl validator.FieldLevel) bool {
+	var (
+		v   map[string]stats_service.SdkEvent
 		err error
 	)
 	err = ffjson.Unmarshal([]byte(fl.Field().String()), &v)

@@ -1,20 +1,21 @@
 package stats
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"go-trailer-api/pkg/app"
 	"go-trailer-api/pkg/e"
 	"go-trailer-api/pkg/service/stats_service"
-	"go-trailer-api/pkg/tool"
+	"go-trailer-api/pkg/util"
 	"net/http"
 )
 
 // @tags SdkEvent
 // @Summary SDK 事件统计
-// @Description SDK 事件统计
+// @Description SDK 事件统计   参数：事件 json 数组
 // @ID Insert SdkEvent
 // @Produce json
-// @Param name body stats_service.SdkEvent true "Event"
+// @Param name body stats_service.ObjSdkEvents true "Events"
 // @Success 200 {object} app.Response
 // @Failure 500 {object} app.Response
 // @Router /trailer_api/stats/record_sdk_event [post]
@@ -24,22 +25,36 @@ func InsertSdkEvent(c *gin.Context) {
 		err  error
 	)
 
-	jsonRequest := stats_service.SdkEvent{}
+	jsonRequest := stats_service.ObjSdkEvents{}
 	httpCode, errCode, err := app.BindAndValid(c, &jsonRequest)
 	if err != nil {
 		appG.Response(httpCode, errCode, err.Error())
 		return
 	}
 
+	var sdkEvents []stats_service.SdkEvent
+	json.Unmarshal([]byte(jsonRequest.SdkEvents), &sdkEvents)
+
 	r := c.Request
-	ip := tool.ClientPublicIP(r)
+	ip := util.ClientPublicIP(r)
 	if ip == "" {
-		ip = tool.ClientIP(r)
+		ip = util.ClientIP(r)
 	}
-	jsonRequest.IP = ip
-	if err := jsonRequest.Insert(); err != nil {
-		appG.Response(http.StatusInternalServerError, e.ErrorInsertSdkEvent, nil)
-		return
+	//validator := govalidators.New()
+
+	for _, se := range sdkEvents {
+		se.IP = ip
+		//errList := validator.Validate(se)
+		//if errList != nil {
+		//	for _, el := range errList {
+		//		appG.Response(http.StatusInternalServerError, e.ErrorInsertSdkEvent, nil)
+		//		return
+		//	}
+		//}
+		if err := se.Insert(); err != nil {
+			appG.Response(http.StatusInternalServerError, e.ErrorInsertSdkEvent, nil)
+			return
+		}
 	}
 
 	appG.Response(http.StatusOK, e.Success, nil)

@@ -16,8 +16,10 @@ require (
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
 	github.com/smartystreets/assertions v0.0.0-20190116191733-b6c0e53d7304 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20181108003508-044398e4856c // indirect
+	github.com/smokezl/govalidators v1.0.2
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.5.1
+	go.uber.org/zap v1.16.0
 	golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1 // indirect
 	golang.org/x/tools v0.0.0-20200330040139-fa3cc9eebcfe // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect

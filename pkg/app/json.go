@@ -1,15 +1,15 @@
 package app
 
 import (
-	"go-trailer-api/pkg/e"
 	"github.com/gin-gonic/gin"
-	"github.com/haxqer/gintools/logging"
+	"go-trailer-api/pkg/e"
+	"go-trailer-api/pkg/logging"
 	"net/http"
 )
 
 type requestInfo struct {
 	Request interface{}
-	Err string
+	Err     string
 }
 
 // BindAndValid binds and validates data
@@ -26,4 +26,3 @@ func BindAndValid(c *gin.Context, b interface{}) (int, int, error) {
 
 	return http.StatusOK, e.Success, nil
 }
-

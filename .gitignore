@@ -10,6 +10,7 @@ conf/app.ini
 .settings/
 .project
 runtime/
+storage/
 .idea/
 .git/
 .DS_Store
