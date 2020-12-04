@@ -2,15 +2,17 @@ package gredis
 
 import (
 	"encoding/json"
+	"fmt"
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/util"
+	"strconv"
 )
 
 type Asset struct {
 	Id                int     `json:"id" binding:"required,bas_primary"`
 	Name              string  `json:"name" binding:"required"`                         //名称
 	Remark            string  `json:"remark" binding:"required"`                       //描述
-	Score             float64 `json:"score" binding:"required,asset_score"`            //评分
+	Score             float64 `json:"score" binding:"required,min=0,max=10"`           //评分
 	ViewLimit         int     `json:"view_limit" binding:""`                           //青少年观影限制 0  - 不限制 1 – 限制
 	ViewCities        string  `json:"view_cities" binding:""`                          //地区限制 （json）
 	ViewTags          string  `json:"view_tags" binding:""`                            //数据标签 （json）
@@ -73,6 +75,7 @@ func (asset *Asset) SyncAssetToRedis() error {
 	lastUpdateTime := asset.LastUpdateTime
 	tu := util.TimeToUnix(lastUpdateTime) //时间戳
 	assetId := asset.Id
+	asset.Score, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", asset.Score), 64)
 	jsonBytes, err := json.Marshal(asset)
 	if err != nil {
 		logging.Error(err)
