@@ -27,7 +27,7 @@ func SyncTrailerAsset(c *gin.Context) {
 	}
 
 	if err := jsonRequest.SyncAssetToRedis(); err != nil {
-		appG.Response(http.StatusInternalServerError, e.ErrorSyncAssetError, nil)
+		appG.Response(http.StatusInternalServerError, e.ErrorSyncAssetError, err.Error())
 		return
 	}
 
