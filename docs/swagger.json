@@ -156,6 +156,44 @@
                     }
                 }
             }
+        },
+        "/trailer_api/trailer/sync_asset": {
+            "post": {
+                "description": "同步 Asset 素材信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trailer Asset"
+                ],
+                "summary": "Sync Asset",
+                "operationId": "Sync Asset",
+                "parameters": [
+                    {
+                        "description": "SyncAsset",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gredis.Asset"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -169,6 +207,123 @@
                     "type": "object"
                 },
                 "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "gredis.Asset": {
+            "type": "object",
+            "required": [
+                "act_long_movie_url",
+                "act_open_apps",
+                "act_pop_time",
+                "act_qrcode_bg_url",
+                "act_qrcode_org_url",
+                "act_qrcode_url",
+                "act_toast",
+                "act_type",
+                "cover_url",
+                "duration_end_date",
+                "duration_start_date",
+                "id",
+                "last_update_time",
+                "movie_url",
+                "name",
+                "pic_urls",
+                "remark",
+                "score",
+                "shelf_status",
+                "type"
+            ],
+            "properties": {
+                "act_long_movie_url": {
+                    "description": "长视频 url",
+                    "type": "string"
+                },
+                "act_open_apps": {
+                    "description": "需要下载打开的应用  （json）",
+                    "type": "string"
+                },
+                "act_pop_time": {
+                    "description": "二维码自动弹出时间，单位：秒",
+                    "type": "integer"
+                },
+                "act_qrcode_bg_url": {
+                    "description": "二维码背景图url",
+                    "type": "string"
+                },
+                "act_qrcode_org_url": {
+                    "description": "二维码原链接url",
+                    "type": "string"
+                },
+                "act_qrcode_url": {
+                    "description": "二维码地址",
+                    "type": "string"
+                },
+                "act_toast": {
+                    "description": "OK键引导文案",
+                    "type": "string"
+                },
+                "act_type": {
+                    "description": "OK键动作类型 1-无动作 2-打开/下载应用 3-弹出二维码 4-加载长视频",
+                    "type": "integer"
+                },
+                "cover_url": {
+                    "description": "封面图地址",
+                    "type": "string"
+                },
+                "duration_end_date": {
+                    "description": "资源有效期 - 结束时间",
+                    "type": "string"
+                },
+                "duration_start_date": {
+                    "description": "资源有效期 - 开始时间",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "last_update_time": {
+                    "type": "string"
+                },
+                "movie_url": {
+                    "description": "视频地址",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "名称",
+                    "type": "string"
+                },
+                "pic_urls": {
+                    "description": "多张图片url  （json）",
+                    "type": "string"
+                },
+                "remark": {
+                    "description": "描述",
+                    "type": "string"
+                },
+                "score": {
+                    "description": "评分",
+                    "type": "number"
+                },
+                "shelf_status": {
+                    "description": "上架状态 1-未上架 2-已上架 3-已下架",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "类型 1-视频 2-图片",
+                    "type": "integer"
+                },
+                "view_cities": {
+                    "description": "地区限制 （json）",
+                    "type": "string"
+                },
+                "view_limit": {
+                    "description": "青少年观影限制 0  - 不限制 1 – 限制",
+                    "type": "integer"
+                },
+                "view_tags": {
+                    "description": "数据标签 （json）",
                     "type": "string"
                 }
             }

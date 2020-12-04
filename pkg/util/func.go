@@ -46,6 +46,23 @@ func GetCurrentTime() string {
 	return time.Now().Format("2006-01-02 15:04:05")
 }
 
+// 日期转换为时间戳
+func TimeToUnix(t string) int64 {
+	timeLayout := "2006-01-02 15:04:05"          //转化所需模板
+	loc, _ := time.LoadLocation("Asia/Shanghai") //设置时区
+	tt, _ := time.ParseInLocation(timeLayout, t, loc)
+
+	return tt.Unix()
+}
+
+// 时间戳转换为日期
+func UnixToTime(ut int64) string {
+	timeLayout := "2006-01-02 15:04:05" //转化所需模板
+	tm := time.Unix(ut, 0)
+
+	return tm.Format(timeLayout)
+}
+
 //获取服务端IP
 func GetServiceIP() string {
 	address, err := net.InterfaceAddrs()

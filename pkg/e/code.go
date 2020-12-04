@@ -9,4 +9,5 @@ const (
 	ErrorInsertSdkEvent = 50001
 	ErrorInsertDevice   = 50020
 	ErrorInsertSdkError = 50040
+	ErrorSyncAssetError = 60001
 )

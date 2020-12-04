@@ -6,6 +6,7 @@ import (
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"go-trailer-api/pkg/setting"
 	"go-trailer-api/routers/trailer_api/stats"
+	"go-trailer-api/routers/trailer_api/trailer"
 )
 
 // InitRouter initialize routing information
@@ -29,6 +30,12 @@ func InitRouter() *gin.Engine {
 
 		//SDK 错误信息上报
 		apiStats.POST("record_sdk_err", stats.InsertSdkError)
+	}
+
+	apiTrailer := r.Group("/trailer_api/trailer")
+	{
+		//同步 Asset 素材信息
+		apiTrailer.POST("sync_asset", trailer.SyncTrailerAsset)
 	}
 
 	return r

@@ -25,7 +25,7 @@ func EventType(fl validator.FieldLevel) bool {
 
 func EventKt(fl validator.FieldLevel) bool {
 	var (
-		v   map[string]string
+		v   map[string]interface{}
 		err error
 	)
 	err = ffjson.Unmarshal([]byte(fl.Field().String()), &v)

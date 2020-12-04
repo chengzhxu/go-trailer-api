@@ -13,13 +13,18 @@ func Setup() {
 	}
 
 	arr := map[string]func(fl validator.FieldLevel) bool{
-		"bas_date":       BasDate,
-		"bas_time":       BasTime,
-		"nm_bas_time":    NoMustBasTime,
-		"int_status":     IntStatus,
-		"sdk_event_type": EventType,
-		"sdk_event_kt":   EventKt,
-		"obj_sdk_events": ObjSdkEvents,
+		"bas_date":         BasDate,
+		"bas_primary":      BasPrimary,
+		"bas_time":         BasTime,
+		"nm_bas_time":      NoMustBasTime,
+		"int_status":       IntStatus,
+		"sdk_event_type":   EventType,
+		"sdk_event_kt":     EventKt,
+		"obj_sdk_events":   ObjSdkEvents,
+		"asset_view_limit": AssetViewLimit,
+		"asset_type":       AssetType,
+		"asset_act_type":   AssetActType,
+		"asset_score":      AssetScore,
 	}
 
 	for k, v := range arr {

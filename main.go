@@ -28,12 +28,6 @@ func init() {
 }
 
 func main() {
-
-	//key := "trailerId"
-	////gredis.Zadd(key)
-	//gredis.ZrByScore(key)
-	//gredis.Zrem(key)
-
 	gin.SetMode(setting.ServerSetting.RunMode)
 
 	routersInit := routers.InitRouter()

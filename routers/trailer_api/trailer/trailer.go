@@ -1,4 +1,4 @@
-package trailer_api
+package trailer
 
 import (
 	"github.com/gin-gonic/gin"
