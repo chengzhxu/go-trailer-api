@@ -1,6 +1,7 @@
 package gredis
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gomodule/redigo/redis"
 	"go-trailer-api/pkg/logging"
@@ -92,7 +93,7 @@ func Zadd(key string) bool {
 func Zrem(key string) bool {
 	conn := RedisConn.Get()
 
-	_, err := conn.Do("zrem", key, 99)
+	_, err := conn.Do("zrem", key, "asset10")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -103,14 +104,42 @@ func Zrem(key string) bool {
 func ZrByScore(key string) bool {
 	conn := RedisConn.Get()
 
-	res, err := redis.Values(conn.Do("zrevrangebyscore", key, 99, 99))
+	res, err := redis.Values(conn.Do("zrevrangebyscore", key, 7889155200, 1))
 	if err != nil {
 		fmt.Println(err)
 	}
 
+	assetArray := AssetArray{}
 	for _, v := range res {
-		fmt.Printf("%s ", v)
+		reply, err := redis.Bytes(conn.Do("hget", "trailer_asset", v))
+		if err != nil {
+			fmt.Printf("%s ", v.([]byte))
+		}
+		var asset *Asset
+
+		json.Unmarshal(reply, &asset)
+		fmt.Println(asset.Id)
+		assetArray = append(assetArray, asset)
 	}
+
+	fmt.Printf("%s ", assetArray)
+
+	return true
+}
+
+func ZCard(key string) bool {
+	conn := RedisConn.Get()
+
+	num, err := conn.Do("zcard", key)
+	if err != nil {
+		fmt.Println(err)
+	}
+	//
+	//for _, v := range res {
+	//	fmt.Printf("%s ", v)
+	//}
+
+	fmt.Println(num)
 
 	return true
 }

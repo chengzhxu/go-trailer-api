@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-// @tags Trailer Asset
+// @tags Trailer
 // @Summary Sync Asset
 // @Description 同步 Asset 素材信息
 // @ID Sync Asset

@@ -139,9 +139,9 @@ var doc = `{
                 }
             }
         },
-        "/trailer_api/trailer/get_trailers": {
+        "/trailer_api/trailer/get_trailer_list": {
             "post": {
-                "description": "Get TrailerList",
+                "description": "获取预告片信息",
                 "produces": [
                     "application/json"
                 ],
@@ -153,7 +153,7 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "TrailerListParam",
-                        "name": "TotalRegionUV",
+                        "name": "TrailerListParam",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -184,7 +184,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Trailer Asset"
+                    "Trailer"
                 ],
                 "summary": "Sync Asset",
                 "operationId": "Sync Asset",
@@ -349,7 +349,28 @@ var doc = `{
             }
         },
         "gredis.TrailerListParam": {
-            "type": "object"
+            "type": "object",
+            "required": [
+                "channel_code",
+                "device_no",
+                "page"
+            ],
+            "properties": {
+                "channel_code": {
+                    "type": "string"
+                },
+                "device_no": {
+                    "type": "string"
+                },
+                "page": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "page_size": {
+                    "type": "integer",
+                    "example": 20
+                }
+            }
         },
         "stats_service.Device": {
             "type": "object",

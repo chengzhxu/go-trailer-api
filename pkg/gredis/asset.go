@@ -3,8 +3,10 @@ package gredis
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gomodule/redigo/redis"
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/util"
+	"math"
 	"strconv"
 )
 
@@ -34,12 +36,26 @@ type Asset struct {
 	LastUpdateTime    string  `json:"last_update_time" binding:"required,bas_time"`
 }
 
+//预告片列表参数
 type TrailerListParam struct {
-	pageSize    int    `json:"page_size" binding:"" example:"20"`
-	page        int    `json:"page" binding:"required" example:"1"`
-	channelCode string `json:"channel_code" binding:"required" example:""`
-	deviceNo    string `json:"device_no" binding:"required" example:""`
+	PageSize    int    `json:"page_size" binding:"" example:"20"`
+	Page        int    `json:"page" binding:"required" example:"1"`
+	ChannelCode string `json:"channel_code" binding:"required" example:""`
+	DeviceNo    string `json:"device_no" binding:"required" example:""`
 }
+
+type AssetArray []*Asset
+
+type AssetResult struct {
+	TotalPage   int        `json:"total_page" `
+	TotalRows   int        `json:"total_rows" `
+	CurrentPage int        `json:"current_page" `
+	AssetArray  AssetArray `json:"list" `
+}
+
+var IdKey = "asset_id"
+var LastTimeKey = "asset_last_update_time"
+var HSetKey = "trailer_asset"
 
 func mapAsset(a *Asset) map[string]interface{} {
 	return map[string]interface{}{
@@ -72,6 +88,27 @@ func mapAsset(a *Asset) map[string]interface{} {
 * 同步 Asset 数据并写入 Redis （暂定）
  */
 func (asset *Asset) SyncAssetToRedis() error {
+	conn := RedisConn.Get()    //获取 Redis
+	if !checkRunAsset(asset) { //无效的 Asset    -    从 Redis 删除
+		_, err := conn.Do("zrem", IdKey, asset.Id) //从 Id 排序中移除
+		if err != nil {
+			logging.Error(err)
+			return err
+		}
+		_, e := conn.Do("zrem", LastTimeKey, asset.Id) //从最后更新时间排序中移除
+		if e != nil {
+			logging.Error(e)
+			return e
+		}
+		_, he := conn.Do("hdel", HSetKey, asset.Id) //从 Hash 中移除
+		if he != nil {
+			logging.Error(he)
+			return he
+		}
+
+		return nil
+	}
+
 	lastUpdateTime := asset.LastUpdateTime
 	tu := util.TimeToUnix(lastUpdateTime) //时间戳
 	assetId := asset.Id
@@ -82,18 +119,17 @@ func (asset *Asset) SyncAssetToRedis() error {
 		return err
 	}
 
-	conn := RedisConn.Get()
-	_, err = conn.Do("zadd", "asset_id", assetId, assetId)
+	_, err = conn.Do("zadd", IdKey, assetId, assetId) //根据 Id 排序
 	if err != nil {
 		logging.Error(err)
 		return err
 	}
-	_, err = conn.Do("zadd", "asset_last_update_time", tu, assetId)
+	_, err = conn.Do("zadd", LastTimeKey, tu, assetId) //根据最后更新时间排序
 	if err != nil {
 		logging.Error(err)
 		return err
 	}
-	_, err = conn.Do("hset", "trailer_asset", assetId, jsonBytes)
+	_, err = conn.Do("hset", HSetKey, assetId, jsonBytes) //根据 Id 存储
 	if err != nil {
 		logging.Error(err)
 		return err
@@ -105,16 +141,79 @@ func (asset *Asset) SyncAssetToRedis() error {
 /*
 * 获取预告片
  */
-//func QueryTotalAppUV(rr *TrailerListParam) (TrailerListParam, error) {
-//	//var err error
-//
-//	pageSize := rr.pageSize
-//	if pageSize == 0{
-//		pageSize = 20
-//	}
-//	//page := rr.page
-//
-//
-//
-//	return nil, nil
-//}
+func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
+	var err error
+
+	pageSize := rr.PageSize //每页数量
+	if pageSize == 0 {
+		pageSize = 20
+	}
+	page := rr.Page //页码
+
+	assetRes := AssetResult{} //返回数据
+	assetArr := AssetArray{}  //当前页素材信息
+
+	conn := RedisConn.Get()
+	//按照最后修改时间倒序获取所有的 AssetId
+	res, err := redis.Values(conn.Do("zrevrangebyscore", LastTimeKey, 7889155200, 1))
+	if err != nil {
+		logging.Error(err)
+		return assetRes, err
+	}
+
+	rmCount := (page - 1) * pageSize //当前页之前的数量（忽略）
+	totalRows := 0                   //总数量
+
+	for _, v := range res {
+		if err != nil {
+			logging.Error(err)
+			return assetRes, err
+		}
+
+		reply, err := redis.Bytes(conn.Do("hget", HSetKey, v))
+		if err != nil {
+			logging.Error(err)
+			return assetRes, err
+		}
+
+		var asset *Asset
+		json.Unmarshal(reply, &asset)
+
+		if !checkRunAsset(asset) { //无效的 Asset
+			continue
+		}
+
+		if rmCount > 0 { //当前页之前的数据量
+			rmCount--
+			continue
+		}
+		if len(assetArr) < pageSize {
+			assetArr = append(assetArr, asset)
+		}
+		totalRows++
+	}
+
+	pageCount := int(math.Ceil(float64(totalRows) / float64(pageSize))) //总页数
+
+	assetRes.TotalPage = pageCount
+	assetRes.TotalRows = totalRows
+	assetRes.CurrentPage = page
+	assetRes.AssetArray = assetArr
+
+	return assetRes, nil
+}
+
+//判断 Asset 是否有效
+func checkRunAsset(asset *Asset) bool {
+	if asset.ShelfStatus != 2 { // 未上架状态
+		return false
+	}
+	start_time := util.DateToUnix(asset.DurationStartDate) //资源有效开始时间
+	end_time := util.DateToUnix(asset.DurationEndDate)     //资源有效结束时间
+	new_time := util.GetNowTimeStamp()
+	if new_time < start_time || new_time > end_time { //不在有效期时间内
+		return false
+	}
+
+	return true
+}

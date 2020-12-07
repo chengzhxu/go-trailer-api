@@ -10,6 +10,7 @@ var MsgFlags = map[int]string{
 	ErrorInsertDevice:   "记录设备信息时失败",
 	ErrorInsertSdkError: "记录 SDK 错误信息时失败",
 	ErrorSyncAssetError: "同步 Asset 素材信息失败",
+	ErrorGetAssetError:  "获取 Asset 素材信息失败",
 }
 
 // GetMsg get error information based on Code

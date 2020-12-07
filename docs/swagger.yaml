@@ -100,6 +100,21 @@ definitions:
     - type
     type: object
   gredis.TrailerListParam:
+    properties:
+      channel_code:
+        type: string
+      device_no:
+        type: string
+      page:
+        example: 1
+        type: integer
+      page_size:
+        example: 20
+        type: integer
+    required:
+    - channel_code
+    - device_no
+    - page
     type: object
   stats_service.Device:
     properties:
@@ -265,14 +280,14 @@ paths:
       summary: SDK 事件统计
       tags:
       - SdkEvent
-  /trailer_api/trailer/get_trailers:
+  /trailer_api/trailer/get_trailer_list:
     post:
-      description: Get TrailerList
+      description: 获取预告片信息
       operationId: Get TrailerList
       parameters:
       - description: TrailerListParam
         in: body
-        name: TotalRegionUV
+        name: TrailerListParam
         required: true
         schema:
           $ref: '#/definitions/gredis.TrailerListParam'
@@ -314,5 +329,5 @@ paths:
             $ref: '#/definitions/app.Response'
       summary: Sync Asset
       tags:
-      - Trailer Asset
+      - Trailer
 swagger: "2.0"

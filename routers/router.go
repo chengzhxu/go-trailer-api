@@ -34,8 +34,11 @@ func InitRouter() *gin.Engine {
 
 	apiTrailer := r.Group("/trailer_api/trailer")
 	{
-		//同步 Asset 素材信息
+		//从后台 同步 Asset 素材信息
 		apiTrailer.POST("sync_asset", trailer.SyncTrailerAsset)
+
+		//app 端获取 Asset 素材信息
+		apiTrailer.POST("get_trailer_list", trailer.GetTrailerList)
 	}
 
 	return r

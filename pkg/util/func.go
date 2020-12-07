@@ -55,6 +55,15 @@ func TimeToUnix(t string) int64 {
 	return tt.Unix()
 }
 
+// 日期转换为时间戳
+func DateToUnix(t string) int {
+	timeLayout := "2006-01-02"                   //转化所需模板
+	loc, _ := time.LoadLocation("Asia/Shanghai") //设置时区
+	tt, _ := time.ParseInLocation(timeLayout, t, loc)
+
+	return int(tt.Unix())
+}
+
 // 时间戳转换为日期
 func UnixToTime(ut int64) string {
 	timeLayout := "2006-01-02 15:04:05" //转化所需模板
