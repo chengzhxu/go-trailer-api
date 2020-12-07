@@ -11,4 +11,5 @@ const (
 	ErrorInsertSdkError = 50040
 	ErrorSyncAssetError = 60001
 	ErrorGetAssetError  = 60010
+	ErrorGetNewAppError = 60020
 )

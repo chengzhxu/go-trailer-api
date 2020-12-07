@@ -47,12 +47,12 @@ func GetCurrentTime() string {
 }
 
 // 日期转换为时间戳
-func TimeToUnix(t string) int64 {
+func TimeToUnix(t string) int {
 	timeLayout := "2006-01-02 15:04:05"          //转化所需模板
 	loc, _ := time.LoadLocation("Asia/Shanghai") //设置时区
 	tt, _ := time.ParseInLocation(timeLayout, t, loc)
 
-	return tt.Unix()
+	return int(tt.Unix())
 }
 
 // 日期转换为时间戳

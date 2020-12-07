@@ -25,6 +25,44 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/trailer_api/app/get_new_app": {
+            "post": {
+                "description": "获取最新的 APP 版本信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APP"
+                ],
+                "summary": "UPDATE APP",
+                "operationId": "UPDATE APP",
+                "parameters": [
+                    {
+                        "description": "UPDATE_APP",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/app_service.AppParam"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/trailer_api/stats/record_device": {
             "post": {
                 "description": "设备信息上报",
@@ -119,7 +157,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/stats_service.ObjSdkEvents"
+                            "$ref": "#/definitions/stats_service.SdkEvent"
                         }
                     }
                 ],
@@ -231,6 +269,67 @@ var doc = `{
                 }
             }
         },
+        "app_service.AppParam": {
+            "type": "object",
+            "required": [
+                "android_version_code",
+                "android_version_name",
+                "channel_code",
+                "cpu_arch",
+                "device_model",
+                "device_no",
+                "sdk_name",
+                "sdk_version_name",
+                "storage_space"
+            ],
+            "properties": {
+                "android_version_code": {
+                    "type": "string"
+                },
+                "android_version_name": {
+                    "type": "string"
+                },
+                "app_name": {
+                    "type": "string"
+                },
+                "app_version_code": {
+                    "type": "string"
+                },
+                "app_version_name": {
+                    "type": "string"
+                },
+                "channel_code": {
+                    "type": "string"
+                },
+                "cpu_arch": {
+                    "type": "string"
+                },
+                "device_model": {
+                    "type": "string"
+                },
+                "device_no": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "resolution": {
+                    "type": "string"
+                },
+                "sdk_name": {
+                    "type": "string"
+                },
+                "sdk_version_code": {
+                    "type": "string"
+                },
+                "sdk_version_name": {
+                    "type": "string"
+                },
+                "storage_space": {
+                    "type": "string"
+                }
+            }
+        },
         "gredis.Asset": {
             "type": "object",
             "required": [
@@ -303,7 +402,11 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "is_del": {
+                    "type": "integer"
+                },
                 "last_update_time": {
+                    "description": "最后更新时间 - 排序使用",
                     "type": "string"
                 },
                 "movie_url": {
@@ -427,17 +530,6 @@ var doc = `{
                 }
             }
         },
-        "stats_service.ObjSdkEvents": {
-            "type": "object",
-            "required": [
-                "sdk_events"
-            ],
-            "properties": {
-                "sdk_events": {
-                    "type": "string"
-                }
-            }
-        },
         "stats_service.SdkError": {
             "type": "object",
             "required": [
@@ -488,6 +580,105 @@ var doc = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "stats_service.SdkEvent": {
+            "type": "object",
+            "required": [
+                "app_name",
+                "app_version_code",
+                "app_version_name",
+                "channel_code",
+                "device_model",
+                "device_no",
+                "event_kv_json",
+                "event_name",
+                "imei",
+                "net_type",
+                "newevent_type",
+                "newsession_id",
+                "os_version_code",
+                "os_version_name",
+                "screen_height",
+                "screen_width",
+                "sdk_name",
+                "sdk_version_code",
+                "sdk_version_name"
+            ],
+            "properties": {
+                "app_name": {
+                    "type": "string"
+                },
+                "app_version_code": {
+                    "type": "string"
+                },
+                "app_version_name": {
+                    "type": "string"
+                },
+                "channel_code": {
+                    "type": "string"
+                },
+                "client_time": {
+                    "type": "string"
+                },
+                "device_brand": {
+                    "type": "string"
+                },
+                "device_model": {
+                    "type": "string"
+                },
+                "device_no": {
+                    "type": "string"
+                },
+                "event_kv_json": {
+                    "type": "string"
+                },
+                "event_name": {
+                    "type": "string"
+                },
+                "imei": {
+                    "type": "string"
+                },
+                "ip": {
+                    "type": "string"
+                },
+                "net_type": {
+                    "type": "string"
+                },
+                "newevent_type": {
+                    "type": "integer"
+                },
+                "newpuid": {
+                    "description": "IDFA \t\t\t\t\t\tstring ` + "`" + `json:\"idfa\" ` + "`" + `",
+                    "type": "string"
+                },
+                "newsession_id": {
+                    "type": "string"
+                },
+                "os_version_code": {
+                    "type": "string"
+                },
+                "os_version_name": {
+                    "type": "string"
+                },
+                "page_name": {
+                    "type": "string"
+                },
+                "screen_height": {
+                    "type": "integer"
+                },
+                "screen_width": {
+                    "type": "integer"
+                },
+                "sdk_name": {
+                    "type": "string"
+                },
+                "sdk_version_code": {
+                    "type": "string"
+                },
+                "sdk_version_name": {
+                    "type": "string"
                 }
             }
         }

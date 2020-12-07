@@ -24,10 +24,11 @@ type Redis struct {
 	MaxActive   int
 	IdleTimeout time.Duration
 }
+
 var RedisSetting = &Redis{}
 
-//MySql
-type Database struct {
+//MySql - Stats
+type StatsDatabase struct {
 	Type        string
 	User        string
 	Password    string
@@ -35,8 +36,20 @@ type Database struct {
 	Name        string
 	TablePrefix string
 }
-var DatabaseSetting = &Database{}
 
+var StatsDbSetting = &StatsDatabase{}
+
+//MySql - Trailer
+type TrailerDatabase struct {
+	Type        string
+	User        string
+	Password    string
+	Host        string
+	Name        string
+	TablePrefix string
+}
+
+var TrailerDbSetting = &TrailerDatabase{}
 
 var cfg *ini.File
 
@@ -50,7 +63,8 @@ func Setup() {
 
 	mapTo("server", ServerSetting)
 	mapTo("redis-db", RedisSetting)
-	mapTo("mysql-stats-db", DatabaseSetting)
+	mapTo("mysql-stats-db", StatsDbSetting)
+	mapTo("mysql-trailer-db", TrailerDbSetting)
 
 	// server
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second

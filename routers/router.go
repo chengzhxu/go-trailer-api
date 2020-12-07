@@ -5,6 +5,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"go-trailer-api/pkg/setting"
+	"go-trailer-api/routers/trailer_api/app"
 	"go-trailer-api/routers/trailer_api/stats"
 	"go-trailer-api/routers/trailer_api/trailer"
 )
@@ -39,6 +40,12 @@ func InitRouter() *gin.Engine {
 
 		//app 端获取 Asset 素材信息
 		apiTrailer.POST("get_trailer_list", trailer.GetTrailerList)
+	}
+
+	apiApp := r.Group("/trailer_api/app")
+	{
+		//获取更新 APP 最新版本
+		apiApp.POST("get_new_app", app.GetNewAppInfo)
 	}
 
 	return r

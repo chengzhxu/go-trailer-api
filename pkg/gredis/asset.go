@@ -22,8 +22,8 @@ type Asset struct {
 	CoverUrl          string  `json:"cover_url" binding:"required"`                    //封面图地址
 	MovieUrl          string  `json:"movie_url" binding:"required"`                    //视频地址
 	PicUrls           string  `json:"pic_urls" binding:"required"`                     //多张图片url  （json）
-	DurationStartDate string  `json:"duration_start_date" binding:"required,bas_date"` //资源有效期 - 开始时间
-	DurationEndDate   string  `json:"duration_end_date" binding:"required,bas_date"`   //资源有效期 - 结束时间
+	DurationStartDate string  `json:"duration_start_date" binding:"required,bas_time"` //资源有效期 - 开始时间
+	DurationEndDate   string  `json:"duration_end_date" binding:"required,bas_time"`   //资源有效期 - 结束时间
 	ActType           int     `json:"act_type" binding:"required,asset_act_type"`      //OK键动作类型 1-无动作 2-打开/下载应用 3-弹出二维码 4-加载长视频
 	ActToast          string  `json:"act_toast" binding:"required"`                    //OK键引导文案
 	ActOpenApps       string  `json:"act_open_apps" binding:"required"`                //需要下载打开的应用  （json）
@@ -33,7 +33,8 @@ type Asset struct {
 	ActPopTime        int     `json:"act_pop_time" binding:"required"`                 //二维码自动弹出时间，单位：秒
 	ActLongMovieUrl   string  `json:"act_long_movie_url" binding:"required"`           //长视频 url
 	ShelfStatus       int     `json:"shelf_status" binding:"required"`                 //上架状态 1-未上架 2-已上架 3-已下架
-	LastUpdateTime    string  `json:"last_update_time" binding:"required,bas_time"`
+	LastUpdateTime    string  `json:"last_update_time" binding:"required,bas_time"`    //最后更新时间 - 排序使用
+	IsDel             int     `json:"is_del" binding:"asset_is_del"`
 }
 
 //预告片列表参数
@@ -81,6 +82,7 @@ func mapAsset(a *Asset) map[string]interface{} {
 		"act_long_movie_url":  a.ActLongMovieUrl,
 		"shelf_status":        a.ShelfStatus,
 		"last_update_time":    a.LastUpdateTime,
+		"is_del":              a.IsDel,
 	}
 }
 
@@ -208,10 +210,13 @@ func checkRunAsset(asset *Asset) bool {
 	if asset.ShelfStatus != 2 { // 未上架状态
 		return false
 	}
-	start_time := util.DateToUnix(asset.DurationStartDate) //资源有效开始时间
-	end_time := util.DateToUnix(asset.DurationEndDate)     //资源有效结束时间
+	start_time := util.TimeToUnix(asset.DurationStartDate) //资源有效开始时间
+	end_time := util.TimeToUnix(asset.DurationEndDate)     //资源有效结束时间
 	new_time := util.GetNowTimeStamp()
 	if new_time < start_time || new_time > end_time { //不在有效期时间内
+		return false
+	}
+	if asset.IsDel == 0 { //删除状态
 		return false
 	}
 
