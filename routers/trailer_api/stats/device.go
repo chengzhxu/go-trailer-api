@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-// @tags Device
+// @tags Stats
 // @Summary 设备信息上报
 // @Description 设备信息上报
 // @ID Record Device

@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-// @tags SdkEvent
+// @tags Stats
 // @Summary SDK 事件统计
 // @Description SDK 事件统计   参数：事件 json 数组
 // @ID Insert SdkEvent

@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-// @tags SdkError
+// @tags Stats
 // @Summary SDK 错误信息上报
 // @Description SDK 错误信息上报
 // @ID Record SdkError

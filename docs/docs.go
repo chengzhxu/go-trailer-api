@@ -32,7 +32,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Device"
+                    "Stats"
                 ],
                 "summary": "设备信息上报",
                 "operationId": "Record Device",
@@ -70,7 +70,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "SdkError"
+                    "Stats"
                 ],
                 "summary": "SDK 错误信息上报",
                 "operationId": "Record SdkError",
@@ -108,7 +108,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "SdkEvent"
+                    "Stats"
                 ],
                 "summary": "SDK 事件统计",
                 "operationId": "Insert SdkEvent",

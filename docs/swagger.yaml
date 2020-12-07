@@ -229,7 +229,7 @@ paths:
             $ref: '#/definitions/app.Response'
       summary: 设备信息上报
       tags:
-      - Device
+      - Stats
   /trailer_api/stats/record_sdk_err:
     post:
       description: SDK 错误信息上报
@@ -254,7 +254,7 @@ paths:
             $ref: '#/definitions/app.Response'
       summary: SDK 错误信息上报
       tags:
-      - SdkError
+      - Stats
   /trailer_api/stats/record_sdk_event:
     post:
       description: SDK 事件统计   参数：事件 json 数组
@@ -279,7 +279,7 @@ paths:
             $ref: '#/definitions/app.Response'
       summary: SDK 事件统计
       tags:
-      - SdkEvent
+      - Stats
   /trailer_api/trailer/get_trailer_list:
     post:
       description: 获取预告片信息
