@@ -131,7 +131,6 @@ definitions:
         type: string
     required:
     - act_long_movie_url
-    - act_open_apps
     - act_pop_time
     - act_qrcode_bg_url
     - act_qrcode_org_url
@@ -146,7 +145,6 @@ definitions:
     - last_update_time
     - movie_url
     - name
-    - pic_urls
     - remark
     - score
     - shelf_status
@@ -165,8 +163,6 @@ definitions:
         example: 20
         type: integer
     required:
-    - channel_code
-    - device_no
     - page
     type: object
   stats_service.Device:

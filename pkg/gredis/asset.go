@@ -43,8 +43,8 @@ type Asset struct {
 type TrailerListParam struct {
 	PageSize    int    `json:"page_size" binding:"" example:"20"`
 	Page        int    `json:"page" binding:"required" example:"1"`
-	ChannelCode string `json:"channel_code" binding:"required" example:""`
-	DeviceNo    string `json:"device_no" binding:"required" example:""`
+	ChannelCode string `json:"channel_code" binding:"" example:""`
+	DeviceNo    string `json:"device_no" binding:"" example:""`
 }
 
 type AssetArray []*Asset

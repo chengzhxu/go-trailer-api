@@ -334,7 +334,6 @@ var doc = `{
             "type": "object",
             "required": [
                 "act_long_movie_url",
-                "act_open_apps",
                 "act_pop_time",
                 "act_qrcode_bg_url",
                 "act_qrcode_org_url",
@@ -349,7 +348,6 @@ var doc = `{
                 "last_update_time",
                 "movie_url",
                 "name",
-                "pic_urls",
                 "remark",
                 "score",
                 "shelf_status",
@@ -463,8 +461,6 @@ var doc = `{
         "gredis.TrailerListParam": {
             "type": "object",
             "required": [
-                "channel_code",
-                "device_no",
                 "page"
             ],
             "properties": {
