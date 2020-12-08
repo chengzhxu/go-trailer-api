@@ -189,14 +189,14 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 			continue
 		}
 
-		if rmCount > 0 { //当前页之前的数据量
+		totalRows++      //总数量 - 排除 无效的数据
+		if rmCount > 0 { //当前页之前的数据量 - 排除
 			rmCount--
 			continue
 		}
-		if len(assetArr) < pageSize {
+		if len(assetArr) < pageSize { //当前页数据
 			assetArr = append(assetArr, asset)
 		}
-		totalRows++
 	}
 
 	pageCount := int(math.Ceil(float64(totalRows) / float64(pageSize))) //总页数
