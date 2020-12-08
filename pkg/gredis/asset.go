@@ -21,12 +21,14 @@ type Asset struct {
 	Type              int     `json:"type" binding:"required,asset_type"`              //类型 1-视频 2-图片
 	CoverUrl          string  `json:"cover_url" binding:"required"`                    //封面图地址
 	MovieUrl          string  `json:"movie_url" binding:"required"`                    //视频地址
-	PicUrls           string  `json:"pic_urls" binding:"required"`                     //多张图片url  （json）
+	PicUrls           string  `json:"pic_urls" binding:""`                             //多张图片url  （json）
 	DurationStartDate string  `json:"duration_start_date" binding:"required,bas_time"` //资源有效期 - 开始时间
 	DurationEndDate   string  `json:"duration_end_date" binding:"required,bas_time"`   //资源有效期 - 结束时间
 	ActType           int     `json:"act_type" binding:"required,asset_act_type"`      //OK键动作类型 1-无动作 2-打开/下载应用 3-弹出二维码 4-加载长视频
 	ActToast          string  `json:"act_toast" binding:"required"`                    //OK键引导文案
-	ActOpenApps       string  `json:"act_open_apps" binding:"required"`                //需要下载打开的应用  （json）
+	Priority          int     `json:"priority" binding:""`                             //优先级  0:优先调用  1:优先下载
+	ImgStayTime       int     `json:"img_stay_time" binding:"required"`                //单张图片停留时长(秒)
+	ActOpenApps       string  `json:"act_open_apps" binding:""`                        //需要下载打开的应用  （json）
 	ActQrcodeUrl      string  `json:"act_qrcode_url" binding:"required"`               //二维码地址
 	ActQrcodeOrgUrl   string  `json:"act_qrcode_org_url" binding:"required"`           //二维码原链接url
 	ActQrcodeBgUrl    string  `json:"act_qrcode_bg_url" binding:"required"`            //二维码背景图url
@@ -74,6 +76,8 @@ func mapAsset(a *Asset) map[string]interface{} {
 		"duration_end_date":   a.DurationEndDate,
 		"act_type":            a.ActType,
 		"act_toast":           a.ActToast,
+		"priority":            a.Priority,
+		"img_stay_time":       a.ImgStayTime,
 		"act_open_apps":       a.ActOpenApps,
 		"act_qrcode_url":      a.ActQrcodeUrl,
 		"act_qrcode_org_url":  a.ActQrcodeOrgUrl,
@@ -216,7 +220,7 @@ func checkRunAsset(asset *Asset) bool {
 	if new_time < start_time || new_time > end_time { //不在有效期时间内
 		return false
 	}
-	if asset.IsDel == 0 { //删除状态
+	if asset.IsDel == 1 { //删除状态
 		return false
 	}
 

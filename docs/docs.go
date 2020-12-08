@@ -345,6 +345,7 @@ var doc = `{
                 "duration_end_date",
                 "duration_start_date",
                 "id",
+                "img_stay_time",
                 "last_update_time",
                 "movie_url",
                 "name",
@@ -402,6 +403,10 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "img_stay_time": {
+                    "description": "单张图片停留时长(秒)",
+                    "type": "integer"
+                },
                 "is_del": {
                     "type": "integer"
                 },
@@ -420,6 +425,10 @@ var doc = `{
                 "pic_urls": {
                     "description": "多张图片url  （json）",
                     "type": "string"
+                },
+                "priority": {
+                    "description": "优先级  0:优先调用  1:优先下载",
+                    "type": "integer"
                 },
                 "remark": {
                     "description": "描述",
