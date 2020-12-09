@@ -177,11 +177,6 @@ func CheckBlackRole(ap AppParam, blackList []*AppBlackWhite) bool {
 				return false
 			}
 		}
-		if len(ap.SdkName) > 0 {
-			if strings.Contains(ab.SdkName, ap.SdkName) { //包含限制
-				return false
-			}
-		}
 	}
 
 	return true
