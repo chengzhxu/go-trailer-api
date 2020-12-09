@@ -162,7 +162,6 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 	conn := RedisConn.Get()
 	//按照最后修改时间倒序获取所有的 AssetId
 	res, err := redis.Values(conn.Do("zrevrangebyscore", LastTimeKey, 7889155200, 1))
-
 	if err != nil {
 		logging.Error(err)
 		return assetRes, err
@@ -181,8 +180,9 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 		if err != nil {
 			logging.Error(err)
 			return assetRes, err
-
 		}
+
+		logging.Info(reply)
 
 		var asset *Asset
 		json.Unmarshal(reply, &asset)
@@ -213,18 +213,18 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 
 //判断 Asset 是否有效
 func checkRunAsset(asset *Asset) bool {
-	//if asset.ShelfStatus != 2 { // 未上架状态
-	//	return false
-	//}
+	if asset.ShelfStatus != 2 { // 未上架状态
+		return false
+	}
 	//start_time := util.TimeToUnix(asset.DurationStartDate) //资源有效开始时间
 	//end_time := util.TimeToUnix(asset.DurationEndDate)     //资源有效结束时间
 	//new_time := util.GetNowTimeStamp()
 	//if new_time < start_time || new_time > end_time { //不在有效期时间内
 	//	return false
 	//}
-	//if asset.DelFlag == 1 { //删除状态
-	//	return false
-	//}
+	if asset.DelFlag == 1 { //删除状态
+		return false
+	}
 
 	return true
 }
