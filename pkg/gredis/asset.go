@@ -214,12 +214,12 @@ func checkRunAsset(asset *Asset) bool {
 	if asset.ShelfStatus != 2 { // 未上架状态
 		return false
 	}
-	start_time := util.TimeToUnix(asset.DurationStartDate) //资源有效开始时间
-	end_time := util.TimeToUnix(asset.DurationEndDate)     //资源有效结束时间
-	new_time := util.GetNowTimeStamp()
-	if new_time < start_time || new_time > end_time { //不在有效期时间内
-		return false
-	}
+	//start_time := util.TimeToUnix(asset.DurationStartDate) //资源有效开始时间
+	//end_time := util.TimeToUnix(asset.DurationEndDate)     //资源有效结束时间
+	//new_time := util.GetNowTimeStamp()
+	//if new_time < start_time || new_time > end_time { //不在有效期时间内
+	//	return false
+	//}
 	if asset.DelFlag == 1 { //删除状态
 		return false
 	}
