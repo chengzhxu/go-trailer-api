@@ -7,6 +7,7 @@ import (
 	"go-trailer-api/pkg/setting"
 	"go-trailer-api/routers/trailer_api/app"
 	"go-trailer-api/routers/trailer_api/stats"
+	"go-trailer-api/routers/trailer_api/test"
 	"go-trailer-api/routers/trailer_api/trailer"
 )
 
@@ -46,6 +47,12 @@ func InitRouter() *gin.Engine {
 	{
 		//获取更新 APP 最新版本
 		apiApp.POST("get_new_app", app.GetNewAppInfo)
+	}
+
+	testApp := r.Group("/trailer_api/test")
+	{
+		//测试 test
+		testApp.GET("check_interface", test.CheckInterface)
 	}
 
 	return r

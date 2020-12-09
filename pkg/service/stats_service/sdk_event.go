@@ -6,31 +6,31 @@ import (
 )
 
 type SdkEvent struct {
-	ClientTime string `json:"client_time" binding:"nm_bas_time"`
-	DeviceNo   string `json:"device_no" binding:"required"`
-	IMEI       string `json:"imei" binding:"required"`
+	ClientTime string `json:"client_time" binding:"nm_bas_time"` //客户端时间 格式：2020-12-12 12:12:12
+	DeviceNo   string `json:"device_no" binding:"required"`      //设备号
+	IMEI       string `json:"imei" binding:"required"`           //IMEI
 	//IDFA 						string `json:"idfa" `
-	NewpUid        string `json:"newpuid" `
-	NewSessionId   string `json:"newsession_id" binding:"required"`
-	ScreenWidth    int    `json:"screen_width" binding:"required"`
-	ScreenHeight   int    `json:"screen_height" binding:"required"`
-	OsVersionName  string `json:"os_version_name" binding:"required"`
-	OsVersionCode  string `json:"os_version_code" binding:"required"`
-	DeviceBrand    string `json:"device_brand" `
-	DeviceModel    string `json:"device_model" binding:"required"`
-	ChannelCode    string `json:"channel_code" binding:"required"`
-	AppName        string `json:"app_name" binding:"required"`
-	AppVersionCode string `json:"app_version_code" binding:"required"`
-	AppVersionName string `json:"app_version_name" binding:"required"`
-	SdkName        string `json:"sdk_name" binding:"required"`
-	SdkVersionName string `json:"sdk_version_name" binding:"required"`
-	SdkVersionCode string `json:"sdk_version_code" binding:"required"`
-	PageName       string `json:"page_name" `
-	IP             string `json:"ip" `
-	NetType        string `json:"net_type" binding:"required"`
-	NewEventType   *int   `json:"newevent_type" binding:"required,sdk_event_type"`
-	EventName      string `json:"event_name" binding:"required"`
-	EventKvJson    string `json:"event_kv_json" binding:"required,sdk_event_kt"`
+	NewpUid        string `json:"newpuid" `                                        //APP 用户账号 ID
+	NewSessionId   string `json:"newsession_id" binding:"required"`                //会话 ID
+	ScreenWidth    int    `json:"screen_width" binding:"required"`                 //分辨率 宽度
+	ScreenHeight   int    `json:"screen_height" binding:"required"`                //分辨率 高度
+	OsVersionName  string `json:"os_version_name" binding:"required"`              //操作系统版本名称
+	OsVersionCode  string `json:"os_version_code" binding:"required"`              //操作系统版本 Code
+	DeviceBrand    string `json:"device_brand" `                                   //设备品牌
+	DeviceModel    string `json:"device_model" binding:"required"`                 //设备型号
+	ChannelCode    string `json:"channel_code" binding:"required"`                 //渠道码
+	AppName        string `json:"app_name" binding:"required"`                     //APP 名称
+	AppVersionCode string `json:"app_version_code" binding:"required"`             //APP 版本 Code
+	AppVersionName string `json:"app_version_name" binding:"required"`             //APP 版本名称
+	SdkName        string `json:"sdk_name" binding:"required"`                     //SDK 名称
+	SdkVersionName string `json:"sdk_version_name" binding:"required"`             //SDK 版本名称
+	SdkVersionCode string `json:"sdk_version_code" binding:"required"`             //SDK 版本 Code
+	PageName       string `json:"page_name" `                                      //所在页面
+	IP             string `json:"ip" `                                             //IP
+	NetType        string `json:"net_type" binding:"required"`                     //网络类型	WIFI/4G/5G
+	NewEventType   *int   `json:"newevent_type" binding:"required,sdk_event_type"` //事件类型  0:自定义事件,1:预置事件
+	EventName      string `json:"event_name" binding:"required"`                   //事件名称
+	EventKvJson    string `json:"event_kv_json" binding:"required,sdk_event_kt"`   //参数和参数值数据 -json数组 - 格式：{"key1": "val1", "key2": "val2"}
 }
 
 type ObjSdkEvents struct {

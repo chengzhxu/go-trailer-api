@@ -3,18 +3,18 @@ package stats_service
 import "go-trailer-api/pkg/model"
 
 type SdkError struct {
-	DeviceNo       string `json:"device_no" binding:"required"`
-	ChannelCode    string `json:"channel_code" binding:"required"`
-	CrashTime      string `json:"crash_time" binding:"required,bas_time"`
-	CrashLog       string `json:"crash_log" binding:"required"`
-	SdkName        string `json:"sdk_name" binding:"required"`
-	SdkVersionName string `json:"sdk_version_name" binding:"required"`
-	SdkVersionCode string `json:"sdk_version_code" binding:"required"`
-	AppName        string `json:"app_name" binding:"required"`
-	AppVersionName string `json:"app_version_name" binding:"required"`
-	AppVersionCode string `json:"app_version_code" binding:"required"`
-	UserId         int    `json:"user_id" binding:""`
-	Ext            string `json:"ext" binding:""`
+	DeviceNo       string `json:"device_no" binding:"required"`           //设备号
+	ChannelCode    string `json:"channel_code" binding:"required"`        //渠道码
+	CrashTime      string `json:"crash_time" binding:"required,bas_time"` //Crash 时间
+	CrashLog       string `json:"crash_log" binding:"required"`           //Crash 日志
+	SdkName        string `json:"sdk_name" binding:"required"`            //SDK 名称
+	SdkVersionName string `json:"sdk_version_name" binding:"required"`    //SDK 版本名称
+	SdkVersionCode string `json:"sdk_version_code" binding:"required"`    //SDK 版本 Code
+	AppName        string `json:"app_name" binding:"required"`            //APP 名称
+	AppVersionName string `json:"app_version_name" binding:"required"`    //APP 版本名称
+	AppVersionCode string `json:"app_version_code" binding:"required"`    //APP 版本 Code
+	UserId         int    `json:"user_id" binding:""`                     //USER ID
+	Ext            string `json:"ext" binding:""`                         //自定义数据
 }
 
 func mapSdkError(se *SdkError) map[string]interface{} {

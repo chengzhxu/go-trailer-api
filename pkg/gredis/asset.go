@@ -36,15 +36,15 @@ type Asset struct {
 	ActLongMovieUrl   string  `json:"act_long_movie_url" binding:"required"`           //长视频 url
 	ShelfStatus       int     `json:"shelf_status" binding:"required"`                 //上架状态 1-未上架 2-已上架 3-已下架
 	LastUpdateTime    string  `json:"last_update_time" binding:"required,bas_time"`    //最后更新时间 - 排序使用
-	IsDel             int     `json:"is_del" binding:"asset_is_del"`
+	DelFlag           int     `json:"del_flag" binding:"asset_is_del"`
 }
 
 //预告片列表参数
 type TrailerListParam struct {
-	PageSize    int    `json:"page_size" binding:"" example:"20"`
-	Page        int    `json:"page" binding:"required" example:"1"`
-	ChannelCode string `json:"channel_code" binding:"" example:""`
-	DeviceNo    string `json:"device_no" binding:"" example:""`
+	PageSize    int    `json:"page_size" binding:"" example:"20"`   //每页数量
+	Page        int    `json:"page" binding:"required" example:"1"` //页码
+	ChannelCode string `json:"channel_code" binding:"" example:""`  //渠道码
+	DeviceNo    string `json:"device_no" binding:"" example:""`     //设备号
 }
 
 type AssetArray []*Asset
@@ -86,7 +86,7 @@ func mapAsset(a *Asset) map[string]interface{} {
 		"act_long_movie_url":  a.ActLongMovieUrl,
 		"shelf_status":        a.ShelfStatus,
 		"last_update_time":    a.LastUpdateTime,
-		"is_del":              a.IsDel,
+		"del_flag":            a.DelFlag,
 	}
 }
 
@@ -220,7 +220,7 @@ func checkRunAsset(asset *Asset) bool {
 	if new_time < start_time || new_time > end_time { //不在有效期时间内
 		return false
 	}
-	if asset.IsDel == 1 { //删除状态
+	if asset.DelFlag == 1 { //删除状态
 		return false
 	}
 

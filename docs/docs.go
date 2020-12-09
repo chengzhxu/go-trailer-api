@@ -177,6 +177,33 @@ var doc = `{
                 }
             }
         },
+        "/trailer_api/test/check_interface": {
+            "get": {
+                "description": "测试接口",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Test"
+                ],
+                "summary": "Test Interface",
+                "operationId": "Test",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/trailer_api/trailer/get_trailer_list": {
             "post": {
                 "description": "获取预告片信息",
@@ -284,48 +311,63 @@ var doc = `{
             ],
             "properties": {
                 "android_version_code": {
+                    "description": "Android 版本 Code",
                     "type": "string"
                 },
                 "android_version_name": {
+                    "description": "Android 版本名称",
                     "type": "string"
                 },
                 "app_name": {
+                    "description": "APP 名称",
                     "type": "string"
                 },
                 "app_version_code": {
+                    "description": "APP 版本 Code",
                     "type": "string"
                 },
                 "app_version_name": {
+                    "description": "APP 版本名称",
                     "type": "string"
                 },
                 "channel_code": {
+                    "description": "渠道码",
                     "type": "string"
                 },
                 "cpu_arch": {
+                    "description": "CPU 架构",
                     "type": "string"
                 },
                 "device_model": {
+                    "description": "设备型号",
                     "type": "string"
                 },
                 "device_no": {
+                    "description": "设备号",
                     "type": "string"
                 },
                 "language": {
+                    "description": "语言",
                     "type": "string"
                 },
                 "resolution": {
+                    "description": "分辨率",
                     "type": "string"
                 },
                 "sdk_name": {
+                    "description": "SDK 名称",
                     "type": "string"
                 },
                 "sdk_version_code": {
+                    "description": "SDK 版本 Code",
                     "type": "string"
                 },
                 "sdk_version_name": {
+                    "description": "SDK 版本名称",
                     "type": "string"
                 },
                 "storage_space": {
+                    "description": "存储空间",
                     "type": "string"
                 }
             }
@@ -390,6 +432,9 @@ var doc = `{
                     "description": "封面图地址",
                     "type": "string"
                 },
+                "del_flag": {
+                    "type": "integer"
+                },
                 "duration_end_date": {
                     "description": "资源有效期 - 结束时间",
                     "type": "string"
@@ -403,9 +448,6 @@ var doc = `{
                 },
                 "img_stay_time": {
                     "description": "单张图片停留时长(秒)",
-                    "type": "integer"
-                },
-                "is_del": {
                     "type": "integer"
                 },
                 "last_update_time": {
@@ -465,16 +507,20 @@ var doc = `{
             ],
             "properties": {
                 "channel_code": {
+                    "description": "渠道码",
                     "type": "string"
                 },
                 "device_no": {
+                    "description": "设备号",
                     "type": "string"
                 },
                 "page": {
+                    "description": "页码",
                     "type": "integer",
                     "example": 1
                 },
                 "page_size": {
+                    "description": "每页数量",
                     "type": "integer",
                     "example": 20
                 }
@@ -498,39 +544,51 @@ var doc = `{
             ],
             "properties": {
                 "android_version_code": {
+                    "description": "Android 版本 Code",
                     "type": "string"
                 },
                 "android_version_name": {
+                    "description": "Android 版本名称",
                     "type": "string"
                 },
                 "app_name": {
+                    "description": "APP 名称",
                     "type": "string"
                 },
                 "app_version_code": {
+                    "description": "APP 版本 Code",
                     "type": "string"
                 },
                 "app_version_name": {
+                    "description": "APP 版本名称",
                     "type": "string"
                 },
                 "channel_code": {
+                    "description": "渠道码",
                     "type": "string"
                 },
                 "device_model": {
+                    "description": "设备型号",
                     "type": "string"
                 },
                 "device_name": {
+                    "description": "设备名称",
                     "type": "string"
                 },
                 "device_no": {
+                    "description": "设备号",
                     "type": "string"
                 },
                 "device_vendor": {
+                    "description": "设备厂商",
                     "type": "string"
                 },
                 "ip": {
+                    "description": "IP",
                     "type": "string"
                 },
                 "resolution": {
+                    "description": "分辨率",
                     "type": "string"
                 }
             }
@@ -551,39 +609,51 @@ var doc = `{
             ],
             "properties": {
                 "app_name": {
+                    "description": "APP 名称",
                     "type": "string"
                 },
                 "app_version_code": {
+                    "description": "APP 版本 Code",
                     "type": "string"
                 },
                 "app_version_name": {
+                    "description": "APP 版本名称",
                     "type": "string"
                 },
                 "channel_code": {
+                    "description": "渠道码",
                     "type": "string"
                 },
                 "crash_log": {
+                    "description": "Crash 日志",
                     "type": "string"
                 },
                 "crash_time": {
+                    "description": "Crash 时间",
                     "type": "string"
                 },
                 "device_no": {
+                    "description": "设备号",
                     "type": "string"
                 },
                 "ext": {
+                    "description": "自定义数据",
                     "type": "string"
                 },
                 "sdk_name": {
+                    "description": "SDK 名称",
                     "type": "string"
                 },
                 "sdk_version_code": {
+                    "description": "SDK 版本 Code",
                     "type": "string"
                 },
                 "sdk_version_name": {
+                    "description": "SDK 版本名称",
                     "type": "string"
                 },
                 "user_id": {
+                    "description": "USER ID",
                     "type": "integer"
                 }
             }
@@ -613,45 +683,59 @@ var doc = `{
             ],
             "properties": {
                 "app_name": {
+                    "description": "APP 名称",
                     "type": "string"
                 },
                 "app_version_code": {
+                    "description": "APP 版本 Code",
                     "type": "string"
                 },
                 "app_version_name": {
+                    "description": "APP 版本名称",
                     "type": "string"
                 },
                 "channel_code": {
+                    "description": "渠道码",
                     "type": "string"
                 },
                 "client_time": {
+                    "description": "客户端时间 格式：2020-12-12 12:12:12",
                     "type": "string"
                 },
                 "device_brand": {
+                    "description": "设备品牌",
                     "type": "string"
                 },
                 "device_model": {
+                    "description": "设备型号",
                     "type": "string"
                 },
                 "device_no": {
+                    "description": "设备号",
                     "type": "string"
                 },
                 "event_kv_json": {
+                    "description": "参数和参数值数据 -json数组 - 格式：{\"key1\": \"val1\", \"key2\": \"val2\"}",
                     "type": "string"
                 },
                 "event_name": {
+                    "description": "事件名称",
                     "type": "string"
                 },
                 "imei": {
+                    "description": "IMEI",
                     "type": "string"
                 },
                 "ip": {
+                    "description": "IP",
                     "type": "string"
                 },
                 "net_type": {
+                    "description": "网络类型\tWIFI/4G/5G",
                     "type": "string"
                 },
                 "newevent_type": {
+                    "description": "事件类型  0:自定义事件,1:预置事件",
                     "type": "integer"
                 },
                 "newpuid": {
@@ -659,30 +743,39 @@ var doc = `{
                     "type": "string"
                 },
                 "newsession_id": {
+                    "description": "会话 ID",
                     "type": "string"
                 },
                 "os_version_code": {
+                    "description": "操作系统版本 Code",
                     "type": "string"
                 },
                 "os_version_name": {
+                    "description": "操作系统版本名称",
                     "type": "string"
                 },
                 "page_name": {
+                    "description": "所在页面",
                     "type": "string"
                 },
                 "screen_height": {
+                    "description": "分辨率 高度",
                     "type": "integer"
                 },
                 "screen_width": {
+                    "description": "分辨率 宽度",
                     "type": "integer"
                 },
                 "sdk_name": {
+                    "description": "SDK 名称",
                     "type": "string"
                 },
                 "sdk_version_code": {
+                    "description": "SDK 版本 Code",
                     "type": "string"
                 },
                 "sdk_version_name": {
+                    "description": "SDK 版本名称",
                     "type": "string"
                 }
             }
