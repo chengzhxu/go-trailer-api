@@ -31,12 +31,14 @@ func InsertSdkEvent(c *gin.Context) {
 		return
 	}
 
-	r := c.Request
-	ip := util.ClientPublicIP(r)
-	if ip == "" {
-		ip = util.ClientIP(r)
+	if jsonRequest.IP == "" {
+		r := c.Request
+		ip := util.ClientPublicIP(r)
+		if ip == "" {
+			ip = util.ClientIP(r)
+		}
+		jsonRequest.IP = ip
 	}
-	jsonRequest.IP = ip
 
 	if err := jsonRequest.Insert(); err != nil {
 		appG.Response(http.StatusInternalServerError, e.ErrorInsertSdkEvent, err)
