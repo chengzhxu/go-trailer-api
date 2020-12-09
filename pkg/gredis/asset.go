@@ -36,7 +36,7 @@ type Asset struct {
 	ActLongMovieUrl   string  `json:"act_long_movie_url" binding:"required"`           //长视频 url
 	ShelfStatus       int     `json:"shelf_status" binding:"required"`                 //上架状态 1-未上架 2-已上架 3-已下架
 	LastUpdateTime    string  `json:"last_update_time" binding:"required,bas_time"`    //最后更新时间 - 排序使用
-	DelFlag           int     `json:"del_flag" binding:"asset_is_del"`
+	DelFlag           int     `json:"del_flag" binding:"asset_is_del"`                 //是否删除  0:否  1:是
 }
 
 //预告片列表参数
