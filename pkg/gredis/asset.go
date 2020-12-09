@@ -19,21 +19,21 @@ type Asset struct {
 	ViewCities        string  `json:"view_cities" binding:""`                          //地区限制 （json）
 	ViewTags          string  `json:"view_tags" binding:""`                            //数据标签 （json）
 	Type              int     `json:"type" binding:"required,asset_type"`              //类型 1-视频 2-图片
-	CoverUrl          string  `json:"cover_url" binding:"required"`                    //封面图地址
-	MovieUrl          string  `json:"movie_url" binding:"required"`                    //视频地址
+	CoverUrl          string  `json:"cover_url" binding:""`                            //封面图地址
+	MovieUrl          string  `json:"movie_url" binding:""`                            //视频地址
 	PicUrls           string  `json:"pic_urls" binding:""`                             //多张图片url  （json）
 	DurationStartDate string  `json:"duration_start_date" binding:"required,bas_time"` //资源有效期 - 开始时间
 	DurationEndDate   string  `json:"duration_end_date" binding:"required,bas_time"`   //资源有效期 - 结束时间
 	ActType           int     `json:"act_type" binding:"required,asset_act_type"`      //OK键动作类型 1-无动作 2-打开/下载应用 3-弹出二维码 4-加载长视频
-	ActToast          string  `json:"act_toast" binding:"required"`                    //OK键引导文案
+	ActToast          string  `json:"act_toast" binding:""`                            //OK键引导文案
 	Priority          int     `json:"priority" binding:""`                             //优先级  0:优先调用  1:优先下载
-	ImgStayTime       int     `json:"img_stay_time" binding:"required"`                //单张图片停留时长(秒)
+	ImgStayTime       int     `json:"img_stay_time" binding:""`                        //单张图片停留时长(秒)
 	ActOpenApps       string  `json:"act_open_apps" binding:""`                        //需要下载打开的应用  （json）
-	ActQrcodeUrl      string  `json:"act_qrcode_url" binding:"required"`               //二维码地址
-	ActQrcodeOrgUrl   string  `json:"act_qrcode_org_url" binding:"required"`           //二维码原链接url
-	ActQrcodeBgUrl    string  `json:"act_qrcode_bg_url" binding:"required"`            //二维码背景图url
-	ActPopTime        int     `json:"act_pop_time" binding:"required"`                 //二维码自动弹出时间，单位：秒
-	ActLongMovieUrl   string  `json:"act_long_movie_url" binding:"required"`           //长视频 url
+	ActQrcodeUrl      string  `json:"act_qrcode_url" binding:""`                       //二维码地址
+	ActQrcodeOrgUrl   string  `json:"act_qrcode_org_url" binding:""`                   //二维码原链接url
+	ActQrcodeBgUrl    string  `json:"act_qrcode_bg_url" binding:""`                    //二维码背景图url
+	ActPopTime        int     `json:"act_pop_time" binding:""`                         //二维码自动弹出时间，单位：秒
+	ActLongMovieUrl   string  `json:"act_long_movie_url" binding:""`                   //长视频 url
 	ShelfStatus       int     `json:"shelf_status" binding:"required"`                 //上架状态 1-未上架 2-已上架 3-已下架
 	LastUpdateTime    string  `json:"last_update_time" binding:"required,bas_time"`    //最后更新时间 - 排序使用
 	DelFlag           int     `json:"del_flag" binding:"asset_is_del"`                 //是否删除  0:否  1:是

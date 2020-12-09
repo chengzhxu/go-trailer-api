@@ -375,20 +375,11 @@ var doc = `{
         "gredis.Asset": {
             "type": "object",
             "required": [
-                "act_long_movie_url",
-                "act_pop_time",
-                "act_qrcode_bg_url",
-                "act_qrcode_org_url",
-                "act_qrcode_url",
-                "act_toast",
                 "act_type",
-                "cover_url",
                 "duration_end_date",
                 "duration_start_date",
                 "id",
-                "img_stay_time",
                 "last_update_time",
-                "movie_url",
                 "name",
                 "remark",
                 "score",
@@ -433,6 +424,7 @@ var doc = `{
                     "type": "string"
                 },
                 "del_flag": {
+                    "description": "是否删除  0:否  1:是",
                     "type": "integer"
                 },
                 "duration_end_date": {
