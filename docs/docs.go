@@ -393,7 +393,7 @@ var doc = `{
                 },
                 "act_open_apps": {
                     "description": "需要下载打开的应用  （json）",
-                    "type": "string"
+                    "type": "object"
                 },
                 "act_pop_time": {
                     "description": "二维码自动弹出时间，单位：秒",

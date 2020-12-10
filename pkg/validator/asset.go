@@ -2,6 +2,8 @@ package validator
 
 import (
 	"github.com/go-playground/validator/v10"
+	"github.com/pquerna/ffjson/ffjson"
+	"go-trailer-api/pkg/gredis"
 	"go-trailer-api/pkg/util"
 	"regexp"
 	"strconv"
@@ -72,4 +74,17 @@ func AssetActType(fl validator.FieldLevel) bool {
 	}
 
 	return false
+}
+
+func AssetOpenApps(fl validator.FieldLevel) bool {
+	var (
+		v   []gredis.OpenApp
+		err error
+	)
+	err = ffjson.Unmarshal([]byte(fl.Field().String()), &v)
+	if err != nil {
+		return false
+	}
+
+	return true
 }

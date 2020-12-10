@@ -26,6 +26,7 @@ func Setup() {
 		"asset_act_type":   AssetActType,
 		"asset_score":      AssetScore,
 		"asset_is_del":     AssetIsDel,
+		"asset_open_apps":  AssetOpenApps,
 	}
 
 	for k, v := range arr {

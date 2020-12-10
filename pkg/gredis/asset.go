@@ -28,7 +28,7 @@ type Asset struct {
 	ActToast          string      `json:"act_toast" binding:""`                            //OK键引导文案
 	Priority          int         `json:"priority" binding:""`                             //优先级  0:优先调用  1:优先下载
 	ImgStayTime       int         `json:"img_stay_time" binding:""`                        //单张图片停留时长(秒)
-	ActOpenApps       string      `json:"act_open_apps" binding:""`                        //需要下载打开的应用  （json）
+	ActOpenApps       interface{} `json:"act_open_apps" binding:"asset_open_apps"`         //需要下载打开的应用  （json）
 	ActQrcodeUrl      string      `json:"act_qrcode_url" binding:""`                       //二维码地址
 	ActQrcodeOrgUrl   string      `json:"act_qrcode_org_url" binding:""`                   //二维码原链接url
 	ActQrcodeBgUrl    string      `json:"act_qrcode_bg_url" binding:""`                    //二维码背景图url
@@ -88,6 +88,13 @@ func mapAsset(a *Asset) map[string]interface{} {
 		"last_update_time":    a.LastUpdateTime,
 		"del_flag":            a.DelFlag,
 	}
+}
+
+type OpenApp struct {
+	App    string      `json:"app" `
+	AppId  interface{} `json:"appId" `
+	Type   interface{} `json:"type" `
+	Schema string      `json:"schema" `
 }
 
 /*
@@ -197,16 +204,31 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 			continue
 		}
 		if len(assetArr) < pageSize { //当前页数据
+			var mapPics []interface{} //图片集合
 			if asset.PicUrls != "" {
-				var mapPics []interface{}
-
 				err := json.Unmarshal([]byte(asset.PicUrls.(string)), &mapPics)
 				if err != nil {
 					logging.Error(err)
 					mapPics = make([]interface{}, 0)
 				}
-				asset.PicUrls = mapPics
 			}
+			asset.PicUrls = mapPics
+
+			oaArr := []OpenApp{}
+			if asset.ActOpenApps != "" {
+				var openAppArray []OpenApp
+				err := json.Unmarshal([]byte(asset.ActOpenApps.(string)), &openAppArray)
+				if err != nil {
+					logging.Error(err)
+				} else {
+					for _, p := range openAppArray {
+						logging.Info(p)
+						oaArr = append(oaArr, p)
+					}
+				}
+			}
+			asset.ActOpenApps = oaArr
+
 			assetArr = append(assetArr, asset)
 		}
 	}
