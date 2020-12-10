@@ -28,18 +28,6 @@ func init() {
 }
 
 func main() {
-	//jStr := "[http://xmx-oss1.oss-cn-shanghai.aliyuncs.com/w7OMvputtN.jpeg]"
-	//
-	//var mapPics []interface{}
-	//
-	//err := json.Unmarshal([]byte(jStr), &mapPics)
-	//if err != nil {
-	//	fmt.Println( err)
-	//}
-	//
-	//fmt.Println(mapPics)
-	//fmt.Println(len(mapPics))
-
 	gin.SetMode(setting.ServerSetting.RunMode)
 
 	routersInit := routers.InitRouter()
