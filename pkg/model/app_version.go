@@ -3,6 +3,7 @@ package model
 import (
 	"encoding/json"
 	"github.com/jinzhu/gorm"
+	"go-trailer-api/pkg/util"
 	"strings"
 )
 
@@ -102,78 +103,93 @@ func CheckBlackRole(ap AppParam, blackList []*AppBlackWhite) bool {
 		var ab *AppBlackList
 		json.Unmarshal([]byte(roleJson), &ab)
 
-		if len(ap.DeviceNo) > 0 {
-			if strings.Contains(ab.DeviceNo, ap.DeviceNo) { //  设备号
+		if len(ap.DeviceNo) > 0 && ab.DeviceNo != "" {
+			dnArr := strings.Split(ab.DeviceNo, ",")
+			if util.StrInArray(ap.DeviceNo, dnArr) { //  设备号
 				return false
 			}
 		}
-		if len(ap.DeviceModel) > 0 {
-			if strings.Contains(ab.DeviceModel, ap.DeviceModel) { //设备型号
+		if len(ap.DeviceModel) > 0 && ab.DeviceModel != "" {
+			dmArr := strings.Split(ab.DeviceModel, ",")
+			if util.StrInArray(ap.DeviceModel, dmArr) { //设备型号
 				return false
 			}
 		}
-		if len(ap.ChannelCode) > 0 {
-			if strings.Contains(ab.ChannelCode, ap.ChannelCode) { //渠道码
+		if len(ap.ChannelCode) > 0 && ab.ChannelCode != "" {
+			ccArr := strings.Split(ab.ChannelCode, ",")
+			if util.StrInArray(ap.ChannelCode, ccArr) { //渠道码
 				return false
 			}
 		}
-		if len(ap.Resolution) > 0 {
-			if strings.Contains(ab.Resolution, ap.Resolution) { //分辨率
+		if len(ap.Resolution) > 0 && ab.Resolution != "" {
+			rlArr := strings.Split(ab.Resolution, ",")
+			if util.StrInArray(ap.Resolution, rlArr) { //分辨率
 				return false
 			}
 		}
-		if len(ap.Language) > 0 {
-			if strings.Contains(ab.Language, ap.Language) { //语言
+		if len(ap.Language) > 0 && ab.Language != "" {
+			laArr := strings.Split(ab.Language, ",")
+			if util.StrInArray(ap.Language, laArr) { //语言
 				return false
 			}
 		}
-		if len(ap.StorageSpace) > 0 {
-			if strings.Contains(ab.StorageSpace, ap.StorageSpace) { //存储空间
+		if len(ap.StorageSpace) > 0 && ab.StorageSpace != "" {
+			ssArr := strings.Split(ab.StorageSpace, ",")
+			if util.StrInArray(ap.StorageSpace, ssArr) { //存储空间
 				return false
 			}
 		}
-		if len(ap.AndroidVersionName) > 0 {
-			if strings.Contains(ab.AndroidVersionName, ap.AndroidVersionName) { //Android 名称
+		if len(ap.AndroidVersionName) > 0 && ab.AndroidVersionName != "" {
+			avnArr := strings.Split(ab.AndroidVersionName, ",")
+			if util.StrInArray(ap.AndroidVersionName, avnArr) { //Android 名称
 				return false
 			}
 		}
-		if len(ap.AndroidVersionCode) > 0 {
-			if strings.Contains(ab.AndroidVersionCode, ap.AndroidVersionCode) { //Android Code
+		if len(ap.AndroidVersionCode) > 0 && ab.AndroidVersionCode != "" {
+			avcArr := strings.Split(ab.AndroidVersionCode, ",")
+			if util.StrInArray(ap.AndroidVersionCode, avcArr) { //Android Code
 				return false
 			}
 		}
-		if len(ap.SdkName) > 0 {
-			if strings.Contains(ab.SdkName, ap.SdkName) { //Sdk 名称
+		if len(ap.SdkName) > 0 && ab.SdkName != "" {
+			snArr := strings.Split(ab.SdkName, ",")
+			if util.StrInArray(ap.SdkName, snArr) { //Sdk 名称
 				return false
 			}
 		}
-		if len(ap.SdkVersionName) > 0 {
-			if strings.Contains(ab.SdkVersionName, ap.SdkVersionName) { //Sdk 版本名称
+		if len(ap.SdkVersionName) > 0 && ab.SdkVersionName != "" {
+			svnArr := strings.Split(ab.SdkVersionName, ",")
+			if util.StrInArray(ap.SdkVersionName, svnArr) { //Sdk 版本名称
 				return false
 			}
 		}
-		if len(ap.SdkVersionCode) > 0 {
-			if strings.Contains(ab.SdkVersionCode, ap.SdkVersionCode) { //Sdk 版本 Code
+		if len(ap.SdkVersionCode) > 0 && ab.SdkVersionCode != "" {
+			svcArr := strings.Split(ab.SdkVersionCode, ",")
+			if util.StrInArray(ap.SdkVersionCode, svcArr) { //Sdk 版本 Code
 				return false
 			}
 		}
-		if len(ap.AppName) > 0 {
-			if strings.Contains(ab.AppName, ap.AppName) { //App name
+		if len(ap.AppName) > 0 && ab.AppName != "" {
+			anArr := strings.Split(ab.AppName, ",")
+			if util.StrInArray(ap.AppName, anArr) { //App name
 				return false
 			}
 		}
-		if len(ap.AppVersionName) > 0 {
-			if strings.Contains(ab.AppVersionName, ap.AppVersionName) { //App 版本名称
+		if len(ap.AppVersionName) > 0 && ab.AppVersionName != "" {
+			avnArr := strings.Split(ab.AppVersionName, ",")
+			if util.StrInArray(ap.AppVersionName, avnArr) { //App 版本名称
 				return false
 			}
 		}
-		if len(ap.AppVersionCode) > 0 {
-			if strings.Contains(ab.AppVersionCode, ap.AppVersionCode) { //App 版本 Code
+		if len(ap.AppVersionCode) > 0 && ab.AppVersionCode != "" {
+			avcArr := strings.Split(ab.AppVersionCode, ",")
+			if util.StrInArray(ap.AppVersionCode, avcArr) { //App 版本 Code
 				return false
 			}
 		}
-		if len(ap.CpuArch) > 0 {
-			if strings.Contains(ab.CpuArch, ap.CpuArch) { //CPU 架构
+		if len(ap.CpuArch) > 0 && ab.CpuArch != "" {
+			caArr := strings.Split(ab.CpuArch, ",")
+			if util.StrInArray(ap.CpuArch, caArr) { //CPU 架构
 				return false
 			}
 		}

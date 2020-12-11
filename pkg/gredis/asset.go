@@ -222,7 +222,6 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 				if err != nil {
 					logging.Error(err)
 				} else {
-
 					for _, p := range openAppArray {
 						oaArr = append(oaArr, p)
 					}
