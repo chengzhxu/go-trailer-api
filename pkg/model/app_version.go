@@ -13,6 +13,7 @@ type AppVersion struct {
 	AppUrl               string `json:"app_url" gorm:"column:app_url"`                                 //地址
 	AppVersionName       string `json:"app_version_name" gorm:"column:app_version_name"`               //版本名称
 	AppVersionCode       string `json:"app_version_code" gorm:"column:app_version_code"`               //版本 Code
+	Remark               string `json:"remark" gorm:"column:remark"`                                   //版本介绍
 	IsForceUserUpdate    int    `json:"is_force_user_update" gorm:"column:is_force_user_update"`       //是否强制用户更新    0:否 1:是
 	IsOptionalUserUpdate int    `json:"is_optional_user_update" gorm:"column:is_optional_user_update"` //是否用户选择更新  0:否 1:是
 	IsSilentUpdate       int    `json:"is_silent_update" gorm:"column:is_silent_update"`               //是否静默更新  0:否 1:是
