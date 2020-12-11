@@ -91,10 +91,11 @@ func mapAsset(a *Asset) map[string]interface{} {
 }
 
 type OpenApp struct {
-	App    string      `json:"app" `
-	AppId  interface{} `json:"appId" `
-	Type   interface{} `json:"type" `
-	Schema string      `json:"schema" `
+	App         string      `json:"app" `
+	AppId       string      `json:"appId" `
+	Type        string      `json:"type" `
+	Schema      string      `json:"schema" `
+	PackageName interface{} `json:"packageName" `
 }
 
 /*
@@ -221,8 +222,8 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 				if err != nil {
 					logging.Error(err)
 				} else {
+
 					for _, p := range openAppArray {
-						logging.Info(p)
 						oaArr = append(oaArr, p)
 					}
 				}
