@@ -346,6 +346,10 @@ var doc = `{
                     "description": "设备号",
                     "type": "string"
                 },
+                "is_hot_update": {
+                    "description": "是否热更  0:否  1:是",
+                    "type": "integer"
+                },
                 "language": {
                     "description": "语言",
                     "type": "string"

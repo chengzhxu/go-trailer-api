@@ -39,6 +39,7 @@ type AppParam struct {
 	AppVersionName     string `json:"app_version_name" `
 	AppVersionCode     string `json:"app_version_code" `
 	CpuArch            string `json:"cpu_arch" `
+	IsHotUpdate        int    `json:"is_hot_update"` //是否热更  0:否  1:是
 }
 
 func (AppVersion) TableName() string {
@@ -63,6 +64,7 @@ func GetNewAppVersion(data map[string]interface{}) (*AppVersion, error) {
 		AppVersionName:     data["app_version_name"].(string),
 		AppVersionCode:     data["app_version_code"].(string),
 		CpuArch:            data["cpu_arch"].(string),
+		IsHotUpdate:        data["is_hot_update"].(int),
 	}
 
 	appVersion, err := FetchApp(appParam)
@@ -76,9 +78,10 @@ func GetNewAppVersion(data map[string]interface{}) (*AppVersion, error) {
 func FetchApp(ap AppParam) (*AppVersion, error) {
 	var appVersion *AppVersion
 
+	is_hot_update := ap.IsHotUpdate //是否热更版本
 	//取所有有效版本
 	var allVersion []*AppVersion
-	err := trailerDb.Order("update_time DESC").Find(&allVersion).Error
+	err := trailerDb.Where("is_hot_update = ?", is_hot_update).Order("update_time DESC").Find(&allVersion).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
