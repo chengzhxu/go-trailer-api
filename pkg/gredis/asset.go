@@ -12,9 +12,9 @@ import (
 
 type Asset struct {
 	Id                int         `json:"id" binding:"required,bas_primary"`
-	Name              string      `json:"name" binding:"required"`                         //名称
-	Remark            string      `json:"remark" binding:"required"`                       //描述
-	Score             interface{} `json:"score" binding:"required"`                        //评分
+	Name              string      `json:"name" binding:""`                                 //名称
+	Remark            string      `json:"remark" binding:""`                               //描述
+	Score             interface{} `json:"score" binding:""`                                //评分
 	ViewLimit         int         `json:"view_limit" binding:""`                           //青少年观影限制 0  - 不限制 1 – 限制
 	ViewCities        string      `json:"view_cities" binding:""`                          //地区限制 （json）
 	ViewTags          string      `json:"view_tags" binding:""`                            //数据标签 （json）

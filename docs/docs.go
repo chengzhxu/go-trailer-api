@@ -384,9 +384,6 @@ var doc = `{
                 "duration_start_date",
                 "id",
                 "last_update_time",
-                "name",
-                "remark",
-                "score",
                 "shelf_status",
                 "type"
             ],
