@@ -472,7 +472,7 @@ var doc = `{
                 },
                 "score": {
                     "description": "评分",
-                    "type": "number"
+                    "type": "object"
                 },
                 "shelf_status": {
                     "description": "上架状态 1-未上架 2-已上架 3-已下架",
