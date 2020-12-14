@@ -8,7 +8,7 @@ import (
 type SdkEvent struct {
 	ClientTime string `json:"client_time" binding:"nm_bas_time"` //客户端时间 格式：2020-12-12 12:12:12
 	DeviceNo   string `json:"device_no" binding:"required"`      //设备号
-	IMEI       string `json:"imei" binding:"required"`           //IMEI
+	IMEI       string `json:"imei" binding:""`                   //IMEI
 	//IDFA 						string `json:"idfa" `
 	NewpUid        string `json:"newpuid" `                                        //APP 用户账号 ID
 	NewSessionId   string `json:"newsession_id" binding:"required"`                //会话 ID

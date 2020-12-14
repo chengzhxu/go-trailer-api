@@ -662,7 +662,6 @@ var doc = `{
                 "device_no",
                 "event_kv_json",
                 "event_name",
-                "imei",
                 "net_type",
                 "newevent_type",
                 "newsession_id",
