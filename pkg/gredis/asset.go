@@ -102,7 +102,9 @@ type OpenApp struct {
 * 同步 Asset 数据并写入 Redis （暂定）
  */
 func (asset *Asset) SyncAssetToRedis() error {
-	conn := RedisConn.Get()    //获取 Redis
+	conn := RedisConn.Get() //获取 Redis
+	asset.DurationStartDate = util.CheckTime(asset.DurationStartDate)
+	asset.DurationEndDate = util.CheckTime(asset.DurationEndDate)
 	if !checkRunAsset(asset) { //无效的 Asset    -    从 Redis 删除
 		_, err := conn.Do("zrem", IdKey, asset.Id) //从 Id 排序中移除
 		if err != nil {

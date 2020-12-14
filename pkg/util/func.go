@@ -51,8 +51,14 @@ func GetCurrentTime() string {
 // 日期转换为时间戳
 func TimeToUnix(t string) int {
 	timeLayout := "2006-01-02 15:04:05"          //转化所需模板
-	loc, _ := time.LoadLocation("Asia/Shanghai") //设置时区
+	loc, _ := time.LoadLocation("Asia/Shanghai") //设置时
+	tt, _ := time.ParseInLocation(timeLayout, t, loc)
 
+	return int(tt.Unix())
+}
+
+//检查事件类型
+func CheckTime(t string) string {
 	dArr := strings.Split(t, " ")
 	if len(dArr) == 2 {
 		time := dArr[1]
@@ -71,9 +77,7 @@ func TimeToUnix(t string) int {
 		t = dArr[0] + " " + nt
 	}
 
-	tt, _ := time.ParseInLocation(timeLayout, t, loc)
-
-	return int(tt.Unix())
+	return t
 }
 
 // 日期转换为时间戳
