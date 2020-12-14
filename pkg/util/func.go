@@ -5,6 +5,7 @@ import (
 	"net"
 	"net/http"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -51,6 +52,25 @@ func GetCurrentTime() string {
 func TimeToUnix(t string) int {
 	timeLayout := "2006-01-02 15:04:05"          //转化所需模板
 	loc, _ := time.LoadLocation("Asia/Shanghai") //设置时区
+
+	dArr := strings.Split(t, " ")
+	if len(dArr) == 2 {
+		time := dArr[1]
+		tArr := strings.Split(time, ":")
+		var ntArr []string
+		for _, v := range tArr {
+			t, _ := strconv.Atoi(v)
+			if t > 59 {
+				ntArr = append(ntArr, strconv.Itoa(59))
+			} else {
+				ntArr = append(ntArr, strconv.Itoa(t))
+			}
+		}
+
+		nt := strings.Join(ntArr, ":")
+		t = dArr[0] + " " + nt
+	}
+
 	tt, _ := time.ParseInLocation(timeLayout, t, loc)
 
 	return int(tt.Unix())
