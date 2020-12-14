@@ -67,7 +67,9 @@ func CheckTime(t string) string {
 		for _, v := range tArr {
 			t, _ := strconv.Atoi(v)
 			if t > 59 {
-				ntArr = append(ntArr, strconv.Itoa(59))
+				ntArr = append(ntArr, "59")
+			} else if t == 0 {
+				ntArr = append(ntArr, "00")
 			} else {
 				ntArr = append(ntArr, strconv.Itoa(t))
 			}
