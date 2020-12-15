@@ -1,7 +1,11 @@
 package model
 
 import (
+	"encoding/json"
+	"go-trailer-api/pkg/gredis"
+	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/util"
+	"strconv"
 )
 
 type SdkEvents struct {
@@ -33,6 +37,12 @@ type SdkEvents struct {
 	EventKvJson    string `json:"event_kv_json" gorm:"column:event_kv_json"`
 	CreateTime     string `json:"create_time" gorm:"column:create_time"`
 }
+
+type EventKv struct {
+	TrailerId string `json:"trailer_id" `
+}
+
+var TrailerExposureKey = "trailer:exposure" //记录预告片曝光 redis key
 
 func (SdkEvents) TableName() string {
 	return "stats_sdk_events"
@@ -67,9 +77,36 @@ func InsertSdkEvent(data map[string]interface{}) error {
 		EventKvJson:    data["event_kv_json"].(string),
 		CreateTime:     util.GetCurrentTime(),
 	}
+
 	if err := db.Create(&event).Error; err != nil {
 		return err
 	}
+	RecordTrailerExposureNum(event) //累加预告片曝光数
 
 	return nil
+}
+
+//记录预告片 曝光
+func RecordTrailerExposureNum(event SdkEvents) {
+	if event.EventName == "播放预告片" { //播放事件
+		if event.EventKvJson != "" {
+			e := EventKv{}
+			err := json.Unmarshal([]byte(event.EventKvJson), &e)
+			if err != nil {
+				logging.Error(err.Error())
+			} else { //记录曝光
+				if e.TrailerId != "" {
+					trailer_id, _ := strconv.Atoi(e.TrailerId)
+					if trailer_id > 0 {
+						conn := gredis.RedisConn.Get() //获取 Redis
+						key := "trailer-" + e.TrailerId + ":hits"
+						_, err = conn.Do("HINCRBY", TrailerExposureKey, key, 1)
+						if err != nil {
+							logging.Error("累加曝光(" + key + "): " + err.Error())
+						}
+					}
+				}
+			}
+		}
+	}
 }
