@@ -1,8 +1,10 @@
 package stats_service
 
 import (
+	"encoding/json"
 	"go-trailer-api/pkg/model"
 	"go-trailer-api/pkg/util"
+	"strings"
 )
 
 type SdkEvent struct {
@@ -81,4 +83,33 @@ func (se *SdkEvent) Insert() error {
 	}
 
 	return nil
+}
+
+//解析事件参数，拆分为上报事件
+func TranceEventKtJson(se SdkEvent) []SdkEvent {
+	eventArr := []SdkEvent{}
+
+	event_kv_json := se.EventKvJson
+	if event_kv_json != "" {
+		ej := strings.NewReader(event_kv_json)
+		dec := json.NewDecoder(ej)
+		switch event_kv_json[0] {
+		case 91:
+			// "[" 开头的Json（数组型Json）
+			param := []interface{}{}
+			dec.Decode(&param)
+			for _, v := range param {
+				eventJsonStr, _ := json.Marshal(v)
+				se.EventKvJson = string(eventJsonStr)
+				eventArr = append(eventArr, se)
+			}
+
+			return eventArr
+		case 123:
+			// "{" 开头的Json（对象型Json）
+		}
+	}
+	eventArr = append(eventArr, se)
+
+	return eventArr
 }

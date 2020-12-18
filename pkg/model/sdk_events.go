@@ -44,6 +44,11 @@ type EventKv struct {
 
 var TrailerExposureKey = "trailer:exposure" //记录预告片曝光 redis key
 
+var TrailerCapBeginKey = "trailer:"   //素材频控 redis key  first_name
+var TrailerCapEndKey = ":asset:cap"   //素材频控 redis key  last_name
+var TrailerCapCountEndKey = ":count:" //素材频控 - 周期内播放次数 redis key  last_name
+var TrailerCapDateEndKey = ":date"    //素材频控 -  周期内首次播放时间 redis key  last_name
+
 func (SdkEvents) TableName() string {
 	return "stats_sdk_events"
 }
@@ -88,21 +93,37 @@ func InsertSdkEvent(data map[string]interface{}) error {
 
 //记录预告片 曝光
 func RecordTrailerExposureNum(event SdkEvents) {
-	if event.EventName == "播放预告片" { //播放事件
+	if event.EventName == "播放预告片" || event.EventName == "player_trailer" { //播放事件
 		if event.EventKvJson != "" {
 			e := EventKv{}
 			err := json.Unmarshal([]byte(event.EventKvJson), &e)
 			if err != nil {
 				logging.Error(err.Error())
-			} else { //记录曝光
+			} else { //记录曝光 and 播放次数（用于频控）
 				if e.TrailerId != "" {
-					trailer_id, _ := strconv.Atoi(e.TrailerId)
-					if trailer_id > 0 {
+					trailerId, _ := strconv.Atoi(e.TrailerId)
+					if trailerId > 0 {
 						conn := gredis.RedisConn.Get() //获取 Redis
 						key := "trailer-" + e.TrailerId + ":hits"
 						_, err = conn.Do("HINCRBY", TrailerExposureKey, key, 1)
 						if err != nil {
 							logging.Error("累加曝光(" + key + "): " + err.Error())
+						}
+						if event.DeviceNo != "" { //记录播放次数， 用于频控
+							TrailerCapKey := TrailerCapBeginKey + event.DeviceNo + TrailerCapEndKey
+							CapCountKey := TrailerCapBeginKey + e.TrailerId + TrailerCapCountEndKey
+							CapDateKey := TrailerCapBeginKey + e.TrailerId + TrailerCapDateEndKey
+							_, err = conn.Do("HINCRBY", TrailerCapKey, CapCountKey, 1)
+							if err != nil {
+								logging.Error("累加播放-频控(" + key + "): " + err.Error())
+							}
+							date, _ := conn.Do("hget", TrailerCapKey, CapDateKey)
+							if date == nil { //记录首次播放时间 - 用于清理频控
+								_, err = conn.Do("hset", TrailerCapKey, CapDateKey, util.GetCurrentDate())
+								if err != nil {
+									logging.Error("累加播放-首次播放(" + key + "): " + err.Error())
+								}
+							}
 						}
 					}
 				}

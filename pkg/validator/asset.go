@@ -88,3 +88,16 @@ func AssetOpenApps(fl validator.FieldLevel) bool {
 
 	return true
 }
+
+func AssetChannelCode(fl validator.FieldLevel) bool {
+	var (
+		v   []string
+		err error
+	)
+	err = ffjson.Unmarshal([]byte(fl.Field().String()), &v)
+	if err != nil {
+		return false
+	}
+
+	return true
+}

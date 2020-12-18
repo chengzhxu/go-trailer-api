@@ -40,9 +40,13 @@ func InsertSdkEvent(c *gin.Context) {
 		jsonRequest.IP = ip
 	}
 
-	if err := jsonRequest.Insert(); err != nil {
-		appG.Response(http.StatusInternalServerError, e.ErrorInsertSdkEvent, err)
-		return
+	//根据事件参数拆分为上报数据
+	eventArr := stats_service.TranceEventKtJson(jsonRequest)
+	for _, event := range eventArr {
+		if err := event.Insert(); err != nil {
+			appG.Response(http.StatusInternalServerError, e.ErrorInsertSdkEvent, err)
+			return
+		}
 	}
 
 	appG.Response(http.StatusOK, e.Success, nil)
