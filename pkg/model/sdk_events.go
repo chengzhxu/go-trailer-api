@@ -44,11 +44,6 @@ type EventKv struct {
 
 var TrailerExposureKey = "trailer:exposure" //记录预告片曝光 redis key
 
-var TrailerCapBeginKey = "trailer:"   //素材频控 redis key  first_name
-var TrailerCapEndKey = ":asset:cap"   //素材频控 redis key  last_name
-var TrailerCapCountEndKey = ":count:" //素材频控 - 周期内播放次数 redis key  last_name
-var TrailerCapDateEndKey = ":date"    //素材频控 -  周期内首次播放时间 redis key  last_name
-
 func (SdkEvents) TableName() string {
 	return "stats_sdk_events"
 }
@@ -110,9 +105,9 @@ func RecordTrailerExposureNum(event SdkEvents) {
 							logging.Error("累加曝光(" + key + "): " + err.Error())
 						}
 						if event.DeviceNo != "" { //记录播放次数， 用于频控
-							TrailerCapKey := TrailerCapBeginKey + event.DeviceNo + TrailerCapEndKey
-							CapCountKey := TrailerCapBeginKey + e.TrailerId + TrailerCapCountEndKey
-							CapDateKey := TrailerCapBeginKey + e.TrailerId + TrailerCapDateEndKey
+							TrailerCapKey := gredis.TrailerCapBeginKey + event.DeviceNo + gredis.TrailerCapEndKey
+							CapCountKey := gredis.TrailerCapBeginKey + e.TrailerId + gredis.TrailerCapCountEndKey
+							CapDateKey := gredis.TrailerCapBeginKey + e.TrailerId + gredis.TrailerCapDateEndKey
 							_, err = conn.Do("HINCRBY", TrailerCapKey, CapCountKey, 1)
 							if err != nil {
 								logging.Error("累加播放-频控(" + key + "): " + err.Error())

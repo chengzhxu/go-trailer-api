@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/gomodule/redigo/redis"
 	"go-trailer-api/pkg/logging"
-	"go-trailer-api/pkg/model"
 	"go-trailer-api/pkg/util"
 	"math"
 	"strconv"
@@ -65,6 +64,11 @@ var IdKey = "asset_id"
 var LastTimeKey = "asset_last_update_time"
 var DisplayOrderKey = "asset_display_order"
 var HSetKey = "trailer_asset"
+
+var TrailerCapBeginKey = "trailer:"   //素材频控 redis key  first_name
+var TrailerCapEndKey = ":asset:cap"   //素材频控 redis key  last_name
+var TrailerCapCountEndKey = ":count:" //素材频控 - 周期内播放次数 redis key  last_name
+var TrailerCapDateEndKey = ":date"    //素材频控 -  周期内首次播放时间 redis key  last_name
 
 func mapAsset(a *Asset) map[string]interface{} {
 	return map[string]interface{}{
@@ -317,9 +321,9 @@ func checkAssetChannel(asset *Asset, channelCode string) bool {
 //检查 Asset 频控
 func checkAssetCap(asset *Asset, deviceNo string) bool {
 	if asset.Id > 0 && asset.ScreenControlCount > 0 && deviceNo != "" {
-		conn := RedisConn.Get()                                                                        //获取 Redis
-		TrailerCapKey := model.TrailerCapBeginKey + deviceNo + model.TrailerCapEndKey                  //频控 Redis key
-		CapCountKey := model.TrailerCapBeginKey + strconv.Itoa(asset.Id) + model.TrailerCapCountEndKey //素材播放次数 Redis key
+		conn := RedisConn.Get()                                                            //获取 Redis
+		TrailerCapKey := TrailerCapBeginKey + deviceNo + TrailerCapEndKey                  //频控 Redis key
+		CapCountKey := TrailerCapBeginKey + strconv.Itoa(asset.Id) + TrailerCapCountEndKey //素材播放次数 Redis key
 		count, _ := redis.Int(conn.Do("hget", TrailerCapKey, CapCountKey))
 		if count >= asset.ScreenControlCount { //判断是否达到频控次数   播放次数 >= 频控
 			return false

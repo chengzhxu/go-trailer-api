@@ -420,6 +420,10 @@ var doc = `{
                     "description": "OK键动作类型 1-无动作 2-打开/下载应用 3-弹出二维码 4-加载长视频",
                     "type": "integer"
                 },
+                "channel_code": {
+                    "description": "对应的渠道 - 全部为 ALL - json数组",
+                    "type": "string"
+                },
                 "cover_url": {
                     "description": "封面图地址",
                     "type": "string"
@@ -427,6 +431,11 @@ var doc = `{
                 "del_flag": {
                     "description": "是否删除  0:否  1:是",
                     "type": "integer"
+                },
+                "display_order": {
+                    "description": "排序",
+                    "type": "integer",
+                    "example": 0
                 },
                 "duration_end_date": {
                     "description": "资源有效期 - 结束时间",
@@ -471,6 +480,16 @@ var doc = `{
                     "description": "评分",
                     "type": "object"
                 },
+                "screen_control_count": {
+                    "description": "周期内频控次数",
+                    "type": "integer",
+                    "example": 0
+                },
+                "screen_control_cycle": {
+                    "description": "频控周期  天数  自然日",
+                    "type": "integer",
+                    "example": 0
+                },
                 "shelf_status": {
                     "description": "上架状态 1-未上架 2-已上架 3-已下架",
                     "type": "integer"
@@ -496,6 +515,8 @@ var doc = `{
         "gredis.TrailerListParam": {
             "type": "object",
             "required": [
+                "channel_code",
+                "device_no",
                 "page"
             ],
             "properties": {
