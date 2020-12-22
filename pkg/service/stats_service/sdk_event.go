@@ -2,9 +2,9 @@ package stats_service
 
 import (
 	"encoding/json"
+	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/model"
 	"go-trailer-api/pkg/util"
-	"strings"
 )
 
 type SdkEvent struct {
@@ -12,27 +12,28 @@ type SdkEvent struct {
 	DeviceNo   string `json:"device_no" binding:"required"`      //设备号
 	IMEI       string `json:"imei" binding:""`                   //IMEI
 	//IDFA 						string `json:"idfa" `
-	NewpUid        string `json:"newpuid" `                                        //APP 用户账号 ID
-	NewSessionId   string `json:"newsession_id" binding:"required"`                //会话 ID
-	ScreenWidth    int    `json:"screen_width" binding:"required"`                 //分辨率 宽度
-	ScreenHeight   int    `json:"screen_height" binding:"required"`                //分辨率 高度
-	OsVersionName  string `json:"os_version_name" binding:"required"`              //操作系统版本名称
-	OsVersionCode  string `json:"os_version_code" binding:"required"`              //操作系统版本 Code
-	DeviceBrand    string `json:"device_brand" `                                   //设备品牌
-	DeviceModel    string `json:"device_model" binding:"required"`                 //设备型号
-	ChannelCode    string `json:"channel_code" binding:"required"`                 //渠道码
-	AppName        string `json:"app_name" binding:"required"`                     //APP 名称
-	AppVersionCode string `json:"app_version_code" binding:"required"`             //APP 版本 Code
-	AppVersionName string `json:"app_version_name" binding:"required"`             //APP 版本名称
-	SdkName        string `json:"sdk_name" binding:"required"`                     //SDK 名称
-	SdkVersionName string `json:"sdk_version_name" binding:"required"`             //SDK 版本名称
-	SdkVersionCode string `json:"sdk_version_code" binding:"required"`             //SDK 版本 Code
-	PageName       string `json:"page_name" `                                      //所在页面
-	IP             string `json:"ip" `                                             //IP
-	NetType        string `json:"net_type" binding:"required"`                     //网络类型	WIFI/4G/5G
-	NewEventType   *int   `json:"newevent_type" binding:"required,sdk_event_type"` //事件类型  0:自定义事件,1:预置事件
-	EventName      string `json:"event_name" binding:"required"`                   //事件名称
-	EventKvJson    string `json:"event_kv_json" binding:"required,sdk_event_kt"`   //参数和参数值数据 -json数组 - 格式：{"key1": "val1", "key2": "val2"}
+	NewpUid        string      `json:"newpuid" `                            //APP 用户账号 ID
+	NewSessionId   string      `json:"newsession_id" binding:"required"`    //会话 ID
+	ScreenWidth    int         `json:"screen_width" binding:"required"`     //分辨率 宽度
+	ScreenHeight   int         `json:"screen_height" binding:"required"`    //分辨率 高度
+	OsVersionName  string      `json:"os_version_name" binding:"required"`  //操作系统版本名称
+	OsVersionCode  string      `json:"os_version_code" binding:"required"`  //操作系统版本 Code
+	DeviceBrand    string      `json:"device_brand" `                       //设备品牌
+	DeviceModel    string      `json:"device_model" binding:"required"`     //设备型号
+	ChannelCode    string      `json:"channel_code" binding:"required"`     //渠道码
+	AppName        string      `json:"app_name" binding:"required"`         //APP 名称
+	AppVersionCode string      `json:"app_version_code" binding:"required"` //APP 版本 Code
+	AppVersionName string      `json:"app_version_name" binding:"required"` //APP 版本名称
+	SdkName        string      `json:"sdk_name" binding:"required"`         //SDK 名称
+	SdkVersionName string      `json:"sdk_version_name" binding:"required"` //SDK 版本名称
+	SdkVersionCode string      `json:"sdk_version_code" binding:"required"` //SDK 版本 Code
+	PageName       string      `json:"page_name" `                          //所在页面
+	IP             string      `json:"ip" `                                 //IP
+	NetType        string      `json:"net_type" binding:"required"`         //网络类型	WIFI/4G/5G
+	NewEventType   int         `json:"newevent_type" binding:""`            //事件类型  0:自定义事件,1:预置事件
+	EventName      string      `json:"event_name" binding:""`               //事件名称
+	EventKvJson    string      `json:"event_kv_json" binding:""`            //参数和参数值数据 -json - 格式：{"key1": "val1", "key2": "val2"}
+	EventInfo      interface{} `json:"event_info" binding:"sdk_event_info"` //参数和参数值数据 -json数组 - 格式：[{"event_kv_json":{"key1": "val1", "key2": "val2"},"event_name":"sss","event_type":1},...]
 }
 
 type ObjSdkEvents struct {
@@ -41,6 +42,12 @@ type ObjSdkEvents struct {
 
 type ArrSdkEvents struct {
 	SdkEvents []SdkEvent
+}
+
+type EventInfo struct {
+	EventName   string      `json:"event_name" binding:"required"`
+	EventKvJson interface{} `json:"event_kv_json" binding:"required,sdk_event_kt"`
+	EventType   int         `json:"event_type" binding:"required,sdk_event_type"`
 }
 
 func mapSdkEvent(se *SdkEvent) map[string]interface{} {
@@ -66,9 +73,10 @@ func mapSdkEvent(se *SdkEvent) map[string]interface{} {
 		"page_name":        se.PageName,
 		"ip":               se.IP,
 		"net_type":         se.NetType,
-		"newevent_type":    *se.NewEventType,
+		"newevent_type":    se.NewEventType,
 		"event_name":       se.EventName,
 		"event_kv_json":    se.EventKvJson,
+		"event_info":       se.EventInfo,
 	}
 }
 
@@ -89,27 +97,24 @@ func (se *SdkEvent) Insert() error {
 func TranceEventKtJson(se SdkEvent) []SdkEvent {
 	eventArr := []SdkEvent{}
 
-	event_kv_json := se.EventKvJson
-	if event_kv_json != "" {
-		ej := strings.NewReader(event_kv_json)
-		dec := json.NewDecoder(ej)
-		switch event_kv_json[0] {
-		case 91:
-			// "[" 开头的Json（数组型Json）
-			param := []interface{}{}
-			dec.Decode(&param)
-			for _, v := range param {
-				eventJsonStr, _ := json.Marshal(v)
+	eventInfo := se.EventInfo
+	if eventInfo != "" {
+		var arrEventInfo []EventInfo
+		err := json.Unmarshal([]byte(eventInfo.(string)), &arrEventInfo)
+		if err != nil {
+			logging.Error(err)
+		} else {
+			for _, v := range arrEventInfo {
+				eventJsonStr, _ := json.Marshal(v.EventKvJson)
 				se.EventKvJson = string(eventJsonStr)
+				se.EventName = v.EventName
+				se.NewEventType = v.EventType
 				eventArr = append(eventArr, se)
 			}
-
-			return eventArr
-		case 123:
-			// "{" 开头的Json（对象型Json）
 		}
+	} else {
+		eventArr = append(eventArr, se)
 	}
-	eventArr = append(eventArr, se)
 
 	return eventArr
 }

@@ -20,6 +20,7 @@ func Setup() {
 		"int_status":         IntStatus,
 		"sdk_event_type":     EventType,
 		"sdk_event_kt":       EventKt,
+		"sdk_event_info":     EventInfo,
 		"obj_sdk_events":     ObjSdkEvents,
 		"asset_view_limit":   AssetViewLimit,
 		"asset_type":         AssetType,

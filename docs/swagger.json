@@ -660,10 +660,7 @@
                 "channel_code",
                 "device_model",
                 "device_no",
-                "event_kv_json",
-                "event_name",
                 "net_type",
-                "newevent_type",
                 "newsession_id",
                 "os_version_code",
                 "os_version_name",
@@ -706,8 +703,12 @@
                     "description": "设备号",
                     "type": "string"
                 },
+                "event_info": {
+                    "description": "参数和参数值数据 -json数组 - 格式：[{\"event_kv_json\":{\"key1\": \"val1\", \"key2\": \"val2\"},\"event_name\":\"sss\",\"event_type\":1},...]",
+                    "type": "object"
+                },
                 "event_kv_json": {
-                    "description": "参数和参数值数据 -json数组 - 格式：{\"key1\": \"val1\", \"key2\": \"val2\"}",
+                    "description": "参数和参数值数据 -json - 格式：{\"key1\": \"val1\", \"key2\": \"val2\"}",
                     "type": "string"
                 },
                 "event_name": {

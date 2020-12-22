@@ -36,6 +36,19 @@ func EventKt(fl validator.FieldLevel) bool {
 	return true
 }
 
+func EventInfo(fl validator.FieldLevel) bool {
+	var (
+		v   []stats_service.EventInfo
+		err error
+	)
+	err = ffjson.Unmarshal([]byte(fl.Field().String()), &v)
+	if err != nil {
+		return false
+	}
+
+	return true
+}
+
 func ObjSdkEvents(fl validator.FieldLevel) bool {
 	var (
 		v   map[string]stats_service.SdkEvent
