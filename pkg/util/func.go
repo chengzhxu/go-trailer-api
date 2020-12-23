@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"net/url"
 	"reflect"
 	"sort"
 	"strconv"
@@ -231,25 +232,26 @@ func CheckParamSignature(c *gin.Context) bool {
 		return false
 	}
 
-	var dataParams string //排序 拼接后的参数
-	signature := ""       //签名
+	var dataParams string = "?" // 拼接后的参数
+	signature := ""             //签名
 	//ksort
-	var keys []string
-	for k := range params {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
+	//var keys []string
+	//for k := range params {
+	//	keys = append(keys, k)
+	//}
+	//sort.Strings(keys)
 
 	//拼接
-	for _, k := range keys {
+	for k, v := range params {
 		if k == "signature" {
-			signature = k
+			signature = fmt.Sprintf("%v", v)
 		} else {
-			dataParams += k + "=" + fmt.Sprintf("%v", params[k]) + "&"
+			dataParams += k + "=" + fmt.Sprintf("%v", v) + "&"
 		}
 	}
-
-	dataParams += signatureSalt
+	us, _ := url.Parse(dataParams)
+	dataParams = us.Query().Encode()
+	dataParams += "&" + signatureSalt
 
 	mySignature := Md5V(dataParams)
 
