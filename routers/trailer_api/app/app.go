@@ -2,9 +2,11 @@ package app
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/pquerna/ffjson/ffjson"
 	"go-trailer-api/pkg/app"
-	"go-trailer-api/pkg/e"
+	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/service/app_service"
+	"go-trailer-api/routers/trailer_api"
 	"net/http"
 )
 
@@ -19,18 +21,32 @@ import (
 // @Router /trailer_api/app/get_new_app [post]
 func GetNewAppInfo(c *gin.Context) {
 	appG := app.Gin{C: c}
-	jsonRequest := app_service.AppParam{}
-	httpCode, errCode, err := app.BindAndValid(c, &jsonRequest)
+
+	pData, err := trailer_api.GinDecryptData(c, appG)
 	if err != nil {
-		appG.Response(httpCode, errCode, err.Error())
+		logging.Error(err)
+		return
+	}
+
+	jsonRequest := app_service.AppParam{}
+	//httpCode, errCode, err := app.BindAndValid(c, &jsonRequest)
+	e := ffjson.Unmarshal(pData.Data, &jsonRequest)
+	if e != nil {
+		logging.Error(e)
+		appG.ResponseJson(http.StatusBadRequest, nil)
 		return
 	}
 
 	appInfo, err := jsonRequest.GetNewAppVersion()
 	if err != nil {
-		appG.Response(http.StatusInternalServerError, e.ErrorGetNewAppError, err.Error())
+		logging.Error(err)
+		appG.ResponseJson(http.StatusInternalServerError, nil)
+		//appG.ResponseEncryptJson(http.StatusInternalServerError,nil, nil)
 		return
 	}
 
-	appG.Response(http.StatusOK, e.Success, appInfo)
+	res, _ := ffjson.Marshal(appInfo)
+
+	//appG.Response(http.StatusOK, e.Success, appInfo)
+	appG.ResponseEncryptJson(http.StatusOK, []byte(res), pData.Key)
 }

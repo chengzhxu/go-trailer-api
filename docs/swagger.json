@@ -1,8 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {},
-        "license": {}
+        "contact": {}
     },
     "paths": {
         "/trailer_api/app/get_new_app": {
@@ -748,6 +747,10 @@
                 },
                 "sdk_version_name": {
                     "description": "SDK 版本名称",
+                    "type": "string"
+                },
+                "signature": {
+                    "description": "签名",
                     "type": "string"
                 }
             }

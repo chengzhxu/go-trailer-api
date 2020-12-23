@@ -352,6 +352,9 @@ definitions:
       sdk_version_name:
         description: SDK 版本名称
         type: string
+      signature:
+        description: 签名
+        type: string
     required:
     - app_name
     - app_version_code
@@ -374,7 +377,6 @@ definitions:
     type: object
 info:
   contact: {}
-  license: {}
 paths:
   /trailer_api/app/get_new_app:
     post:

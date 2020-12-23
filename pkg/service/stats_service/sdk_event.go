@@ -31,6 +31,7 @@ type SdkEvent struct {
 	NewEventType   *int   `json:"newevent_type" binding:"required,sdk_event_type"` //事件类型  0:自定义事件,1:预置事件
 	EventName      string `json:"event_name" binding:"required"`                   //事件名称
 	EventKvJson    string `json:"event_kv_json" binding:"required,sdk_event_kt"`   //参数和参数值数据 -json数组 - 格式：{"key1": "val1", "key2": "val2"}
+	Signature      string `json:"signature" binding:""`                            //签名
 }
 
 type ObjSdkEvents struct {

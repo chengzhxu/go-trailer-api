@@ -1,8 +1,11 @@
 package app
 
 import (
-	"go-trailer-api/pkg/e"
 	"github.com/gin-gonic/gin"
+	"go-trailer-api/pkg/crypt"
+	"go-trailer-api/pkg/e"
+	"go-trailer-api/pkg/model"
+	"net/http"
 )
 
 type Gin struct {
@@ -23,4 +26,41 @@ func (g *Gin) Response(httpCode, errCode int, data interface{}) {
 		Data: data,
 	})
 	return
+}
+
+func (g *Gin) ResponseEncryptJson(httpCode int, data []byte, key []byte) {
+	msg, err := crypt.Packv2(&crypt.PData{
+		Data: data,
+		Key:  key,
+	})
+	if err != nil {
+		g.Response(http.StatusInternalServerError, e.ErrorEncryptError, nil)
+		return
+	}
+
+	g.C.JSON(httpCode, model.EDataResponse{
+		EK: string(msg.EK),
+		ED: string(msg.ED),
+		IV: string(msg.IV),
+	})
+}
+
+func (g *Gin) ResponseJson(httpCode int, data interface{}) {
+	if data == nil {
+		data = CreateEmptyJson(httpCode)
+	}
+
+	g.C.JSON(httpCode, data)
+}
+
+type EmptyJson struct {
+	Code int    `json:"code"`
+	Msg  string `json:"mgs"`
+}
+
+func CreateEmptyJson(code int) *EmptyJson {
+	return &EmptyJson{
+		Code: code,
+		Msg:  "",
+	}
 }

@@ -12,4 +12,7 @@ const (
 	ErrorSyncAssetError = 60001
 	ErrorGetAssetError  = 60010
 	ErrorGetNewAppError = 60020
+
+	ErrorEncryptError   = 50050
+	ErrorSignatureError = 50051
 )
