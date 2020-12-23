@@ -12,6 +12,9 @@ var MsgFlags = map[int]string{
 	ErrorSyncAssetError: "同步 Asset 素材信息失败",
 	ErrorGetAssetError:  "获取 Asset 素材信息失败",
 	ErrorGetNewAppError: "获取 APP 更新版本失败",
+
+	ErrorEncryptError:   "加密失败",
+	ErrorSignatureError: "签名验证失败",
 }
 
 // GetMsg get error information based on Code

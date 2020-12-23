@@ -1,14 +1,23 @@
 package util
 
 import (
+	"crypto/md5"
+	"encoding/hex"
+	"encoding/json"
+	"fmt"
+	"github.com/gin-gonic/gin"
 	"go-trailer-api/pkg/logging"
+	"io/ioutil"
 	"net"
 	"net/http"
+	"reflect"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 )
+
+var signatureSalt = "trailer_signature_salt"
 
 func ExistIntElement(element int64, array []int64) bool {
 	for _, e := range array {
@@ -192,5 +201,61 @@ func StrInArray(target string, strArray []string) bool {
 	if index < len(strArray) && strArray[index] == target { //需要注意此处的判断，先判断 &&左侧的条件，如果不满足则结束此处判断，不会再进行右侧的判断
 		return true
 	}
+	return false
+}
+
+func md5V(str string) string {
+	h := md5.New()
+	h.Write([]byte(str))
+	return hex.EncodeToString(h.Sum(nil))
+}
+
+func Struct2Map(obj interface{}) map[string]interface{} {
+	t := reflect.TypeOf(obj)
+	v := reflect.ValueOf(obj)
+
+	var data = make(map[string]interface{})
+	for i := 0; i < t.NumField(); i++ {
+		data[t.Field(i).Name] = v.Field(i).Interface()
+	}
+	return data
+}
+
+// 参数签名解析   方式：参数 按字母顺序排序后，用 & 拼接，然后 md5
+func CheckParamSignature(c *gin.Context) bool {
+	data, _ := ioutil.ReadAll(c.Request.Body)
+
+	params := make(map[string]interface{})
+	err := json.Unmarshal(data, &params)
+	if err != nil {
+		return false
+	}
+
+	var dataParams string //排序 拼接后的参数
+	signature := ""       //签名
+	//ksort
+	var keys []string
+	for k := range params {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	//拼接
+	for _, k := range keys {
+		if k == "signature" {
+			signature = k
+		} else {
+			dataParams += k + "=" + fmt.Sprintf("%v", params[k]) + "&"
+		}
+	}
+
+	dataParams += signatureSalt
+
+	mySignature := md5V(dataParams)
+
+	if mySignature == signature {
+		return true
+	}
+
 	return false
 }

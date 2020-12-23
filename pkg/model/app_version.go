@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/jinzhu/gorm"
 	"go-trailer-api/pkg/util"
+	"strconv"
 	"strings"
 )
 
@@ -79,10 +80,12 @@ func GetNewAppVersion(data map[string]interface{}) (*AppVersion, error) {
 func FetchApp(ap AppParam) (*AppVersion, error) {
 	var appVersion *AppVersion
 
-	is_hot_update := ap.IsHotUpdate //是否热更版本
+	isHotUpdate := ap.IsHotUpdate                        //是否热更版本
+	appName := ap.AppName                                //版本名称
+	appVersionCode, _ := strconv.Atoi(ap.AppVersionCode) //版本 code
 	//取所有有效版本
 	var allVersion []*AppVersion
-	err := trailerDb.Where("is_hot_update = ?", is_hot_update).Order("update_time DESC").Find(&allVersion).Error
+	err := trailerDb.Where("is_hot_update = ? and app_name = ? and app_version_code > ? ", isHotUpdate, appName, appVersionCode).Order("update_time DESC").Find(&allVersion).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}

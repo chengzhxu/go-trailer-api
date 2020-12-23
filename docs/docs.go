@@ -790,6 +790,10 @@ var doc = `{
                 "sdk_version_name": {
                     "description": "SDK 版本名称",
                     "type": "string"
+                },
+                "signature": {
+                    "description": "签名",
+                    "type": "string"
                 }
             }
         }
