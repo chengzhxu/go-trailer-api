@@ -728,7 +728,7 @@ var doc = `{
                     "type": "string"
                 },
                 "event_kv_json": {
-                    "description": "参数和参数值数据 -json - 格式：{\"key1\": \"val1\", \"key2\": \"val2\"}",
+                    "description": "参数和参数值数据 -json数组 - 格式：{\"key1\": \"val1\", \"key2\": \"val2\"}",
                     "type": "string"
                 },
                 "event_name": {

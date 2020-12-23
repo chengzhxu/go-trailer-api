@@ -2,9 +2,10 @@ package crypt
 
 import (
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	. "github.com/haxqer/gofunc"
-	"go-trailer-api/pkg/service/stats_service"
+	"go-trailer-api/pkg/util"
 	"reflect"
 	"sort"
 	"testing"
@@ -324,31 +325,45 @@ func clientUnpack(ebk, bed, biv, privateKey []byte) ([]byte, error) {
 	return b, nil
 }
 
-func Struct2Map(obj interface{}) map[string]interface{} {
-	t := reflect.TypeOf(obj)
-	v := reflect.ValueOf(obj)
-
-	var data = make(map[string]interface{})
-	for i := 0; i < t.NumField(); i++ {
-		data[t.Field(i).Name] = v.Field(i).Interface()
-	}
-	return data
-}
-
 func TestSignature(t *testing.T) {
-	sdkEvent := stats_service.SdkEvent{
-		ClientTime:   "2020-12-12 12:12:12",
-		DeviceNo:     "device_no",
-		IMEI:         "imei",
-		NewpUid:      "newpuid",
-		NewSessionId: "new_sessionid",
-		ScreenWidth:  1920,
-		ScreenHeight: 10880,
+	data := []byte(`{
+  "app_name": "app_name",
+  "app_version_code": "app_version_code",
+  "app_version_name": "app_version_name",
+  "channel_code": "channel_code",
+  "client_time": "2020-12-12 12:12:12",
+  "device_brand": "device_brand",
+  "device_model": "device_model",
+  "device_no": "device_no",
+  "event_info": "[{\"event_kv_json\":{\"trailer_id\": \"49\"},\"event_name\":\"播放预告片\",\"event_type\":0},{\"event_kv_json\":{\"trailer_id\": \"50\", \"button_name\": \"BUTTON_RETURN\"},\"event_name\":\"遥控器互动按键\",\"event_type\":0},{\"event_kv_json\":{\"is_first\": \"1\"},\"event_name\":\"SDK启动\",\"event_type\":1}]"
+,
+  "event_kv_json": "event_kv_json",
+  "event_name": "event_name",
+  "imei": "string",
+  "ip": "",
+  "net_type": "WIFI",
+  "newevent_type": 0,
+  "newpuid": "11",
+  "newsession_id": "22",
+  "os_version_code": "os_version_code",
+  "os_version_name": "os_version_name",
+  "page_name": "页面100",
+  "screen_height": 1920,
+  "screen_width": 1080,
+  "sdk_name": "sdk_name",
+  "sdk_version_code": "sdk_version_code",
+  "sdk_version_name": "sdk_version_name",
+  "signature": "b2c138cd994197a4095acd8dee737a69"
+}`)
+
+	params := make(map[string]interface{})
+	err := json.Unmarshal(data, &params)
+	if err != nil {
+		fmt.Println(err)
 	}
 
-	var dataParams string
-	params := Struct2Map(sdkEvent)
-
+	var dataParams string //排序 拼接后的参数
+	signature := ""       //签名
 	//ksort
 	var keys []string
 	for k := range params {
@@ -358,14 +373,23 @@ func TestSignature(t *testing.T) {
 
 	//拼接
 	for _, k := range keys {
-		fmt.Println("key:", k, "Value:", params[k])
-		if k != "signature" {
+		if k == "signature" {
+			signature = fmt.Sprintf("%v", params[k])
+		} else {
 			dataParams += k + "=" + fmt.Sprintf("%v", params[k]) + "&"
 		}
-
 	}
-	fmt.Println(dataParams)
-	ff := dataParams[0 : len(dataParams)-1]
-	fmt.Println("去掉最后一个&：", ff)
+
+	dataParams += "trailer_signature_salt"
+
+	fmt.Println("dataParams : " + dataParams)
+
+	mySignature := util.Md5V(dataParams)
+
+	if mySignature == signature {
+		fmt.Println(11111)
+	}
+
+	fmt.Println("mySignature : " + mySignature + " ; paramSignature:" + signature)
 
 }

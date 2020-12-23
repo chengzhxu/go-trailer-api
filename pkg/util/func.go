@@ -204,7 +204,7 @@ func StrInArray(target string, strArray []string) bool {
 	return false
 }
 
-func md5V(str string) string {
+func Md5V(str string) string {
 	h := md5.New()
 	h.Write([]byte(str))
 	return hex.EncodeToString(h.Sum(nil))
@@ -251,7 +251,7 @@ func CheckParamSignature(c *gin.Context) bool {
 
 	dataParams += signatureSalt
 
-	mySignature := md5V(dataParams)
+	mySignature := Md5V(dataParams)
 
 	if mySignature == signature {
 		return true
