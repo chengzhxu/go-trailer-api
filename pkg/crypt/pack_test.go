@@ -5,9 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	. "github.com/haxqer/gofunc"
+	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/util"
+	"net/url"
 	"reflect"
-	"sort"
 	"testing"
 )
 
@@ -52,24 +53,8 @@ func Test_clientPack(t *testing.T) {
 		//	publicKey: publicKeyBytes,
 		//}},
 		{name: "testCase02", args: args{
-			b: []byte(`{
-  "android_version_code": "string",
-  "android_version_name": "string",
-  "app_name": "string",
-  "app_version_code": "string",
-  "app_version_name": "string",
-  "channel_code": "string",
-  "cpu_arch": "string",
-  "device_model": "string",
-  "device_no": "string",
-  "is_hot_update": 0,
-  "language": "string",
-  "resolution": "string",
-  "sdk_name": "string",
-  "sdk_version_code": "string",
-  "sdk_version_name": "string",
-  "storage_space": "string"
-}`),
+			b: []byte(`{"device_model":"Nokia X6","device_no":"eWoFBmLhPKnS0QQe99lj7A","channel_code":"1","resolution":"20651080","language":"zh","storage_space":"2647728","android_version_name":"9","android_version_code":"28","sdk_name":"screensaver_sdk","sdk_version_name":"1.0.0","sdk_version_code":"1","app_package_name":"com.xmx.screensaverdemo","app_name":"ScreenSaveDemo","app_version_name":"1.0.0","app_version_code":"1","cpu_arch":"arm64-v8a","is_hot_update":1,"https":true}
+`),
 			publicKey: publicKeyBytes,
 		}},
 	}
@@ -125,9 +110,9 @@ func Test_clientUnpack(t *testing.T) {
 		//	bed: []byte(`HbmU5HaYQy02TJBAa9LrlOdXkWYwmzNWr9iNy+V+d7G2K4OPOVfSpHlS6ptp9/B480SKJ5k1Mxs4AlkGfhJQeTOzrSdJzgka0+axPUOaWmR9wi1asa/pzdlc61SXIvsE8zHjmSr8rrBwueyTTe5I685A6B3w+q3obJB3LknTboGtpXBKlNDyMRj7slv4U67wkkIiw3auRtSrjFPXDVjF3v0KtlKF7c9tpehQ2WmAoqTceUE/9+eCMJ45lqyVwOgc1TWG7EOU6rVwcoXlJqmVyu8bdtJgSMUHcb02dQywcx+zDM+pmfIOZGs+GcmI2uhNPmSmfl1gAB6e8p1EI4ezsWTf7h3eqQJCyzSknSPkizadkwPTSctlLMwY1r2gAfRBc6E1+BMi1TTt5NzK0QbkfO8gfwxxETtwsc4ixcP16OHc615AvWmNMeA8mC+WsuIgtcH5Bach/Avpwq4OqCJ9xuVzzbiOfvVh7lfrSFNKJuwIzeV9Nkk3AAfCtvjCIgFCFCgn1w3WMcUP7nJlggs1UYzCK6iGzF4tJcls5jLprS6U7/cAcDvVENF/zMuFUmlmOYefm3shkcvHX7Q65S8KI1Z32XKjLpVQaUPeP5Pp60t5DMotqmEziwscPEvtwwKgAAuch+e0+s7lcIhkF782VhgUc+asX+wc4mfg2N5ZR+toDks3FSHQ2ZB8RMfhvjnHBTBWpwyPtqDi6sotytKXrj3r1PoA3mp0wGW2LftbxWE=`),
 		//}},
 		{name: "testCase05", args: args{
-			bk:  []byte("anGX4qDjKpZXlaTnMyyBsPabbLiFyNRbnFkWd3hsiv6E2SBBUrcdI9k3L6wfTewIEkNlPXVfi29+oDsJs8EvTKhEjsE8stN5aO1LpEPYBP4dYkgd2b/vhoB//Me8WX8vRtKd1DUTe6vYG90Ze/IDlGerWInYDXrcMJL6cjsX1mg="),
-			biv: []byte("ES/VXPyG7vtadvJWSSCuxA=="),
-			bed: []byte(`d64ed3ml39EWkWfe8gLxf+FvP3DXJmVW8lCaxMpvbmgAX+81Qgazvgk2K+LIFt3agUpp1UkcAAXxIs/y+rloZidLH+rNuMHVSBczNsbPaL0=`),
+			bk:  []byte("/+abg+bTy9Jrfn5t0ebK5vDno5yjdYVkmY9MsZhkUEdELVMrnvq/EioAInSzfvsKFn5QcKs/rMbRCIMBiuIIc/VlMvNhrNE+Dkkl4OkR2wBLUjIFNR35z9CwjM039+UX8h+T2TY9atzC1IYFgP9GBxtcsezYkNcD5g=="),
+			biv: []byte("QN26BdDhuWDQ87SEstW6Kg=="),
+			bed: []byte(`F/iAEDUgz2vjD/KfYKkDrw==`),
 		}},
 	}
 	for _, tt := range tests {
@@ -158,9 +143,9 @@ func TestUnpack(t *testing.T) {
 	}{
 		{name: "testCase01", args: args{
 			r: &EData{
-				IV: []byte("RRqtwmKoUh2P4RN5XcXYkA=="),
-				EK: []byte("XqG1aauoxpLNoCyzPaMyF6uJ85P2CzOGEQvY4Fl2ZCu9nIvvOU6YU906nHGB8sWvihTotAUIONlNjH21dSNNFeMtrAfmMpDwSBl7TDleoz8QJmOS2dKhlg1FKvy2WLy+VZSpQqQFD9WmlXoG6QT7cYXX5FnDI6r5aN+NGdRLet0="),
-				ED: []byte(`dNwzbBwKbYu+2hpgm4b90ie3pSesLms7OSEYSNoDDhQ5FfBTXJ9h6RW+2sgZMEWizfBvFkDGEuib4kTrknqZd7CULijNiqgvE3tN29mkRZmAMd1CFQOuw3ntmgHzUcF9`),
+				IV: []byte("afAaQ6HWrIj61NHp6op46g=="),
+				EK: []byte("cCEXZwy3YBbJdqkl6qx3eV/i2sOA8uuOvF0yYu6OrHSS74mi6DC9pFljU6mTj1GefhLe+Olm6r/ckSVerO+BCRksH3Iu69nKXmlsVklW471/WJDAFQK3g1QflyRFHij0dhG0OMwrZvuqzvWEVqxmYZuenDe+pMS1oJWZL3haQ/k="),
+				ED: []byte(`awaVvmJ5olx3sqYJ2Tim/IfbQMeoLTkQxnHW/JxBKFedFSGia18CPRn3O8TLirdY8mgZGSepRzFbZJSHOPw3ELBNydhGRHVV9+JpYWYHEQfeoUg4/vyzm/nkWGaqyostXurEBMP733/XXVtNEx5F3TH7dZe14orGGPTWhsncJEXXLfjn+L4idMuOzr/7HIye3njgTdvJA/gkaCULq0TPayrawzcsXnDvTO856e9+T23sdPU1dxDW3T0pY2o9vEjz+FJfJGj1YMDd3nd9gN5uWJb9oLQ47Thhp8fNXZci+GouFp1pd/9vsH2q9ZyPOQjTHxvz8Jc+vpL9YVqcBnyFnraBUrtFPkoFy4skz1sqGGRE0u+YQdG3OAOknxdw6EmKGMQXCw0cI2LtyQ0sCjFeApPYPB/yUJq1NNm/YSeag7Hv4iQnsq950l8xxww/F/5948OfwKp4VJhoSQIHTdEtY/hhs2ksH8qYz/3/SToTXiqy8h8EWAkJnuQ+1EuWbXTytlfvlYihNptJ0nCiiKleGhCFtaSGFeAXZfhqtoxDSnx9YxBzjJSoIpnQoimJ90byQI/zJ+XM7RJWD3P8uwYJMQoRbn7sS2/h8qzBWxgTjg0=`),
 			},
 			privateKey: privateKeyBytes,
 		}},
@@ -327,68 +312,68 @@ func clientUnpack(ebk, bed, biv, privateKey []byte) ([]byte, error) {
 
 func TestSignature(t *testing.T) {
 	data := []byte(`{
-  "app_name": "app_name",
-  "app_version_code": "app_version_code",
-  "app_version_name": "app_version_name",
-  "channel_code": "channel_code",
+  "app_name": "string",
+  "app_version_code": "string",
+  "app_version_name": "string",
+  "channel_code": "string",
   "client_time": "2020-12-12 12:12:12",
-  "device_brand": "device_brand",
-  "device_model": "device_model",
-  "device_no": "device_no",
-  "event_info": "[{\"event_kv_json\":{\"trailer_id\": \"49\"},\"event_name\":\"播放预告片\",\"event_type\":0},{\"event_kv_json\":{\"trailer_id\": \"50\", \"button_name\": \"BUTTON_RETURN\"},\"event_name\":\"遥控器互动按键\",\"event_type\":0},{\"event_kv_json\":{\"is_first\": \"1\"},\"event_name\":\"SDK启动\",\"event_type\":1}]"
-,
-  "event_kv_json": "event_kv_json",
-  "event_name": "event_name",
+  "device_brand": "string",
+  "device_model": "string",
+  "device_no": "string",
+  "event_info": "[{\"event_kv_json\":{\"trailer_id\": \"49\"},\"event_name\":\"播放预告片\",\"event_type\":0},{\"event_kv_json\":{\"trailer_id\": \"50\", \"button_name\": \"BUTTON_RETURN\"},\"event_name\":\"遥控器互动按键\",\"event_type\":0},{\"event_kv_json\":{\"is_first\": \"1\"},\"event_name\":\"SDK启动\",\"event_type\":1}]",
+  "event_kv_json": "string",
+  "event_name": "string",
   "imei": "string",
   "ip": "",
-  "net_type": "WIFI",
+  "net_type": "string",
   "newevent_type": 0,
-  "newpuid": "11",
-  "newsession_id": "22",
-  "os_version_code": "os_version_code",
-  "os_version_name": "os_version_name",
-  "page_name": "页面100",
+  "newpuid": "string",
+  "newsession_id": "string",
+  "os_version_code": "string",
+  "os_version_name": "string",
+  "page_name": "string",
   "screen_height": 1920,
   "screen_width": 1080,
-  "sdk_name": "sdk_name",
-  "sdk_version_code": "sdk_version_code",
-  "sdk_version_name": "sdk_version_name",
-  "signature": "b2c138cd994197a4095acd8dee737a69"
+  "sdk_name": "string",
+  "sdk_version_code": "string",
+  "sdk_version_name": "string",
+  "signature": "d45a05ee495dc065235e9719e86d64a9"
 }`)
 
 	params := make(map[string]interface{})
 	err := json.Unmarshal(data, &params)
 	if err != nil {
-		fmt.Println(err)
+		logging.Info(err)
 	}
 
-	var dataParams string //排序 拼接后的参数
-	signature := ""       //签名
+	var dataParams string = "?" // 拼接后的参数
+	signature := ""             //签名
 	//ksort
-	var keys []string
-	for k := range params {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
+	//var keys []string
+	//for k := range params {
+	//	keys = append(keys, k)
+	//}
+	//sort.Strings(keys)
 
 	//拼接
-	for _, k := range keys {
+	for k, v := range params {
 		if k == "signature" {
-			signature = fmt.Sprintf("%v", params[k])
+			signature = fmt.Sprintf("%v", v)
 		} else {
-			dataParams += k + "=" + fmt.Sprintf("%v", params[k]) + "&"
+			val := fmt.Sprintf("%v", v)
+			if len(val) > 0 {
+				fmt.Println("k:" + k + ";v:" + fmt.Sprintf("%v", v))
+				dataParams += k + "=" + fmt.Sprintf("%v", v) + "&"
+			}
 		}
 	}
+	us, _ := url.Parse(dataParams)
+	dataParams = us.Query().Encode()
+	dataParams += "&trailer_signature_salt"
 
-	dataParams += "trailer_signature_salt"
-
-	fmt.Println("dataParams : " + dataParams)
+	fmt.Println(dataParams)
 
 	mySignature := util.Md5V(dataParams)
-
-	if mySignature == signature {
-		fmt.Println(11111)
-	}
 
 	fmt.Println("mySignature : " + mySignature + " ; paramSignature:" + signature)
 

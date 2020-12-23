@@ -37,16 +37,16 @@ func GetNewAppInfo(c *gin.Context) {
 		return
 	}
 
-	//appInfo, err := jsonRequest.GetNewAppVersion()
-	//if err != nil {
-	//	logging.Error(err)
-	//	appG.ResponseJson(http.StatusInternalServerError, nil)
-	//	//appG.ResponseEncryptJson(http.StatusInternalServerError,nil, nil)
-	//	return
-	//}
+	appInfo, err := jsonRequest.GetNewAppVersion()
+	if err != nil {
+		logging.Error(err)
+		appG.ResponseJson(http.StatusInternalServerError, nil)
+		//appG.ResponseEncryptJson(http.StatusInternalServerError,nil, nil)
+		return
+	}
 
-	//res, _ := ffjson.Marshal(appInfo)
+	res, _ := ffjson.Marshal(appInfo)
 
 	//appG.Response(http.StatusOK, e.Success, appInfo)
-	appG.ResponseEncryptJson(http.StatusOK, []byte(`{abcdefggg}`), pData.Key)
+	appG.ResponseEncryptJson(http.StatusOK, []byte(res), pData.Key)
 }

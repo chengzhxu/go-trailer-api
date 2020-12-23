@@ -3,11 +3,8 @@ package util
 import (
 	"crypto/md5"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"go-trailer-api/pkg/logging"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"net/url"
@@ -223,30 +220,18 @@ func Struct2Map(obj interface{}) map[string]interface{} {
 }
 
 // 参数签名解析   方式：参数 按字母顺序排序后，用 & 拼接，然后 md5
-func CheckParamSignature(c *gin.Context) bool {
-	data, _ := ioutil.ReadAll(c.Request.Body)
-
-	params := make(map[string]interface{})
-	err := json.Unmarshal(data, &params)
-	if err != nil {
-		return false
-	}
-
+func CheckParamSignature(params map[string]interface{}, signature string) bool {
 	var dataParams string = "?" // 拼接后的参数
-	signature := ""             //签名
-	//ksort
-	//var keys []string
-	//for k := range params {
-	//	keys = append(keys, k)
-	//}
-	//sort.Strings(keys)
 
 	//拼接
 	for k, v := range params {
 		if k == "signature" {
 			signature = fmt.Sprintf("%v", v)
 		} else {
-			dataParams += k + "=" + fmt.Sprintf("%v", v) + "&"
+			val := fmt.Sprintf("%v", v)
+			if len(val) > 0 {
+				dataParams += k + "=" + fmt.Sprintf("%v", v) + "&"
+			}
 		}
 	}
 	us, _ := url.Parse(dataParams)

@@ -51,7 +51,7 @@ type EventInfo struct {
 	EventType   int         `json:"event_type" binding:"required,sdk_event_type"`
 }
 
-func mapSdkEvent(se *SdkEvent) map[string]interface{} {
+func MapSdkEvent(se SdkEvent) map[string]interface{} {
 	return map[string]interface{}{
 		"client_time":      se.ClientTime,
 		"device_no":        se.DeviceNo,
@@ -81,11 +81,11 @@ func mapSdkEvent(se *SdkEvent) map[string]interface{} {
 	}
 }
 
-func (se *SdkEvent) Insert() error {
+func (se SdkEvent) Insert() error {
 	if len(se.ClientTime) == 0 {
 		se.ClientTime = util.GetCurrentTime() //服务器时间
 	}
-	sdkEvent := mapSdkEvent(se)
+	sdkEvent := MapSdkEvent(se)
 
 	if err := model.InsertSdkEvent(sdkEvent); err != nil {
 		return err

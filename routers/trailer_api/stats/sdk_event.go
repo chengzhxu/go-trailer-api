@@ -31,10 +31,11 @@ func InsertSdkEvent(c *gin.Context) {
 		return
 	}
 
-	//if !util.CheckParamSignature(c) { //检查 签名
-	//	appG.Response(http.StatusInternalServerError, e.ErrorSignatureError, err)
-	//	return
-	//}
+	param := stats_service.MapSdkEvent(jsonRequest)
+	if !util.CheckParamSignature(param, jsonRequest.Signature) { //检查 签名
+		appG.Response(http.StatusInternalServerError, e.ErrorSignatureError, err)
+		return
+	}
 
 	if jsonRequest.IP == "" {
 		r := c.Request
