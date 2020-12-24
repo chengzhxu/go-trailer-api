@@ -144,8 +144,8 @@ func (asset *Asset) SyncAssetToRedis() error {
 		return nil
 	}
 
-	lastUpdateTime := asset.LastUpdateTime
-	tu := util.TimeToUnix(lastUpdateTime) //时间戳
+	//lastUpdateTime := asset.LastUpdateTime
+	//tu := util.TimeToUnix(lastUpdateTime) //时间戳
 	assetId := asset.Id
 	asset.Score, _ = strconv.ParseFloat(fmt.Sprintf("%.1f", asset.Score), 64)
 	jsonBytes, err := json.Marshal(asset)
@@ -164,7 +164,7 @@ func (asset *Asset) SyncAssetToRedis() error {
 	//	logging.Error(err)
 	//	return err
 	//}
-	_, err = conn.Do("zadd", DisplayOrderKey, tu, assetId) //根据自定义排序
+	_, err = conn.Do("zadd", DisplayOrderKey, asset.DisplayOrder, assetId) //根据自定义排序
 	if err != nil {
 		logging.Error(err)
 		return err
