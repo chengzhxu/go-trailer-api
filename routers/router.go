@@ -47,6 +47,9 @@ func InitRouter() *gin.Engine {
 	{
 		//获取更新 APP 最新版本
 		apiApp.POST("get_new_app", app.GetNewAppInfo)
+
+		//待机时长
+		apiApp.GET("get_standby_time", app.GetStandbyTime)
 	}
 
 	testApp := r.Group("/trailer_api/test")

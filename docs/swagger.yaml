@@ -375,6 +375,24 @@ paths:
       summary: UPDATE APP
       tags:
       - APP
+  /trailer_api/app/get_standby_time:
+    get:
+      description: 设备待机时间
+      operationId: STANDBY TIME
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: STANDBY TIME
+      tags:
+      - Config
   /trailer_api/stats/record_device:
     post:
       description: 设备信息上报

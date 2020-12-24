@@ -62,6 +62,33 @@ var doc = `{
                 }
             }
         },
+        "/trailer_api/app/get_standby_time": {
+            "get": {
+                "description": "设备待机时间",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Config"
+                ],
+                "summary": "STANDBY TIME",
+                "operationId": "STANDBY TIME",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/trailer_api/stats/record_device": {
             "post": {
                 "description": "设备信息上报",

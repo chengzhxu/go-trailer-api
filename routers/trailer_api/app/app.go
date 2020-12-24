@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/pquerna/ffjson/ffjson"
 	"go-trailer-api/pkg/app"
+	"go-trailer-api/pkg/e"
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/service/app_service"
 	"go-trailer-api/routers/trailer_api"
@@ -49,4 +50,21 @@ func GetNewAppInfo(c *gin.Context) {
 
 	//appG.Response(http.StatusOK, e.Success, appInfo)
 	appG.ResponseEncryptJson(http.StatusOK, []byte(res), pData.Key)
+}
+
+// @tags Config
+// @Summary STANDBY TIME
+// @Description 设备待机时间
+// @ID STANDBY TIME
+// @Produce json
+// @Success 200 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /trailer_api/app/get_standby_time [get]
+func GetStandbyTime(c *gin.Context) {
+	appG := app.Gin{C: c}
+
+	t := make(map[string]int)
+	t["time"] = 30
+
+	appG.Response(http.StatusOK, e.Success, t)
 }
