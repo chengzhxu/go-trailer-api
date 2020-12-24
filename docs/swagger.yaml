@@ -8,67 +8,6 @@ definitions:
       msg:
         type: string
     type: object
-  app_service.AppParam:
-    properties:
-      android_version_code:
-        description: Android 版本 Code
-        type: string
-      android_version_name:
-        description: Android 版本名称
-        type: string
-      app_name:
-        description: APP 名称
-        type: string
-      app_version_code:
-        description: APP 版本 Code
-        type: string
-      app_version_name:
-        description: APP 版本名称
-        type: string
-      channel_code:
-        description: 渠道码
-        type: string
-      cpu_arch:
-        description: CPU 架构
-        type: string
-      device_model:
-        description: 设备型号
-        type: string
-      device_no:
-        description: 设备号
-        type: string
-      is_hot_update:
-        description: 是否热更  0:否  1:是
-        type: integer
-      language:
-        description: 语言
-        type: string
-      resolution:
-        description: 分辨率
-        type: string
-      sdk_name:
-        description: SDK 名称
-        type: string
-      sdk_version_code:
-        description: SDK 版本 Code
-        type: string
-      sdk_version_name:
-        description: SDK 版本名称
-        type: string
-      storage_space:
-        description: 存储空间
-        type: string
-    required:
-    - android_version_code
-    - android_version_name
-    - channel_code
-    - cpu_arch
-    - device_model
-    - device_no
-    - sdk_name
-    - sdk_version_name
-    - storage_space
-    type: object
   gredis.Asset:
     properties:
       act_long_movie_url:
@@ -192,6 +131,22 @@ definitions:
     - channel_code
     - device_no
     - page
+    type: object
+  model.EData:
+    properties:
+      ed:
+        type: string
+      ek:
+        type: string
+      iv:
+        type: string
+      sv:
+        type: string
+    required:
+    - ed
+    - ek
+    - iv
+    - sv
     type: object
   stats_service.Device:
     properties:
@@ -405,7 +360,7 @@ paths:
         name: name
         required: true
         schema:
-          $ref: '#/definitions/app_service.AppParam'
+          $ref: '#/definitions/model.EData'
       produces:
       - application/json
       responses:

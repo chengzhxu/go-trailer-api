@@ -15,7 +15,7 @@ import (
 // @Description 获取最新的 APP 版本信息
 // @ID UPDATE APP
 // @Produce json
-// @Param name body app_service.AppParam true "UPDATE_APP"
+// @Param name body model.EData true "UPDATE_APP"
 // @Success 200 {object} app.Response
 // @Failure 500 {object} app.Response
 // @Router /trailer_api/app/get_new_app [post]
