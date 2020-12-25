@@ -46,11 +46,11 @@ type Asset struct {
 
 //预告片列表参数
 type TrailerListParam struct {
-	PageSize    int    `json:"page_size" binding:"" example:"20"`       //每页数量
-	Page        int    `json:"page" binding:"required" example:"1"`     //页码
-	ChannelCode string `json:"channel_code" binding:"" example:""`      //渠道码
-	DeviceNo    string `json:"device_no" binding:"required" example:""` //设备号
-	IsSecure    bool   `json:"isSecure" binding:""`                     //判断返回链接形式 https or http;
+	PageSize    int    `json:"page_size" binding:"" example:"20"`          //每页数量
+	Page        int    `json:"page" binding:"required" example:"1"`        //页码
+	ChannelCode string `json:"channel_code" binding:"required" example:""` //渠道码
+	DeviceNo    string `json:"device_no" binding:"required" example:""`    //设备号
+	IsSecure    bool   `json:"isSecure" binding:""`                        //判断返回链接形式 https or http;
 }
 
 type AssetArray []*Asset
