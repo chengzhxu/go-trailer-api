@@ -53,7 +53,12 @@ func Test_clientPack(t *testing.T) {
 		//	publicKey: publicKeyBytes,
 		//}},
 		{name: "testCase02", args: args{
-			b: []byte(`{"device_model":"Nokia X6","device_no":"eWoFBmLhPKnS0QQe99lj7A","channel_code":"1","resolution":"20651080","language":"zh","storage_space":"2647728","android_version_name":"9","android_version_code":"28","sdk_name":"screensaver_sdk","sdk_version_name":"1.0.0","sdk_version_code":"1","app_package_name":"com.xmx.screensaverdemo","app_name":"ScreenSaveDemo","app_version_name":"1.0.0","app_version_code":"1","cpu_arch":"arm64-v8a","is_hot_update":1,"https":true}
+			b: []byte(`{
+  "channel_code": "string",
+  "device_no": "string",
+  "page": 1,
+  "page_size": 20
+}
 `),
 			publicKey: publicKeyBytes,
 		}},
@@ -143,9 +148,9 @@ func TestUnpack(t *testing.T) {
 	}{
 		{name: "testCase01", args: args{
 			r: &EData{
-				IV: []byte("afAaQ6HWrIj61NHp6op46g=="),
-				EK: []byte("cCEXZwy3YBbJdqkl6qx3eV/i2sOA8uuOvF0yYu6OrHSS74mi6DC9pFljU6mTj1GefhLe+Olm6r/ckSVerO+BCRksH3Iu69nKXmlsVklW471/WJDAFQK3g1QflyRFHij0dhG0OMwrZvuqzvWEVqxmYZuenDe+pMS1oJWZL3haQ/k="),
-				ED: []byte(`awaVvmJ5olx3sqYJ2Tim/IfbQMeoLTkQxnHW/JxBKFedFSGia18CPRn3O8TLirdY8mgZGSepRzFbZJSHOPw3ELBNydhGRHVV9+JpYWYHEQfeoUg4/vyzm/nkWGaqyostXurEBMP733/XXVtNEx5F3TH7dZe14orGGPTWhsncJEXXLfjn+L4idMuOzr/7HIye3njgTdvJA/gkaCULq0TPayrawzcsXnDvTO856e9+T23sdPU1dxDW3T0pY2o9vEjz+FJfJGj1YMDd3nd9gN5uWJb9oLQ47Thhp8fNXZci+GouFp1pd/9vsH2q9ZyPOQjTHxvz8Jc+vpL9YVqcBnyFnraBUrtFPkoFy4skz1sqGGRE0u+YQdG3OAOknxdw6EmKGMQXCw0cI2LtyQ0sCjFeApPYPB/yUJq1NNm/YSeag7Hv4iQnsq950l8xxww/F/5948OfwKp4VJhoSQIHTdEtY/hhs2ksH8qYz/3/SToTXiqy8h8EWAkJnuQ+1EuWbXTytlfvlYihNptJ0nCiiKleGhCFtaSGFeAXZfhqtoxDSnx9YxBzjJSoIpnQoimJ90byQI/zJ+XM7RJWD3P8uwYJMQoRbn7sS2/h8qzBWxgTjg0=`),
+				IV: []byte("UvLNE89CIV+tXDFkMoxIUg=="),
+				EK: []byte("C5dmkHY4I27zA7+HRl05iqVUxQJhfNNrwemhDBoJ4xhrWJU2y5LgKQDlA59DibuR2qSGRJbN13FZvefHAPEem5QPcBaYaLeXnbmrjEtLnFbTCxABmVv1TKIoE0G7IDZmMpTC9Bt6yz6R7QBazXpplxIHBBYVJ6Ir6J+4kDsrOow="),
+				ED: []byte(`WnEqrM3YXBtejy++0IgBxfTKkhIk3CkIu91wu8pp8PbeZtSeAmW9ukiMuir3Kn17jiI37Z1VXmXaVD7pY7WaaKFfluPbKNoO7dtqtgeO5sxrcrzBJrj+VjW1yuUnEqT43otQch/M/q6tsCqoXHoO3Q==`),
 			},
 			privateKey: privateKeyBytes,
 		}},

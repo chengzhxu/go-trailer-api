@@ -131,6 +131,7 @@ definitions:
         example: 20
         type: integer
     required:
+    - channel_code
     - device_no
     - page
     type: object
@@ -188,6 +189,9 @@ definitions:
       resolution:
         description: 分辨率
         type: string
+      signature:
+        description: 签名
+        type: string
     required:
     - android_version_code
     - android_version_name
@@ -236,6 +240,9 @@ definitions:
         type: string
       sdk_version_name:
         description: SDK 版本名称
+        type: string
+      signature:
+        description: 签名
         type: string
       user_id:
         description: USER ID
@@ -488,9 +495,34 @@ paths:
       summary: Test Interface
       tags:
       - Test
+  /trailer_api/trailer/get_secret_trailer_list:
+    post:
+      description: 获取预告片信息 - 加密
+      operationId: Get SecretTrailerList
+      parameters:
+      - description: EDataParam
+        in: body
+        name: TrailerListParam
+        required: true
+        schema:
+          $ref: '#/definitions/model.EData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: Get SecretTrailerList
+      tags:
+      - Trailer
   /trailer_api/trailer/get_trailer_list:
     post:
-      description: 获取预告片信息
+      description: 获取预告片信息 - 不加密
       operationId: Get TrailerList
       parameters:
       - description: TrailerListParam

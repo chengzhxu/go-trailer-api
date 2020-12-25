@@ -15,9 +15,10 @@ type Device struct {
 	AppVersionCode     string `json:"app_version_code" binding:"required"`     //APP 版本 Code
 	AppVersionName     string `json:"app_version_name" binding:"required"`     //APP 版本名称
 	IP                 string `json:"ip" binding:"required"`                   //IP
+	Signature          string `json:"signature" binding:""`                    //签名
 }
 
-func mapDevice(d *Device) map[string]interface{} {
+func MapDevice(d Device) map[string]interface{} {
 	return map[string]interface{}{
 		"device_no":            d.DeviceNo,
 		"device_vendor":        d.DeviceVendor,
@@ -34,8 +35,8 @@ func mapDevice(d *Device) map[string]interface{} {
 	}
 }
 
-func (d *Device) Insert() error {
-	device := mapDevice(d)
+func (d Device) Insert() error {
+	device := MapDevice(d)
 
 	if err := model.InsertDevice(device); err != nil {
 		return err

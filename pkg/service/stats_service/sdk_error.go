@@ -15,9 +15,10 @@ type SdkError struct {
 	AppVersionCode string `json:"app_version_code" binding:"required"`    //APP 版本 Code
 	UserId         int    `json:"user_id" binding:""`                     //USER ID
 	Ext            string `json:"ext" binding:""`                         //自定义数据
+	Signature      string `json:"signature" binding:""`                   //签名
 }
 
-func mapSdkError(se *SdkError) map[string]interface{} {
+func MapSdkError(se SdkError) map[string]interface{} {
 	return map[string]interface{}{
 		"device_no":        se.DeviceNo,
 		"channel_code":     se.ChannelCode,
@@ -34,8 +35,8 @@ func mapSdkError(se *SdkError) map[string]interface{} {
 	}
 }
 
-func (se *SdkError) Insert() error {
-	sdkErr := mapSdkError(se)
+func (se SdkError) Insert() error {
+	sdkErr := MapSdkError(se)
 
 	if err := model.InsertSdkError(sdkErr); err != nil {
 		return err

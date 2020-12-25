@@ -5,6 +5,7 @@ import (
 	"go-trailer-api/pkg/app"
 	"go-trailer-api/pkg/e"
 	"go-trailer-api/pkg/service/stats_service"
+	"go-trailer-api/pkg/util"
 	"net/http"
 )
 
@@ -28,6 +29,14 @@ func InsertDevice(c *gin.Context) {
 	if err != nil {
 		appG.Response(httpCode, errCode, err)
 		return
+	}
+
+	if jsonRequest.Signature != "" { //检查 签名
+		param := stats_service.MapDevice(jsonRequest)
+		if !util.CheckParamSignature(param, jsonRequest.Signature) {
+			appG.Response(http.StatusInternalServerError, e.ErrorSignatureError, err)
+			return
+		}
 	}
 
 	if err := jsonRequest.Insert(); err != nil {

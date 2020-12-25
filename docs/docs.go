@@ -230,9 +230,47 @@ var doc = `{
                 }
             }
         },
+        "/trailer_api/trailer/get_secret_trailer_list": {
+            "post": {
+                "description": "获取预告片信息 - 加密",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trailer"
+                ],
+                "summary": "Get SecretTrailerList",
+                "operationId": "Get SecretTrailerList",
+                "parameters": [
+                    {
+                        "description": "EDataParam",
+                        "name": "TrailerListParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.EData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/trailer_api/trailer/get_trailer_list": {
             "post": {
-                "description": "获取预告片信息",
+                "description": "获取预告片信息 - 不加密",
                 "produces": [
                     "application/json"
                 ],
@@ -461,6 +499,7 @@ var doc = `{
         "gredis.TrailerListParam": {
             "type": "object",
             "required": [
+                "channel_code",
                 "device_no",
                 "page"
             ],
@@ -576,6 +615,10 @@ var doc = `{
                 "resolution": {
                     "description": "分辨率",
                     "type": "string"
+                },
+                "signature": {
+                    "description": "签名",
+                    "type": "string"
                 }
             }
         },
@@ -636,6 +679,10 @@ var doc = `{
                 },
                 "sdk_version_name": {
                     "description": "SDK 版本名称",
+                    "type": "string"
+                },
+                "signature": {
+                    "description": "签名",
                     "type": "string"
                 },
                 "user_id": {

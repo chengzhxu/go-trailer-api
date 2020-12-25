@@ -51,6 +51,15 @@ func GinDecryptData(c *gin.Context, appG app.Gin) (*crypt.PData, error) {
 	return pData, err
 }
 
+func ParamDecryptData(enReq *model.EData, appG app.Gin) (*crypt.PData, error) {
+	pData, err := Unpack(enReq)
+	if err != nil {
+		appG.ResponseJson(http.StatusBadRequest, nil)
+		return nil, err
+	}
+	return pData, err
+}
+
 func Unpack(enReq *model.EData) (*crypt.PData, error) {
 	//privateKeyBytes, err := crypt.GetKeyBySdkVersion(enReq.SDKVersion)
 	//if err != nil || privateKeyBytes == nil {
