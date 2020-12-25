@@ -21,6 +21,7 @@ import (
 func GetTrailerList(c *gin.Context) {
 	appG := app.Gin{C: c}
 	jsonRequest := gredis.TrailerListParam{}
+	jsonRequest.IsSecure = true
 	httpCode, errCode, err := app.BindAndValid(c, &jsonRequest)
 	if err != nil {
 		appG.Response(httpCode, errCode, err.Error())

@@ -461,7 +461,6 @@ var doc = `{
         "gredis.TrailerListParam": {
             "type": "object",
             "required": [
-                "channel_code",
                 "device_no",
                 "page"
             ],
@@ -473,6 +472,10 @@ var doc = `{
                 "device_no": {
                     "description": "设备号",
                     "type": "string"
+                },
+                "isSecure": {
+                    "description": "判断返回链接形式 https or http;",
+                    "type": "boolean"
                 },
                 "page": {
                     "description": "页码",

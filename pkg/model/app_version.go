@@ -42,6 +42,7 @@ type AppParam struct {
 	AppVersionCode     string `json:"app_version_code" `
 	CpuArch            string `json:"cpu_arch" `
 	IsHotUpdate        int    `json:"is_hot_update"` //是否热更  0:否  1:是
+	IsSecure           bool   `json:"isSecure"`      //判断返回链接形式 https or http;
 }
 
 func (AppVersion) TableName() string {
@@ -67,6 +68,7 @@ func GetNewAppVersion(data map[string]interface{}) (*AppVersion, error) {
 		AppVersionCode:     data["app_version_code"].(string),
 		CpuArch:            data["cpu_arch"].(string),
 		IsHotUpdate:        data["is_hot_update"].(int),
+		IsSecure:           data["is_secure"].(bool),
 	}
 
 	appVersion, err := FetchApp(appParam)
@@ -96,6 +98,9 @@ func FetchApp(ap AppParam) (*AppVersion, error) {
 			return nil, err
 		}
 		if CheckBlackRole(ap, blackList) { //验证黑名单规则
+			if !ap.IsSecure {
+				strings.Replace(version.AppUrl, "https://", "http://", 1)
+			}
 			return version, nil
 		}
 	}

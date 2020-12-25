@@ -8,6 +8,7 @@ import (
 	"go-trailer-api/pkg/util"
 	"math"
 	"strconv"
+	"strings"
 )
 
 type Asset struct {
@@ -45,10 +46,11 @@ type Asset struct {
 
 //预告片列表参数
 type TrailerListParam struct {
-	PageSize    int    `json:"page_size" binding:"" example:"20"`          //每页数量
-	Page        int    `json:"page" binding:"required" example:"1"`        //页码
-	ChannelCode string `json:"channel_code" binding:"required" example:""` //渠道码
-	DeviceNo    string `json:"device_no" binding:"required" example:""`    //设备号
+	PageSize    int    `json:"page_size" binding:"" example:"20"`       //每页数量
+	Page        int    `json:"page" binding:"required" example:"1"`     //页码
+	ChannelCode string `json:"channel_code" binding:"" example:""`      //渠道码
+	DeviceNo    string `json:"device_no" binding:"required" example:""` //设备号
+	IsSecure    bool   `json:"isSecure" binding:""`                     //判断返回链接形式 https or http;
 }
 
 type AssetArray []*Asset
@@ -245,6 +247,10 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 				if err != nil {
 					logging.Error(err)
 					mapPics = make([]interface{}, 0)
+				} else {
+					if !rr.IsSecure { //替换 https =》 http
+						mapPics = replaceAssetPicUrlsHttp(mapPics)
+					}
 				}
 			}
 			asset.PicUrls = mapPics
@@ -264,6 +270,10 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 			asset.ActOpenApps = oaArr
 
 			asset.Score = fmt.Sprintf("%0.1f", asset.Score) //评分 - 保留1位小数 若为整数，则为 x.0
+
+			if !rr.IsSecure { //替换 https =》 http
+				asset = replaceAssetHttp(asset)
+			}
 
 			assetArr = append(assetArr, asset)
 		}
@@ -331,4 +341,115 @@ func checkAssetCap(asset *Asset, deviceNo string) bool {
 	}
 
 	return true
+}
+
+// 素材 url 头替换  https =》 http
+func replaceAssetHttp(asset *Asset) *Asset {
+	domainArr := []string{".shafa.com", ".xmxapi.com", ".xmxcdn.com"} //自己域名不替换
+
+	hs := "https://"
+	h := "http://"
+
+	if strings.LastIndex(asset.MovieUrl, hs) > -1 { //视频url
+		flag := false
+		for _, v := range domainArr {
+			if strings.LastIndex(asset.MovieUrl, v) > -1 { //   自己服务器资源
+				flag = true
+				break
+			}
+		}
+		if flag {
+			asset.MovieUrl = strings.Replace(asset.MovieUrl, hs, h, 1)
+		}
+	}
+	if strings.LastIndex(asset.CoverUrl, hs) > -1 { // 缩略图
+		flag := false
+		for _, v := range domainArr {
+			if strings.LastIndex(asset.CoverUrl, v) > -1 { //   自己服务器资源
+				flag = true
+				break
+			}
+		}
+		if flag {
+			asset.CoverUrl = strings.Replace(asset.CoverUrl, hs, h, 1)
+		}
+	}
+	if strings.LastIndex(asset.ActQrcodeUrl, hs) > -1 { //二维码 url
+		flag := false
+		for _, v := range domainArr {
+			if strings.LastIndex(asset.ActQrcodeUrl, v) > -1 { //   自己服务器资源
+				flag = true
+				break
+			}
+		}
+		if flag {
+			asset.ActQrcodeUrl = strings.Replace(asset.ActQrcodeUrl, hs, h, 1)
+		}
+	}
+	if strings.LastIndex(asset.ActQrcodeOrgUrl, hs) > -1 { //二维码原 url
+		flag := false
+		for _, v := range domainArr {
+			if strings.LastIndex(asset.ActQrcodeOrgUrl, v) > -1 { //   自己服务器资源
+				flag = true
+				break
+			}
+		}
+		if flag {
+			asset.ActQrcodeOrgUrl = strings.Replace(asset.ActQrcodeOrgUrl, hs, h, 1)
+		}
+	}
+	if strings.LastIndex(asset.ActQrcodeBgUrl, hs) > -1 { //二维码背景 url
+		flag := false
+		for _, v := range domainArr {
+			if strings.LastIndex(asset.ActQrcodeBgUrl, v) > -1 { //   自己服务器资源
+				flag = true
+				break
+			}
+		}
+		if flag {
+			asset.ActQrcodeBgUrl = strings.Replace(asset.ActQrcodeBgUrl, hs, h, 1)
+		}
+	}
+
+	if strings.LastIndex(asset.ActLongMovieUrl, hs) > -1 { //长视频url
+		flag := false
+		for _, v := range domainArr {
+			if strings.LastIndex(asset.ActLongMovieUrl, v) > -1 { //   自己服务器资源
+				flag = true
+				break
+			}
+		}
+		if flag {
+			asset.ActLongMovieUrl = strings.Replace(asset.ActLongMovieUrl, hs, h, 1)
+		}
+	}
+
+	return asset
+}
+
+func replaceAssetPicUrlsHttp(mapPics []interface{}) []interface{} {
+	if len(mapPics) > 0 {
+		domainArr := []string{".shafa.com", ".xmxapi.com", ".xmxcdn.com"} //自己域名不替换
+		hs := "https://"
+		h := "http://"
+
+		for i, v := range mapPics {
+			pu := v.(string)
+			if strings.LastIndex(pu, hs) > -1 {
+				flag := false
+				for _, a := range domainArr {
+					if strings.LastIndex(pu, a) > -1 { //   自己服务器资源
+						flag = true
+						break
+					}
+				}
+				if flag {
+					pu = strings.Replace(pu, hs, h, 1)
+					mapPics[i] = pu
+				}
+			}
+		}
+	}
+
+	return mapPics
 }

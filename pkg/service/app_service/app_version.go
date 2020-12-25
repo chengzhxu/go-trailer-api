@@ -19,6 +19,7 @@ type AppParam struct {
 	AppVersionCode     string `json:"app_version_code" binding:""`             //APP 版本 Code
 	CpuArch            string `json:"cpu_arch" binding:"required"`             //CPU 架构
 	IsHotUpdate        int    `json:"is_hot_update" binding:""`                //是否热更  0:否  1:是
+	IsSecure           bool   `json:"isSecure" binding:""`                     //判断返回链接形式 https or http;
 }
 
 func mapAppParam(ap *AppParam) map[string]interface{} {
@@ -39,6 +40,7 @@ func mapAppParam(ap *AppParam) map[string]interface{} {
 		"app_version_name":     ap.AppVersionName,
 		"cpu_arch":             ap.CpuArch,
 		"is_hot_update":        ap.IsHotUpdate,
+		"is_secure":            ap.IsSecure,
 	}
 }
 

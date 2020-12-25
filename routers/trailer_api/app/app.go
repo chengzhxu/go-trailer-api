@@ -30,6 +30,7 @@ func GetNewAppInfo(c *gin.Context) {
 	}
 
 	jsonRequest := app_service.AppParam{}
+	jsonRequest.IsSecure = true
 	//httpCode, errCode, err := app.BindAndValid(c, &jsonRequest)
 	e := ffjson.Unmarshal(pData.Data, &jsonRequest)
 	if e != nil {
