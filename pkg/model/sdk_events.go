@@ -39,7 +39,7 @@ type SdkEvents struct {
 }
 
 type EventKv struct {
-	TrailerId string `json:"trailer_id" `
+	TrailerId int `json:"trailer_id" `
 }
 
 var TrailerExposureKey = "trailer:exposure" //记录预告片曝光 redis key
@@ -95,32 +95,32 @@ func RecordTrailerExposureNum(event SdkEvents) {
 			if err != nil {
 				logging.Error(err.Error())
 			} else { //记录曝光 and 播放次数（用于频控）
-				if e.TrailerId != "" {
-					trailerId, _ := strconv.Atoi(e.TrailerId)
-					if trailerId > 0 {
-						conn := gredis.RedisConn.Get() //获取 Redis
-						key := "trailer-" + e.TrailerId + ":hits"
-						_, err = conn.Do("HINCRBY", TrailerExposureKey, key, 1)
+				trailerId := e.TrailerId
+				if trailerId > 0 {
+					conn := gredis.RedisConn.Get() //获取 Redis
+					trailerIdStr := strconv.Itoa(trailerId)
+					key := "trailer-" + trailerIdStr + ":hits"
+					_, err = conn.Do("HINCRBY", TrailerExposureKey, key, 1)
+					if err != nil {
+						logging.Error("累加曝光(" + key + "): " + err.Error())
+					}
+					if event.DeviceNo != "" { //记录播放次数， 用于频控
+						TrailerCapKey := gredis.TrailerCapBeginKey + event.DeviceNo + gredis.TrailerCapEndKey
+						CapCountKey := gredis.TrailerCapBeginKey + trailerIdStr + gredis.TrailerCapCountEndKey
+						CapDateKey := gredis.TrailerCapBeginKey + trailerIdStr + gredis.TrailerCapDateEndKey
+						_, err = conn.Do("HINCRBY", TrailerCapKey, CapCountKey, 1)
 						if err != nil {
-							logging.Error("累加曝光(" + key + "): " + err.Error())
+							logging.Error("累加播放-频控(" + key + "): " + err.Error())
 						}
-						if event.DeviceNo != "" { //记录播放次数， 用于频控
-							TrailerCapKey := gredis.TrailerCapBeginKey + event.DeviceNo + gredis.TrailerCapEndKey
-							CapCountKey := gredis.TrailerCapBeginKey + e.TrailerId + gredis.TrailerCapCountEndKey
-							CapDateKey := gredis.TrailerCapBeginKey + e.TrailerId + gredis.TrailerCapDateEndKey
-							_, err = conn.Do("HINCRBY", TrailerCapKey, CapCountKey, 1)
+						date, _ := conn.Do("hget", TrailerCapKey, CapDateKey)
+						if date == nil { //记录首次播放时间 - 用于清理频控
+							_, err = conn.Do("hset", TrailerCapKey, CapDateKey, util.GetCurrentDate())
 							if err != nil {
-								logging.Error("累加播放-频控(" + key + "): " + err.Error())
-							}
-							date, _ := conn.Do("hget", TrailerCapKey, CapDateKey)
-							if date == nil { //记录首次播放时间 - 用于清理频控
-								_, err = conn.Do("hset", TrailerCapKey, CapDateKey, util.GetCurrentDate())
-								if err != nil {
-									logging.Error("累加播放-首次播放(" + key + "): " + err.Error())
-								}
+								logging.Error("累加播放-首次播放(" + key + "): " + err.Error())
 							}
 						}
 					}
+
 				}
 			}
 		}
