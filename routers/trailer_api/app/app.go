@@ -27,6 +27,7 @@ func GetNewAppInfo(c *gin.Context) {
 	pData, err := trailer_api.GinDecryptData(c, appG)
 	if err != nil {
 		logging.Error(err)
+		appG.ResponseJson(http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -36,14 +37,14 @@ func GetNewAppInfo(c *gin.Context) {
 	e := ffjson.Unmarshal(pData.Data, &jsonRequest)
 	if e != nil {
 		logging.Error(e)
-		appG.ResponseJson(http.StatusBadRequest, nil)
+		appG.ResponseJson(http.StatusBadRequest, e.Error())
 		return
 	}
 
 	appInfo, err := jsonRequest.GetNewAppVersion()
 	if err != nil {
 		logging.Error(err)
-		appG.ResponseJson(http.StatusInternalServerError, nil)
+		appG.ResponseJson(http.StatusInternalServerError, err.Error())
 		//appG.ResponseEncryptJson(http.StatusInternalServerError,nil, nil)
 		return
 	}

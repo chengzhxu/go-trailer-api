@@ -40,13 +40,13 @@ func BindParameter(c *gin.Context) (*model.EData, error) {
 func GinDecryptData(c *gin.Context, appG app.Gin) (*crypt.PData, error) {
 	enReq, err := BindParameter(c)
 	if err != nil {
-		appG.ResponseJson(http.StatusBadRequest, nil)
+		appG.ResponseJson(http.StatusBadRequest, err)
 		return nil, err
 	}
 
 	pData, err := Unpack(enReq)
 	if err != nil {
-		appG.ResponseJson(http.StatusBadRequest, nil)
+		appG.ResponseJson(http.StatusBadRequest, err)
 		return nil, err
 	}
 	return pData, err

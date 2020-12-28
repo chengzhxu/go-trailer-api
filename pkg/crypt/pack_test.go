@@ -53,12 +53,7 @@ func Test_clientPack(t *testing.T) {
 		//	publicKey: publicKeyBytes,
 		//}},
 		{name: "testCase02", args: args{
-			b: []byte(`{
-  "channel_code": "string",
-  "device_no": "string",
-  "page": 1,
-  "page_size": 20
-}
+			b: []byte(`{"device_model":"MiTV4","device_no":"EX9d8qATQy4Xv1RN2U5bKw","channel_code":"1","resolution":"19201080","language":"zh","storage_space":"557540","android_version_name":"6.0.1","android_version_code":"23","sdk_name":"screensaver_sdk","sdk_version_name":"1.0.0","sdk_version_code":"1","app_package_name":"com.xmx.screensaverdemo","app_name":"ScreenSaveDemo","app_version_name":"1.0.0","app_version_code":"1","cpu_arch":"armeabi-v7a","is_hot_update":1,"isSecure":true}
 `),
 			publicKey: publicKeyBytes,
 		}},
@@ -148,9 +143,9 @@ func TestUnpack(t *testing.T) {
 	}{
 		{name: "testCase01", args: args{
 			r: &EData{
-				IV: []byte("TZu+X43tZE8yMm+dPOQmcg=="),
-				EK: []byte("lUS01xNls8KS+dAIXru4ydDcn0NPd6oeXaa0A1VUki3nTk/IF+8THa8zxRFR629+kXdjp+hI89JWGwnKCYx+0i0J1tEVucF4l3zeGauq0k4P5kzphjEyPXq8KWEocWVj3PCsiR2I5t2Gm4MHCw/M/OlER4s/aIJlOH5CMkq7uqY="),
-				ED: []byte(`caSpxrQbE86Qa00zNoqsZd8gGNUL4pKaOT/+pY7Zb9FdqSWlZIScJxoFBXxTBmVzZmlnLCiv2gwZ1pTWXSB6cxEF9uTLng7GGqsriyVij5lnz+za2QaJYS3sec7Ep2NtM36ukGBs8I+ImuAKurNqgPH1gC53FLVY8ANcPY9yI2Je5gugdR/gBjnEjEgIhgn89H9mC0uZQYlJSOfhNC1+VFIXc1e/Z7a09Sm1i7NdeldnsJug3IiTv8nAxca7nXkeEY9ZpE8WWm5upWCfoE3FdbsVzLa+WtamZlE1bl/cH/zRw1xNQxJ5useRsNnjonahM/+mHEGO5cE2Kx0IRY5Zu9J/pleiqEN+OqoKldX2eFLIRm6rj82Ihte3De48Ws2ETZQx9hakF+2dom0xJRVG2fBsFLZpfZdAV+++BUnWadGofPhHh5/YMvCvQ3qnjdZ4ZzHP7a7VExGEGAnYrGQsIkyKS+wi1zLF17GmAsCrW0Ks6KJCa4kos6mMNJ+tIgvn`),
+				IV: []byte("X6PmsVLZMerBHFtJF232kA=="),
+				EK: []byte("XubCHGLBcVNMeWN46bJLX7OuaacZT4ETeMUWK39LEPFfEDfdcld9haNC9/TQng7cqXaeSlhbIHOhG+A66ZDP5tXw+A41gPnXWW1GhUgupv38+yZuqEGMXTLOXy+ji0ixE+JYFypwNi0JJGZBpxhfQQ5coZ4fcX7mW6hgoVmKGa8="),
+				ED: []byte(`vR4TVq0a3Nzj5tXj3EmiraCAtQ3d8arvTqzOeS1T7EwN7Ty9Ua30rOS1eevO7qg/wHI86Mmbm0RU1653W4vNhA18cFGDEeOYH1rSsi/80hvaNXlX4yOKIpV6HRqVXdHsjnisC2LVa1c6eDiibwm1UoLGL93jJkJqCXKhPlWOsZ5rrKcTIDKuayiRDrPlhRJAijL5RdpFNuJbC8MFuUe203uOw1BInSksfdZ4HNeRAdeP3d5jxwqW9f7aBilQFRyC2ZzTK3bryuTSxv1Ci5U8jvLkWk9BMbxGZQ4y9sHdaHPFr9xXk/nH71eF4LiAcTwI7PDol8K++4xWMPEKZ/1aLeaihFg5zC1S6HF3iavcjOGUstCC6U6VRc/0sjCi5gp2x9K0n5gmhRTs73tigEWaXesKUF9Hg5aN9DLSKaiKZ7N80fqkEMl6AkJiKwo9X4boUum7L82syF/3sEqOROb9p5R86OEGgKFT84Kpfu1osLVF2IYjrgkDm6nj0NPirXQg8amOThk61aJC+zPUiagKq5fDiUVkHd6e5wZppXM85hkPVi4wmTdm6qVhPJQuUtDS6bucRavCAAyAy6FY/hAWVh90bF7JfvGTJrYKhfgPQIGAW7hMMBVCZdMImWmB4640`),
 			},
 			privateKey: privateKeyBytes,
 		}},

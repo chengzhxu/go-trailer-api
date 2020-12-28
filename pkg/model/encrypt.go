@@ -1,7 +1,7 @@
 package model
 
 type EData struct {
-	SDKVersion string `json:"sv" binding:"required"`
+	SDKVersion string `json:"sv" binding:""`
 	EK         string `json:"ek" binding:"required"`
 	IV         string `json:"iv" binding:"required"`
 	ED         string `json:"ed" binding:"required"`
