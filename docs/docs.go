@@ -232,7 +232,7 @@ var doc = `{
         },
         "/trailer_api/test/check_secret_interface": {
             "post": {
-                "description": "APP 更新加密测试接口",
+                "description": "加解密测试",
                 "produces": [
                     "application/json"
                 ],
