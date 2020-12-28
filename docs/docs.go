@@ -239,8 +239,8 @@ var doc = `{
                 "tags": [
                     "Test"
                 ],
-                "summary": "Test CheckUpdateAppSecret",
-                "operationId": "CheckUpdateAppSecret",
+                "summary": "Test CheckSecretInterface",
+                "operationId": "CheckSecretInterface",
                 "parameters": [
                     {
                         "description": "UPDATE_APP",

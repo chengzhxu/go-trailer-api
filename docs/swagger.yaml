@@ -507,7 +507,7 @@ paths:
   /trailer_api/test/check_secret_interface:
     post:
       description: APP 更新加密测试接口
-      operationId: CheckUpdateAppSecret
+      operationId: CheckSecretInterface
       parameters:
       - description: UPDATE_APP
         in: body
@@ -526,7 +526,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/app.Response'
-      summary: Test CheckUpdateAppSecret
+      summary: Test CheckSecretInterface
       tags:
       - Test
   /trailer_api/trailer/get_secret_trailer_list:

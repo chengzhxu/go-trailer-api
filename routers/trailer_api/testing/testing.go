@@ -26,9 +26,9 @@ func CheckInterface(c *gin.Context) {
 }
 
 // @tags Test
-// @Summary Test CheckUpdateAppSecret
+// @Summary Test CheckSecretInterface
 // @Description APP 更新加密测试接口
-// @ID CheckUpdateAppSecret
+// @ID CheckSecretInterface
 // @Produce json
 // @Param name body model.EDataResponse true "UPDATE_APP"
 // @Success 200 {object} app.Response
