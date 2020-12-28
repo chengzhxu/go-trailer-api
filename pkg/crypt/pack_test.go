@@ -115,9 +115,9 @@ func Test_clientUnpack(t *testing.T) {
 		//	bed: []byte(`HbmU5HaYQy02TJBAa9LrlOdXkWYwmzNWr9iNy+V+d7G2K4OPOVfSpHlS6ptp9/B480SKJ5k1Mxs4AlkGfhJQeTOzrSdJzgka0+axPUOaWmR9wi1asa/pzdlc61SXIvsE8zHjmSr8rrBwueyTTe5I685A6B3w+q3obJB3LknTboGtpXBKlNDyMRj7slv4U67wkkIiw3auRtSrjFPXDVjF3v0KtlKF7c9tpehQ2WmAoqTceUE/9+eCMJ45lqyVwOgc1TWG7EOU6rVwcoXlJqmVyu8bdtJgSMUHcb02dQywcx+zDM+pmfIOZGs+GcmI2uhNPmSmfl1gAB6e8p1EI4ezsWTf7h3eqQJCyzSknSPkizadkwPTSctlLMwY1r2gAfRBc6E1+BMi1TTt5NzK0QbkfO8gfwxxETtwsc4ixcP16OHc615AvWmNMeA8mC+WsuIgtcH5Bach/Avpwq4OqCJ9xuVzzbiOfvVh7lfrSFNKJuwIzeV9Nkk3AAfCtvjCIgFCFCgn1w3WMcUP7nJlggs1UYzCK6iGzF4tJcls5jLprS6U7/cAcDvVENF/zMuFUmlmOYefm3shkcvHX7Q65S8KI1Z32XKjLpVQaUPeP5Pp60t5DMotqmEziwscPEvtwwKgAAuch+e0+s7lcIhkF782VhgUc+asX+wc4mfg2N5ZR+toDks3FSHQ2ZB8RMfhvjnHBTBWpwyPtqDi6sotytKXrj3r1PoA3mp0wGW2LftbxWE=`),
 		//}},
 		{name: "testCase05", args: args{
-			bk:  []byte("/+abg+bTy9Jrfn5t0ebK5vDno5yjdYVkmY9MsZhkUEdELVMrnvq/EioAInSzfvsKFn5QcKs/rMbRCIMBiuIIc/VlMvNhrNE+Dkkl4OkR2wBLUjIFNR35z9CwjM039+UX8h+T2TY9atzC1IYFgP9GBxtcsezYkNcD5g=="),
-			biv: []byte("QN26BdDhuWDQ87SEstW6Kg=="),
-			bed: []byte(`F/iAEDUgz2vjD/KfYKkDrw==`),
+			bk:  []byte(`6FPtILSWtNC3sxqFZGEx3irRJR0vM1kUsJJNLaTvlxvSiFb64PRPftjPy1xV67FD5KEqCHUbie3glBmqq6y44Mr2pdvL8TOrkj1sM88jgQHCnJEYyrXWf8szbCkZtgCz9a30N309jL1Sg/tefUQTnv/qEdbIX06HNw==`),
+			biv: []byte("COcJ4RASVJLc39a3tUhDAg=="),
+			bed: []byte(`iTbgE8vgbgM/gVIaW/9Sow1x17WMzqUkHn8P/fPH6xncezra09JgJAjNwYfa8jPjsc0eUhr7cunyD0sJbS8VvnQVocpUBy2z99o3Q/EE79z/eyVztp5W3J7Dq647wFx2a8owuztzTrAw5Dd9hAi19b+OKgyQw6y8BNwI7oiMyCS/w6Dte7RdS7HBgL593vckRrEhyugYYqZGsayUOks4/KlW+org2n3F4e4GNZja7E8THk8woDasJuMO9J/uiUOsFSn0WCTNqrXxYuMdEmdvdq1qTlxTyqRlrPmGi0t9FSVxZH42W4caBuUXLWF4ipLQoFtKxicNmounmZDjsySPUK0mEy2bzS4hm1RhCys11ShOrlouM8/cpTweBg5E9vgsKDFCPSMYrfnp7Yjc1G5g7fUhFpJj+mMk1LY2hAmoPtAVdLUw6dbwtPvysXkQcnLgQ0l8nOb3a08mV+mI9OSMz7KfQpTfTJ/dk4xXlkbAiF7ESSUl6XpgXm3HU4PJoT8E0Mx9ElvJpz/ghah/dVHeXcx8AvxajhrswjJZHmXtLm4ZZ662sXSrdxLhagSR8+/XF336Y/mPcKWKr+VgxkRSi/KwaiOgaCXWPsx2K3sHy4WguiZQiJEqKM/FGSe3f1dVt/1d5GzeI9Vw4se/45dWnNJNcExCIEl3YRnAPFfNkVxlpOE1OtJ5CgSWq8MXS2fmwyn3dcYb8hsHhQn61mtXeKUx1+s3ns/cs48koW0KXsSGJtnA25OHaEZ7iLuWIMq7`),
 		}},
 	}
 	for _, tt := range tests {
@@ -148,9 +148,9 @@ func TestUnpack(t *testing.T) {
 	}{
 		{name: "testCase01", args: args{
 			r: &EData{
-				IV: []byte("UvLNE89CIV+tXDFkMoxIUg=="),
-				EK: []byte("C5dmkHY4I27zA7+HRl05iqVUxQJhfNNrwemhDBoJ4xhrWJU2y5LgKQDlA59DibuR2qSGRJbN13FZvefHAPEem5QPcBaYaLeXnbmrjEtLnFbTCxABmVv1TKIoE0G7IDZmMpTC9Bt6yz6R7QBazXpplxIHBBYVJ6Ir6J+4kDsrOow="),
-				ED: []byte(`WnEqrM3YXBtejy++0IgBxfTKkhIk3CkIu91wu8pp8PbeZtSeAmW9ukiMuir3Kn17jiI37Z1VXmXaVD7pY7WaaKFfluPbKNoO7dtqtgeO5sxrcrzBJrj+VjW1yuUnEqT43otQch/M/q6tsCqoXHoO3Q==`),
+				IV: []byte("TZu+X43tZE8yMm+dPOQmcg=="),
+				EK: []byte("lUS01xNls8KS+dAIXru4ydDcn0NPd6oeXaa0A1VUki3nTk/IF+8THa8zxRFR629+kXdjp+hI89JWGwnKCYx+0i0J1tEVucF4l3zeGauq0k4P5kzphjEyPXq8KWEocWVj3PCsiR2I5t2Gm4MHCw/M/OlER4s/aIJlOH5CMkq7uqY="),
+				ED: []byte(`caSpxrQbE86Qa00zNoqsZd8gGNUL4pKaOT/+pY7Zb9FdqSWlZIScJxoFBXxTBmVzZmlnLCiv2gwZ1pTWXSB6cxEF9uTLng7GGqsriyVij5lnz+za2QaJYS3sec7Ep2NtM36ukGBs8I+ImuAKurNqgPH1gC53FLVY8ANcPY9yI2Je5gugdR/gBjnEjEgIhgn89H9mC0uZQYlJSOfhNC1+VFIXc1e/Z7a09Sm1i7NdeldnsJug3IiTv8nAxca7nXkeEY9ZpE8WWm5upWCfoE3FdbsVzLa+WtamZlE1bl/cH/zRw1xNQxJ5useRsNnjonahM/+mHEGO5cE2Kx0IRY5Zu9J/pleiqEN+OqoKldX2eFLIRm6rj82Ihte3De48Ws2ETZQx9hakF+2dom0xJRVG2fBsFLZpfZdAV+++BUnWadGofPhHh5/YMvCvQ3qnjdZ4ZzHP7a7VExGEGAnYrGQsIkyKS+wi1zLF17GmAsCrW0Ks6KJCa4kos6mMNJ+tIgvn`),
 			},
 			privateKey: privateKeyBytes,
 		}},
@@ -183,8 +183,27 @@ func TestPack(t *testing.T) {
 		wantErr bool
 	}{
 		{name: "testCase01", args: args{&PData{
-			Data: []byte(`{"appid":1111,"app_name":"AAAAA","app_version":"00-AA-BB-CC-DD-EE-FF"}`),
-			Key:  key,
+			Data: []byte(`{
+    "code": 1,
+    "msg": "ok",
+    "data": {
+        "id": 7,
+        "app_name": "ScreenSaveDemo",
+        "app_url": "https://xmx-oss1.oss-cn-shanghai.aliyuncs.com/sdk_update_package/b21739eeea3e0619cfb725a436978e00.apk",
+        "app_version_name": "1.0.2",
+        "app_version_code": "6",
+        "remark": "",
+        "is_force_user_update": 0,
+        "is_optional_user_update": 0,
+        "is_silent_update": 0,
+        "is_hot_update": 1,
+        "create_time": "",
+        "create_user_id": 0,
+        "update_time": "",
+        "update_user_id": 0
+    }
+}`),
+			Key: key,
 		}}, want: nil, wantErr: false},
 	}
 	for _, tt := range tests {
@@ -194,7 +213,7 @@ func TestPack(t *testing.T) {
 				t.Errorf("Pack() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			fmt.Printf("Pack() got.IV = %s, got.ED = %s \n", got.IV, got.ED)
+			fmt.Printf("Pack() got.IV = %s, got.ED = %s \n, got.EK = %s \n", got.IV, got.ED, got.EK)
 
 			//fmt.Printf("key: %X \n", key)
 			// rsa 公钥加密 key, 生成加密后的 ek
@@ -382,4 +401,13 @@ func TestSignature(t *testing.T) {
 
 	fmt.Println("mySignature : " + mySignature + " ; paramSignature:" + signature)
 
+}
+
+func TestConf(t *testing.T) {
+	err, d := util.GetStandbyTime()
+	if err != nil {
+		fmt.Printf("%v", err)
+	}
+
+	fmt.Println(d)
 }

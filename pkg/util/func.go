@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"go-trailer-api/pkg/logging"
+	"go-trailer-api/pkg/setting"
 	"net"
 	"net/http"
 	"net/url"
@@ -15,7 +16,14 @@ import (
 	"time"
 )
 
-var signatureSalt = "trailer_signature_salt"
+var signatureSalt = "trailer_signature_salt" //客户端接口签名 加密盐
+var standbyConf *setting.StandbyTimeConf     //客户端待机时长配置
+
+func GetStandbyTime() (error, int) {
+	standbyConf = setting.StandbyTimeSetting
+
+	return nil, standbyConf.Duration
+}
 
 func ExistIntElement(element int64, array []int64) bool {
 	for _, e := range array {

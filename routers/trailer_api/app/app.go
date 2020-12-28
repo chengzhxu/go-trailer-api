@@ -7,6 +7,7 @@ import (
 	"go-trailer-api/pkg/e"
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/service/app_service"
+	"go-trailer-api/pkg/util"
 	"go-trailer-api/routers/trailer_api"
 	"net/http"
 )
@@ -65,7 +66,13 @@ func GetStandbyTime(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	t := make(map[string]int)
-	t["time"] = 5
+	err, time := util.GetStandbyTime()
+	if err != nil {
+		logging.Error(err)
+		t["time"] = 30
+	} else {
+		t["time"] = time
+	}
 
 	appG.Response(http.StatusOK, e.Success, t)
 }

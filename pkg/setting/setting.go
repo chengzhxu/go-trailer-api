@@ -51,6 +51,13 @@ type TrailerDatabase struct {
 
 var TrailerDbSetting = &TrailerDatabase{}
 
+//客户端待机时长配置
+type StandbyTimeConf struct {
+	Duration int
+}
+
+var StandbyTimeSetting = &StandbyTimeConf{}
+
 var cfg *ini.File
 
 func Setup() {
@@ -65,6 +72,7 @@ func Setup() {
 	mapTo("redis-db", RedisSetting)
 	mapTo("mysql-stats-db", StatsDbSetting)
 	mapTo("mysql-trailer-db", TrailerDbSetting)
+	mapTo("standby-time", StandbyTimeSetting)
 
 	// server
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second
