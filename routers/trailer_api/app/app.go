@@ -65,7 +65,7 @@ func GetStandbyTime(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	t := make(map[string]int)
-	t["time"] = 30
+	t["time"] = 5
 
 	appG.Response(http.StatusOK, e.Success, t)
 }
