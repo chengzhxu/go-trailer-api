@@ -19,7 +19,6 @@ var doc = `{
         "description": "{{.Description}}",
         "title": "{{.Title}}",
         "contact": {},
-        "license": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -215,6 +214,44 @@ var doc = `{
                 ],
                 "summary": "Test Interface",
                 "operationId": "Test",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/trailer_api/test/check_secret_interface": {
+            "post": {
+                "description": "APP 更新加密测试接口",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Test"
+                ],
+                "summary": "Test CheckUpdateAppSecret",
+                "operationId": "CheckUpdateAppSecret",
+                "parameters": [
+                    {
+                        "description": "UPDATE_APP",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.EDataResponse"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -548,6 +585,20 @@ var doc = `{
                     "type": "string"
                 },
                 "sv": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.EDataResponse": {
+            "type": "object",
+            "properties": {
+                "ed": {
+                    "type": "string"
+                },
+                "ek": {
+                    "type": "string"
+                },
+                "iv": {
                     "type": "string"
                 }
             }

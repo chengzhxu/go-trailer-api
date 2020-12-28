@@ -151,6 +151,15 @@ definitions:
     - iv
     - sv
     type: object
+  model.EDataResponse:
+    properties:
+      ed:
+        type: string
+      ek:
+        type: string
+      iv:
+        type: string
+    type: object
   stats_service.Device:
     properties:
       android_version_code:
@@ -358,7 +367,6 @@ definitions:
     type: object
 info:
   contact: {}
-  license: {}
 paths:
   /trailer_api/app/get_new_app:
     post:
@@ -494,6 +502,31 @@ paths:
           schema:
             $ref: '#/definitions/app.Response'
       summary: Test Interface
+      tags:
+      - Test
+  /trailer_api/test/check_secret_interface:
+    post:
+      description: APP 更新加密测试接口
+      operationId: CheckUpdateAppSecret
+      parameters:
+      - description: UPDATE_APP
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/model.EDataResponse'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: Test CheckUpdateAppSecret
       tags:
       - Test
   /trailer_api/trailer/get_secret_trailer_list:

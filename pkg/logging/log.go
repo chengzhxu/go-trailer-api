@@ -70,7 +70,6 @@ func checkLogFile() {
 		c := make(chan os.Signal, 1)
 		for {
 			signal.Notify(c, syscall.SIGUSR1)
-			fmt.Println("listening SIGUSR1 signal...")
 			s := <-c
 			logger = nil
 			createLogger(filePath)

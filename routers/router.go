@@ -59,6 +59,9 @@ func InitRouter() *gin.Engine {
 	{
 		//测试 test
 		testApp.GET("check_interface", testing.CheckInterface)
+
+		//解密接口 test
+		testApp.POST("check_secret_interface", testing.CheckSecretInterface)
 	}
 
 	return r

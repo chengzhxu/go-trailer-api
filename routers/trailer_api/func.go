@@ -1,6 +1,7 @@
 package trailer_api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go-trailer-api/pkg/app"
 	"go-trailer-api/pkg/crypt"
@@ -75,6 +76,16 @@ func Unpack(enReq *model.EData) (*crypt.PData, error) {
 		logging.Info(err)
 		return nil, err
 	}
+	return pData, nil
+}
+
+func UnClientPack(enReq *model.EDataResponse) ([]byte, error) {
+	pData, err := crypt.UnClientPack([]byte(enReq.EK), []byte(enReq.ED), []byte(enReq.IV), privateKeyBytes)
+	if err != nil {
+		logging.Info(err)
+		return nil, err
+	}
+	logging.Info(fmt.Sprintf("%s", pData))
 	return pData, nil
 }
 

@@ -87,3 +87,32 @@ func Unpackv2(r *EData, privateKey []byte) (*PData, error) {
 		Key:  key,
 	}, nil
 }
+
+func UnClientPack(ebk, bed, biv, privateKey []byte) ([]byte, error) {
+	ek, err := Base64DecodeByte(ebk)
+	if err != nil {
+		return nil, err
+	}
+	key, err := RsaDecode(ek, privateKey)
+	if err != nil {
+		return nil, err
+	}
+	iv, err := Base64DecodeByte(biv)
+	if err != nil {
+		return nil, err
+	}
+	ed, err := Base64DecodeByte(bed)
+	if err != nil {
+		return nil, err
+	}
+	realEd := append(iv, ed...)
+
+	//fmt.Printf("%d\n", len(realEd))
+
+	b, err := AesCBCDecrypt(realEd, key, PKCS5UnPadding)
+	if err != nil {
+		return nil, err
+	}
+	//fmt.Printf("%s \n", b)
+	return b, nil
+}

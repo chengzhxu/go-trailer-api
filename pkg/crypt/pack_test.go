@@ -115,9 +115,9 @@ func Test_clientUnpack(t *testing.T) {
 		//	bed: []byte(`HbmU5HaYQy02TJBAa9LrlOdXkWYwmzNWr9iNy+V+d7G2K4OPOVfSpHlS6ptp9/B480SKJ5k1Mxs4AlkGfhJQeTOzrSdJzgka0+axPUOaWmR9wi1asa/pzdlc61SXIvsE8zHjmSr8rrBwueyTTe5I685A6B3w+q3obJB3LknTboGtpXBKlNDyMRj7slv4U67wkkIiw3auRtSrjFPXDVjF3v0KtlKF7c9tpehQ2WmAoqTceUE/9+eCMJ45lqyVwOgc1TWG7EOU6rVwcoXlJqmVyu8bdtJgSMUHcb02dQywcx+zDM+pmfIOZGs+GcmI2uhNPmSmfl1gAB6e8p1EI4ezsWTf7h3eqQJCyzSknSPkizadkwPTSctlLMwY1r2gAfRBc6E1+BMi1TTt5NzK0QbkfO8gfwxxETtwsc4ixcP16OHc615AvWmNMeA8mC+WsuIgtcH5Bach/Avpwq4OqCJ9xuVzzbiOfvVh7lfrSFNKJuwIzeV9Nkk3AAfCtvjCIgFCFCgn1w3WMcUP7nJlggs1UYzCK6iGzF4tJcls5jLprS6U7/cAcDvVENF/zMuFUmlmOYefm3shkcvHX7Q65S8KI1Z32XKjLpVQaUPeP5Pp60t5DMotqmEziwscPEvtwwKgAAuch+e0+s7lcIhkF782VhgUc+asX+wc4mfg2N5ZR+toDks3FSHQ2ZB8RMfhvjnHBTBWpwyPtqDi6sotytKXrj3r1PoA3mp0wGW2LftbxWE=`),
 		//}},
 		{name: "testCase05", args: args{
-			bk:  []byte(`6FPtILSWtNC3sxqFZGEx3irRJR0vM1kUsJJNLaTvlxvSiFb64PRPftjPy1xV67FD5KEqCHUbie3glBmqq6y44Mr2pdvL8TOrkj1sM88jgQHCnJEYyrXWf8szbCkZtgCz9a30N309jL1Sg/tefUQTnv/qEdbIX06HNw==`),
-			biv: []byte("COcJ4RASVJLc39a3tUhDAg=="),
-			bed: []byte(`iTbgE8vgbgM/gVIaW/9Sow1x17WMzqUkHn8P/fPH6xncezra09JgJAjNwYfa8jPjsc0eUhr7cunyD0sJbS8VvnQVocpUBy2z99o3Q/EE79z/eyVztp5W3J7Dq647wFx2a8owuztzTrAw5Dd9hAi19b+OKgyQw6y8BNwI7oiMyCS/w6Dte7RdS7HBgL593vckRrEhyugYYqZGsayUOks4/KlW+org2n3F4e4GNZja7E8THk8woDasJuMO9J/uiUOsFSn0WCTNqrXxYuMdEmdvdq1qTlxTyqRlrPmGi0t9FSVxZH42W4caBuUXLWF4ipLQoFtKxicNmounmZDjsySPUK0mEy2bzS4hm1RhCys11ShOrlouM8/cpTweBg5E9vgsKDFCPSMYrfnp7Yjc1G5g7fUhFpJj+mMk1LY2hAmoPtAVdLUw6dbwtPvysXkQcnLgQ0l8nOb3a08mV+mI9OSMz7KfQpTfTJ/dk4xXlkbAiF7ESSUl6XpgXm3HU4PJoT8E0Mx9ElvJpz/ghah/dVHeXcx8AvxajhrswjJZHmXtLm4ZZ662sXSrdxLhagSR8+/XF336Y/mPcKWKr+VgxkRSi/KwaiOgaCXWPsx2K3sHy4WguiZQiJEqKM/FGSe3f1dVt/1d5GzeI9Vw4se/45dWnNJNcExCIEl3YRnAPFfNkVxlpOE1OtJ5CgSWq8MXS2fmwyn3dcYb8hsHhQn61mtXeKUx1+s3ns/cs48koW0KXsSGJtnA25OHaEZ7iLuWIMq7`),
+			bk:  []byte(`lUS01xNls8KS+dAIXru4ydDcn0NPd6oeXaa0A1VUki3nTk/IF+8THa8zxRFR629+kXdjp+hI89JWGwnKCYx+0i0J1tEVucF4l3zeGauq0k4P5kzphjEyPXq8KWEocWVj3PCsiR2I5t2Gm4MHCw/M/OlER4s/aIJlOH5CMkq7uqY=`),
+			biv: []byte("VWhkN3ZvajF5ZjJtMzlXNA=="),
+			bed: []byte(`0W8EZlCo+IkK5UH427D1TMOilNpnD97GOWWnP1JfKrxM/dK33Kno0wVZh+Nw3KvvUPvkBKeNYhwhUyvgp9LK2MTf8gYfZR+3Zq5iCLBLEa3s7htA/wRd1MDAlVwOaxsKGyao0QT2FYiYRo1c6cmgZrGHLCJ8yPS6fplba8c5dtUoEZjQLQbzqPzimVAax8US/dewrpA8a4B8V3WZeMwZUvfvaQR9VaTzgZC4JOPMbncP1BA8b08BASWcP3q90L7LKtNOYnjEe8xy9pC0mvSOVUJXItlVVdNTIZOVWCmRaRW/1znX56VHUv7MURNIUxIx034nb3a1kiG6hvIMTXCOYd98ETXAzrt2fZUIT7xKz92TeFlUepFBElXDjZf9ewmRLTjKNHIaJP091sM+lwY84NNKE/dsOPWWRwbfuFE6dUDHChJhf3hEcJm0blWouvAXKF1OzhbQF/T3paROKxmOT6b3vsdSoKsHyuAejGA3FFOVONIVSxmo4Y7AC2b7BTiJ`),
 		}},
 	}
 	for _, tt := range tests {
@@ -306,6 +306,7 @@ func clientPack(b, publicKey []byte) (*EData, error) {
 }
 
 func clientUnpack(ebk, bed, biv, privateKey []byte) ([]byte, error) {
+	fmt.Println(ebk)
 	ek, err := Base64DecodeByte(ebk)
 	if err != nil {
 		return nil, err
