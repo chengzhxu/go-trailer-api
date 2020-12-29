@@ -149,7 +149,6 @@ definitions:
     - ed
     - ek
     - iv
-    - sv
     type: object
   model.EDataResponse:
     properties:
@@ -484,6 +483,31 @@ paths:
           schema:
             $ref: '#/definitions/app.Response'
       summary: SDK 事件统计
+      tags:
+      - Stats
+  /trailer_api/stats/record_secret_sdk_event:
+    post:
+      description: SDK 事件统计-加密
+      operationId: Insert Secret SdkEvent
+      parameters:
+      - description: Events
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/model.EData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: SDK 事件统计-加密
       tags:
       - Stats
   /trailer_api/test/check_interface:

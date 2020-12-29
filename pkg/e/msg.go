@@ -7,6 +7,8 @@ var MsgFlags = map[int]string{
 
 	//
 	ErrorInsertSdkEvent:            "记录 SDK 统计事件时失败",
+	ErrorValidateSdkEvent:          "SDK 事件统计参数校验失败",
+	ErrorCheckSdkEvent:             "SDK 事件统计参数解析失败",
 	ErrorInsertDevice:              "记录设备信息时失败",
 	ErrorInsertSdkError:            "记录 SDK 错误信息时失败",
 	ErrorSyncAssetError:            "同步 Asset 素材信息失败",

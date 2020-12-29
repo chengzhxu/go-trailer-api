@@ -203,6 +203,44 @@ var doc = `{
                 }
             }
         },
+        "/trailer_api/stats/record_secret_sdk_event": {
+            "post": {
+                "description": "SDK 事件统计-加密",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "SDK 事件统计-加密",
+                "operationId": "Insert Secret SdkEvent",
+                "parameters": [
+                    {
+                        "description": "Events",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.EData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/trailer_api/test/check_interface": {
             "get": {
                 "description": "测试接口",
@@ -571,8 +609,7 @@ var doc = `{
             "required": [
                 "ed",
                 "ek",
-                "iv",
-                "sv"
+                "iv"
             ],
             "properties": {
                 "ed": {

@@ -53,8 +53,33 @@ func Test_clientPack(t *testing.T) {
 		//	publicKey: publicKeyBytes,
 		//}},
 		{name: "testCase02", args: args{
-			b: []byte(`{"device_model":"MiTV4","device_no":"EX9d8qATQy4Xv1RN2U5bKw","channel_code":"1","resolution":"19201080","language":"zh","storage_space":"557540","android_version_name":"6.0.1","android_version_code":"23","sdk_name":"screensaver_sdk","sdk_version_name":"1.0.0","sdk_version_code":"1","app_package_name":"com.xmx.screensaverdemo","app_name":"ScreenSaveDemo","app_version_name":"1.0.0","app_version_code":"1","cpu_arch":"armeabi-v7a","is_hot_update":1,"isSecure":true}
-`),
+			b: []byte(`{
+  "app_name": "ScreenSaverDemo",
+  "app_version_code": "5",
+  "app_version_name": "1.0.4",
+  "channel_code": "tiaoshi",
+  "client_time": "2020-12-26 20:20:20",
+  "device_brand": "samsung",
+  "device_model": "SM-G9508",
+  "device_no": "oGVivbkkk89BjF18nvBYbA_test",
+  "event_info": "[{\"event_kv_json\":{\"trailer_id\": 50},\"event_name\":\"player_trailer\",\"event_type\":0},{\"event_kv_json\":{\"trailer_id\": \"58\", \"button_name\": \"BUTTON_RETURN\"},\"event_name\":\"遥控器互动按键\",\"event_type\":0},{\"event_kv_json\":{\"is_first\": \"1\"},\"event_name\":\"SDK启动\",\"event_type\":1}]",
+  "event_kv_json": "",
+  "event_name": "",
+  "imei": "",
+  "ip": "",
+  "net_type": "1",
+  "newevent_type": 0,
+  "newpuid": "0",
+  "newsession_id": "9BBF3E88A97B29F0A79932B32A7835DE",
+  "os_version_code": "26",
+  "os_version_name": "8.0.0",
+  "page_name": "com.xmx.screensaver.plugin.SFWorkActivity",
+  "screen_height": 2220,
+  "screen_width": 1080,
+  "sdk_name": "screensaver_sdk",
+  "sdk_version_code": "5",
+  "sdk_version_name": "1.0.4"
+}`),
 			publicKey: publicKeyBytes,
 		}},
 	}
@@ -143,9 +168,9 @@ func TestUnpack(t *testing.T) {
 	}{
 		{name: "testCase01", args: args{
 			r: &EData{
-				IV: []byte("X6PmsVLZMerBHFtJF232kA=="),
-				EK: []byte("XubCHGLBcVNMeWN46bJLX7OuaacZT4ETeMUWK39LEPFfEDfdcld9haNC9/TQng7cqXaeSlhbIHOhG+A66ZDP5tXw+A41gPnXWW1GhUgupv38+yZuqEGMXTLOXy+ji0ixE+JYFypwNi0JJGZBpxhfQQ5coZ4fcX7mW6hgoVmKGa8="),
-				ED: []byte(`vR4TVq0a3Nzj5tXj3EmiraCAtQ3d8arvTqzOeS1T7EwN7Ty9Ua30rOS1eevO7qg/wHI86Mmbm0RU1653W4vNhA18cFGDEeOYH1rSsi/80hvaNXlX4yOKIpV6HRqVXdHsjnisC2LVa1c6eDiibwm1UoLGL93jJkJqCXKhPlWOsZ5rrKcTIDKuayiRDrPlhRJAijL5RdpFNuJbC8MFuUe203uOw1BInSksfdZ4HNeRAdeP3d5jxwqW9f7aBilQFRyC2ZzTK3bryuTSxv1Ci5U8jvLkWk9BMbxGZQ4y9sHdaHPFr9xXk/nH71eF4LiAcTwI7PDol8K++4xWMPEKZ/1aLeaihFg5zC1S6HF3iavcjOGUstCC6U6VRc/0sjCi5gp2x9K0n5gmhRTs73tigEWaXesKUF9Hg5aN9DLSKaiKZ7N80fqkEMl6AkJiKwo9X4boUum7L82syF/3sEqOROb9p5R86OEGgKFT84Kpfu1osLVF2IYjrgkDm6nj0NPirXQg8amOThk61aJC+zPUiagKq5fDiUVkHd6e5wZppXM85hkPVi4wmTdm6qVhPJQuUtDS6bucRavCAAyAy6FY/hAWVh90bF7JfvGTJrYKhfgPQIGAW7hMMBVCZdMImWmB4640`),
+				IV: []byte("gaj7eWCbD87fVRf78MstmA=="),
+				EK: []byte("FfuVwmxtjtj1viPMWvy3+SWjvEoYhz46yb9gTxBMjB1ImRZlG8xh/YlslP4p7rTKKSj5Nl4fHPv3wELH0h2u58XS5CzwkKmJGQZDmf058ELCqn3XvdGvWmuuZuFUih+wS9JJtwqANa8bpWvkt1NlZbADXCByoi62+bCH1K0M8fY="),
+				ED: []byte(`bGFopvSNtvv0owGWoyN8bYvJRMP0yRU1+/7KV+qAI7owYebCKylkMpaP2UKS5iWQ4i+Xy6nMQF23dwUMRN7jqboslAcR0OHI0gMlFc9Ti2jh2nsB8hUHTu6wayONzrc4jPiV7yCAE+iBy8vEz6ZIMyQ+8XRDXOdSNjkHl5Q7/35Drdow0VJ5qgWTKHnJTyBxLhE/1+hlMbFlJxOXO5HeiDNUDmQdPg/N5fXbsx3p7CV0MyHEr03cal9UMCGgSCr3xxfvragk/HQGyieJrd+lii+RHl08He7yaZTIPtQ7mBdygwSGQfrX3rXOU+aJ/P0IG5XiqdHBSuwgEvpMYwEBce54K5/a4i6zpoTTqXV36qpuO4K8Hyaj/a8jaPLaJwElNAri40RXIS98kkaAzL84cpygnKVEE+iUwF8dLHbhtFefebp8pkSS3AyhY/OhH7mqQBQWbSjfvm7GnO6oihCyHTwYIckbyhnABn6uCAfWMWIAAUhcO3bKzAUUpwz9lljU6B15jF5xKKrSiffXKGVJ/LZKzT8T2e0tRsTvGlLKtIuG3o74DaQ58ovqklYTiiBtGOfZw4Aa4X0N5sFB5ZMriKlBb+KEcGB4DmAln0cQqaQ+hQfViKIf0mhuGuPd29i36b95w1CvcmgUA9JeQuDAylLtPApqYgOpIcksssl/7cHuz2cUB+i5AskFcWI+e2G4glcIvi/Q/NqW1KLxdLw9lbMAquEPa9kax36o/7Z4saq0FmvCyc44rPS9cvIht6anEqg/FLWvnFusC/kVL42RHnzluVYa3wCaVvTt6acBt+tbQqxcN75Km4WZj2s/pWUuC6N445BPzxAZupgZlN2s1SF6Yqm8e1zvnDA26hP+Oetlhr8aU/OOzgemVjakkZMipxYVwekX1z28H9pwkLydJxgQy280y0Zlt3Ir2XBb5YNPmZBoYOsVrFXg89kQW9e/ADl9/bK/kYlh2iqWScrKRK2D6eXh5/FhVhkVLe6dPfsjujt2GFFW6I/SJ3jYLwp7M0/RQSVSmjiBzghwxmSrHsx7KGvpQaVvBtTDDw6kxupN8snAuLeQnmDZOhXE/wvSbHw6pmAuocND7ANLE4oDlRiuie9Rq2ZEw3HxuzvQlKhr7PD+rbWLu2NfGiwBJ1cTOO7TRYF8IP3mgYVKpUiKnjVeqhRUt+Lzo92g/UR4jo4spkc9tusph4EKhnfidOmKQkYduUk2Buc1ATt4EKwh5CdZ15Cm/HV1NJ+mJNsFajMKQJiLQQn6RNbOtGeVbdBsqg+1ytlOpsb+F8MbX2BzDgOek80IwwDivtzaSgZXcgk7xAxmrfcdIFpeOAJvdNJ8cqKq6Mw9lVExbDpTF6sgThiGbZksyfNY03dILRUSVG/YcMdndfUXQhVyj8A2vXCo`),
 			},
 			privateKey: privateKeyBytes,
 		}},

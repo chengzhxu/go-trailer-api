@@ -7,6 +7,8 @@ const (
 
 	// internal
 	ErrorInsertSdkEvent            = 50001
+	ErrorValidateSdkEvent          = 50002
+	ErrorCheckSdkEvent             = 50003
 	ErrorInsertDevice              = 50020
 	ErrorInsertSdkError            = 50040
 	ErrorSyncAssetError            = 60001

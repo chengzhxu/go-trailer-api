@@ -30,6 +30,9 @@ func InitRouter() *gin.Engine {
 		//记录 SDK 统计事件
 		apiStats.POST("record_sdk_event", stats.InsertSdkEvent)
 
+		//记录 SDK 统计事件 - 加密
+		apiStats.POST("record_secret_sdk_event", stats.InsertSecretSdkEvent)
+
 		//SDK 错误信息上报
 		apiStats.POST("record_sdk_err", stats.InsertSdkError)
 	}
