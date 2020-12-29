@@ -12,6 +12,7 @@ const (
 	ErrorInsertDevice              = 50020
 	ErrorInsertSdkError            = 50040
 	ErrorSyncAssetError            = 60001
+	ErrorResetAssetError           = 60002
 	ErrorGetAssetError             = 60010
 	ErrorGetAssetEmptyDeviceError  = 60011
 	ErrorGetAssetEmptyChannelError = 60012

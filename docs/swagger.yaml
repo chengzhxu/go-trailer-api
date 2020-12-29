@@ -410,6 +410,24 @@ paths:
       summary: STANDBY TIME
       tags:
       - Config
+  /trailer_api/console/reset_asset:
+    get:
+      description: 清洗 Redis 素材数据
+      operationId: ResetAsset
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: Reset Redis Asset
+      tags:
+      - Reset Redis
   /trailer_api/stats/record_device:
     post:
       description: 设备信息上报

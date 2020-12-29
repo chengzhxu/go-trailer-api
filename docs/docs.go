@@ -89,6 +89,33 @@ var doc = `{
                 }
             }
         },
+        "/trailer_api/console/reset_asset": {
+            "get": {
+                "description": "清洗 Redis 素材数据",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reset Redis"
+                ],
+                "summary": "Reset Redis Asset",
+                "operationId": "ResetAsset",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/trailer_api/stats/record_device": {
             "post": {
                 "description": "设备信息上报",

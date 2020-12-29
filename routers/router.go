@@ -6,6 +6,7 @@ import (
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"go-trailer-api/pkg/setting"
 	"go-trailer-api/routers/trailer_api/app"
+	"go-trailer-api/routers/trailer_api/console"
 	"go-trailer-api/routers/trailer_api/stats"
 	"go-trailer-api/routers/trailer_api/testing"
 	"go-trailer-api/routers/trailer_api/trailer"
@@ -56,6 +57,12 @@ func InitRouter() *gin.Engine {
 
 		//待机时长
 		apiApp.GET("get_standby_time", app.GetStandbyTime)
+	}
+
+	consoleApp := r.Group("/trailer_api/console")
+	{
+		//清洗 Redis 素材数据
+		consoleApp.GET("reset_asset", console.ResetAsset)
 	}
 
 	testApp := r.Group("/trailer_api/test")
