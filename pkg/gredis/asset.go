@@ -192,8 +192,9 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 	}
 	page := rr.Page //页码
 
-	assetRes := AssetResult{} //返回数据
-	assetArr := AssetArray{}  //当前页素材信息
+	assetRes := AssetResult{}   //返回数据
+	assetArr := AssetArray{}    //当前页素材信息
+	capAssetArr := AssetArray{} //当素材全部频控后 - 重新返回的素材信息
 
 	conn := RedisConn.Get()
 	//按照自定义倒序获取所有的 AssetId
@@ -235,46 +236,17 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 			continue
 		}
 
+		asset = tranceAsset(asset, rr.IsSecure)
 		if !checkAssetCap(asset, rr.DeviceNo) { //到达频控 - 仅检查当前页及后的数据
 			totalRows-- //总数量 - 排除 频控数据
+
+			if len(capAssetArr) < pageSize { //素材全部频控时，重新返回的素材信息
+				capAssetArr = append(capAssetArr, asset)
+			}
 			continue
 		}
 
 		if len(assetArr) < pageSize { //当前页数据
-			var mapPics []interface{} //图片集合
-			if asset.PicUrls != "" {
-				err := json.Unmarshal([]byte(asset.PicUrls.(string)), &mapPics)
-				if err != nil {
-					logging.Error(err)
-					mapPics = make([]interface{}, 0)
-				} else {
-					if !rr.IsSecure { //替换 https =》 http
-						mapPics = replaceAssetPicUrlsHttp(mapPics)
-					}
-				}
-			}
-			asset.PicUrls = mapPics
-
-			oaArr := []OpenApp{} //打开的app
-			if asset.ActOpenApps != "" {
-				var openAppArray []OpenApp
-				err := json.Unmarshal([]byte(asset.ActOpenApps.(string)), &openAppArray)
-				if err != nil {
-					logging.Error(err)
-				} else {
-					for _, p := range openAppArray {
-						oaArr = append(oaArr, p)
-					}
-				}
-			}
-			asset.ActOpenApps = oaArr
-
-			asset.Score = fmt.Sprintf("%0.1f", asset.Score) //评分 - 保留1位小数 若为整数，则为 x.0
-
-			if !rr.IsSecure { //替换 https =》 http
-				asset = replaceAssetHttp(asset)
-			}
-
 			assetArr = append(assetArr, asset)
 		}
 	}
@@ -284,9 +256,52 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 	assetRes.TotalPage = pageCount
 	assetRes.TotalRows = totalRows
 	assetRes.CurrentPage = page
-	assetRes.AssetArray = assetArr
+	if len(assetArr) > 0 { //未到频控的素材信息
+		assetRes.AssetArray = assetArr
+	} else { //如果所有素材均已到达频控， 重新返回
+		assetRes.AssetArray = capAssetArr
+	}
 
 	return assetRes, nil
+}
+
+//封装客户端返回的素材信息
+func tranceAsset(asset *Asset, isSecure bool) *Asset {
+	var mapPics []interface{} //图片集合
+	if asset.PicUrls != "" {
+		err := json.Unmarshal([]byte(asset.PicUrls.(string)), &mapPics)
+		if err != nil {
+			logging.Error(err)
+			mapPics = make([]interface{}, 0)
+		} else {
+			if !isSecure { //替换 https =》 http
+				mapPics = replaceAssetPicUrlsHttp(mapPics)
+			}
+		}
+	}
+	asset.PicUrls = mapPics
+
+	oaArr := []OpenApp{} //打开的app
+	if asset.ActOpenApps != "" {
+		var openAppArray []OpenApp
+		err := json.Unmarshal([]byte(asset.ActOpenApps.(string)), &openAppArray)
+		if err != nil {
+			logging.Error(err)
+		} else {
+			for _, p := range openAppArray {
+				oaArr = append(oaArr, p)
+			}
+		}
+	}
+	asset.ActOpenApps = oaArr
+
+	asset.Score = fmt.Sprintf("%0.1f", asset.Score) //评分 - 保留1位小数 若为整数，则为 x.0
+
+	if !isSecure { //替换 https =》 http
+		asset = replaceAssetHttp(asset)
+	}
+
+	return asset
 }
 
 //检查 Asset 是否有效
