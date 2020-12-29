@@ -206,6 +206,7 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 
 	rmCount := (page - 1) * pageSize //当前页之前的数量（忽略）
 	totalRows := 0                   //总数量
+	capTotalRows := 0                //频控均已到达时重新计算的总数量
 
 	for _, v := range res {
 		if err != nil {
@@ -231,6 +232,7 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 		}
 
 		totalRows++      //总数量 - 排除 无效的数据
+		capTotalRows++   //频控均已到达时重新计算的总数量
 		if rmCount > 0 { //当前页之前的数据量 - 排除
 			rmCount--
 			continue
@@ -251,16 +253,16 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 		}
 	}
 
+	if len(assetArr) == 0 { //所有素材均已到达频控 -  重新返回
+		assetArr = capAssetArr   //重新获取的素材信息
+		totalRows = capTotalRows //重新计算页码
+	}
 	pageCount := int(math.Ceil(float64(totalRows) / float64(pageSize))) //总页数
 
 	assetRes.TotalPage = pageCount
 	assetRes.TotalRows = totalRows
 	assetRes.CurrentPage = page
-	if len(assetArr) > 0 { //未到频控的素材信息
-		assetRes.AssetArray = assetArr
-	} else { //如果所有素材均已到达频控， 重新返回
-		assetRes.AssetArray = capAssetArr
-	}
+	assetRes.AssetArray = assetArr
 
 	return assetRes, nil
 }
