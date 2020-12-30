@@ -470,3 +470,35 @@ func replaceAssetPicUrlsHttp(mapPics []interface{}) []interface{} {
 
 	return mapPics
 }
+
+//清洗 Redis Asset
+func ResetAsset() error {
+	conn := RedisConn.Get() //获取 Redis
+
+	assetArr, err := redis.Values(conn.Do("hkeys", HSetKey))
+	if err != nil {
+		logging.Error(err)
+		return err
+	}
+
+	for _, v := range assetArr {
+		assetId := fmt.Sprintf("%s", v)
+		score, _ := conn.Do("ZSCORE", DisplayOrderKey, assetId) //获取自定义排序数据
+
+		if score == nil { // 不存在自定义排序中  移除掉
+			_, err := conn.Do("zrem", IdKey, assetId) //从 Id 排序中移除
+			if err != nil {
+				logging.Error(err)
+				return err
+			}
+
+			_, he := conn.Do("hdel", HSetKey, assetId) //从 Hash 中移除
+			if he != nil {
+				logging.Error(he)
+				return he
+			}
+		}
+	}
+
+	return nil
+}

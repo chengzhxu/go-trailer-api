@@ -12,6 +12,7 @@ var MsgFlags = map[int]string{
 	ErrorInsertDevice:              "记录设备信息时失败",
 	ErrorInsertSdkError:            "记录 SDK 错误信息时失败",
 	ErrorSyncAssetError:            "同步 Asset 素材信息失败",
+	ErrorResetAssetError:           "重置 Asset 素材信息失败",
 	ErrorGetAssetError:             "获取 Asset 素材信息失败",
 	ErrorGetAssetEmptyDeviceError:  "device_no 不能为空",
 	ErrorGetAssetEmptyChannelError: "channel_code 不能为空",
