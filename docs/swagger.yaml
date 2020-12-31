@@ -367,6 +367,24 @@ definitions:
 info:
   contact: {}
 paths:
+  /trailer_api/app/get_app_package:
+    get:
+      description: APP 包下载地址
+      operationId: APP_PACKAGE_DOWNLOAD
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: APP_PACKAGE_DOWNLOAD
+      tags:
+      - Config
   /trailer_api/app/get_new_app:
     post:
       description: 获取最新的 APP 版本信息

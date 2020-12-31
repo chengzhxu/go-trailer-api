@@ -77,3 +77,19 @@ func GetStandbyTime(c *gin.Context) {
 
 	appG.Response(http.StatusOK, e.Success, t)
 }
+
+// @tags Config
+// @Summary APP_PACKAGE_DOWNLOAD
+// @Description APP 包下载地址
+// @ID APP_PACKAGE_DOWNLOAD
+// @Produce json
+// @Success 200 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /trailer_api/app/get_app_package [get]
+func GetAppPackage(c *gin.Context) {
+	appG := app.Gin{C: c}
+
+	appPackages := util.GetAppPackage()
+
+	appG.Response(http.StatusOK, e.Success, appPackages)
+}

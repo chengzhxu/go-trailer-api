@@ -3,12 +3,14 @@ package util
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/setting"
 	"net"
 	"net/http"
 	"net/url"
+	"os"
 	"reflect"
 	"sort"
 	"strconv"
@@ -19,10 +21,35 @@ import (
 var signatureSalt = "trailer_signature_salt" //客户端接口签名 加密盐
 var standbyConf *setting.StandbyTimeConf     //客户端待机时长配置
 
+//APP 包下载地址
+type appPackage struct {
+	AppName     string `json:"app_name"`
+	PackageName string `json:"package_name"`
+	PackageUrl  string `json:"package_url"`
+}
+type appPackageArray []*appPackage
+
 func GetStandbyTime() (error, int) {
 	standbyConf = setting.StandbyTimeSetting
 
 	return nil, standbyConf.Duration
+}
+
+//app 包下载地址
+func GetAppPackage() appPackageArray {
+	file, _ := os.Open("conf/app_package.json")
+	defer file.Close()
+	decoder := json.NewDecoder(file)
+	conf := appPackageArray{}
+
+	for decoder.More() {
+		err := decoder.Decode(&conf)
+		if err != nil {
+			fmt.Println("Error:", err)
+		}
+	}
+
+	return conf
 }
 
 func ExistIntElement(element int64, array []int64) bool {

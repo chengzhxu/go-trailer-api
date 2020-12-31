@@ -57,6 +57,9 @@ func InitRouter() *gin.Engine {
 
 		//待机时长
 		apiApp.GET("get_standby_time", app.GetStandbyTime)
+
+		//APP 包下载地址
+		apiApp.GET("get_app_package", app.GetAppPackage)
 	}
 
 	consoleApp := r.Group("/trailer_api/console")
