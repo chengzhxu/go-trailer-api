@@ -367,24 +367,6 @@ definitions:
 info:
   contact: {}
 paths:
-  /trailer_api/app/get_app_package:
-    get:
-      description: APP 包下载地址
-      operationId: APP_PACKAGE_DOWNLOAD
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/app.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/app.Response'
-      summary: APP_PACKAGE_DOWNLOAD
-      tags:
-      - Config
   /trailer_api/app/get_new_app:
     post:
       description: 获取最新的 APP 版本信息
@@ -410,10 +392,10 @@ paths:
       summary: UPDATE APP
       tags:
       - APP
-  /trailer_api/app/get_standby_time:
+  /trailer_api/app/get_trailer_conf:
     get:
-      description: 设备待机时间
-      operationId: STANDBY TIME
+      description: 获取配置信息
+      operationId: Trailer Conf
       produces:
       - application/json
       responses:
@@ -425,7 +407,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/app.Response'
-      summary: STANDBY TIME
+      summary: Trailer Conf
       tags:
       - Config
   /trailer_api/console/reset_asset:

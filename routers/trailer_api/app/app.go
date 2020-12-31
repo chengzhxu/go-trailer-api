@@ -56,40 +56,29 @@ func GetNewAppInfo(c *gin.Context) {
 }
 
 // @tags Config
-// @Summary STANDBY TIME
-// @Description 设备待机时间
-// @ID STANDBY TIME
+// @Summary Trailer Conf
+// @Description 获取配置信息
+// @ID Trailer Conf
 // @Produce json
 // @Success 200 {object} app.Response
 // @Failure 500 {object} app.Response
-// @Router /trailer_api/app/get_standby_time [get]
-func GetStandbyTime(c *gin.Context) {
+// @Router /trailer_api/app/get_trailer_conf [get]
+func GetTrailerConf(c *gin.Context) {
 	appG := app.Gin{C: c}
+	res := make(map[string]interface{})
 
-	t := make(map[string]int)
-	err, time := util.GetStandbyTime()
-	if err != nil {
-		logging.Error(err)
-		t["time"] = 30
+	standbyTime := 30
+	err, time := util.GetStandbyTime() //待机时长
+	if err == nil {
+		standbyTime = time
 	} else {
-		t["time"] = time
+		logging.Error(err)
 	}
 
-	appG.Response(http.StatusOK, e.Success, t)
-}
+	appPackages := util.GetAppPackage() //app package 下载地址
 
-// @tags Config
-// @Summary APP_PACKAGE_DOWNLOAD
-// @Description APP 包下载地址
-// @ID APP_PACKAGE_DOWNLOAD
-// @Produce json
-// @Success 200 {object} app.Response
-// @Failure 500 {object} app.Response
-// @Router /trailer_api/app/get_app_package [get]
-func GetAppPackage(c *gin.Context) {
-	appG := app.Gin{C: c}
+	res["standby_time"] = standbyTime
+	res["app_package"] = appPackages
 
-	appPackages := util.GetAppPackage()
-
-	appG.Response(http.StatusOK, e.Success, appPackages)
+	appG.Response(http.StatusOK, e.Success, res)
 }

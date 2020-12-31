@@ -24,33 +24,6 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/trailer_api/app/get_app_package": {
-            "get": {
-                "description": "APP 包下载地址",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Config"
-                ],
-                "summary": "APP_PACKAGE_DOWNLOAD",
-                "operationId": "APP_PACKAGE_DOWNLOAD",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/app.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/app.Response"
-                        }
-                    }
-                }
-            }
-        },
         "/trailer_api/app/get_new_app": {
             "post": {
                 "description": "获取最新的 APP 版本信息",
@@ -89,17 +62,17 @@ var doc = `{
                 }
             }
         },
-        "/trailer_api/app/get_standby_time": {
+        "/trailer_api/app/get_trailer_conf": {
             "get": {
-                "description": "设备待机时间",
+                "description": "获取配置信息",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Config"
                 ],
-                "summary": "STANDBY TIME",
-                "operationId": "STANDBY TIME",
+                "summary": "Trailer Conf",
+                "operationId": "Trailer Conf",
                 "responses": {
                     "200": {
                         "description": "OK",
