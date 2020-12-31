@@ -24,6 +24,8 @@ var standbyConf *setting.StandbyTimeConf     //客户端待机时长配置
 //APP 包下载地址
 type appPackage struct {
 	AppName     string `json:"app_name"`
+	AppEnName   string `json:"app_en_name"`
+	FileMd5     string `json:"file_md5"`
 	PackageName string `json:"package_name"`
 	PackageUrl  string `json:"package_url"`
 }

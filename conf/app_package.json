@@ -1,31 +1,43 @@
 [
   {
     "app_name": "爱奇艺",
+    "app_en_name": "aiqiyi",
+    "file_md5": "8a79c2f6f96c46d8ef2796638688a47b",
     "package_name": "com.gitvdemo.video",
     "package_url": "http://app.shafa.com/download/553870eb726e09033ebd6023.apk"
   },
   {
     "app_name": "腾讯",
+    "app_en_name": "tencent",
+    "file_md5": "61895ec3b729f4a6c6318caf29205e04",
     "package_name": "com.ktcp.video",
     "package_url": "http://app.shafa.com/download/555c5fe7ba681c277c5ba5a7.apk"
   },
   {
     "app_name": "优酷",
+    "app_en_name": "youku",
+    "file_md5": "50b72bcb30ed27e96c9bfa7f35c9a3f6",
     "package_name": "com.cibn.tv",
     "package_url": "http://app.shafa.com/download/54aa40ff726e09a651b0432c.apk"
   },
   {
     "app_name": "芒果",
+    "app_en_name": "mgtv",
+    "file_md5": "e5a599f1819b8bba8267fc6994a0a638",
     "package_name": "com.hunantv.license",
     "package_url": "http://app.shafa.com/download/55121bbf726e09bd7b4f3f53.apk"
   },
   {
     "app_name": "南瓜电影",
+    "app_en_name": "vcinema",
+    "file_md5": "2a6d63629c8881a198fbea43dc13c533",
     "package_name": "com.vcinema.client.tv",
     "package_url": "http://app.shafa.com/download/568f87b276437c3b6f5b4bb7.apk"
   },
   {
     "app_name": "哔哩哔哩",
+    "app_en_name": "bilibili",
+    "file_md5": "c691172810bceb2c692bfcbe50ac2055",
     "package_name": "com.xiaodianshi.tv.yst",
     "package_url": "http://app.shafa.com/download/5ae12f71fcc35db07ba80b07.apk"
   }
