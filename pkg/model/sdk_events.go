@@ -120,7 +120,6 @@ func RecordTrailerExposureNum(event SdkEvents) {
 							}
 						}
 					}
-
 				}
 			}
 		}

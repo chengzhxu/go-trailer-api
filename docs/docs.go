@@ -532,6 +532,10 @@ var doc = `{
                     "description": "资源有效期 - 开始时间",
                     "type": "string"
                 },
+                "exclude_channel_code": {
+                    "description": "排除渠道 - json数组",
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -558,6 +562,10 @@ var doc = `{
                 "priority": {
                     "description": "优先级  0:优先调用  1:优先下载",
                     "type": "integer"
+                },
+                "region_code": {
+                    "description": "定向地域 - 全部为 ALL - json数组",
+                    "type": "string"
                 },
                 "remark": {
                     "description": "描述",
