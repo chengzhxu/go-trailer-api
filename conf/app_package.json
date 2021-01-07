@@ -30,14 +30,14 @@
   {
     "app_name": "南瓜电影",
     "app_en_name": "vcinema",
-    "file_md5": "2a6d63629c8881a198fbea43dc13c533",
+    "file_md5": "6A6F57FF0A0BA8E4457DE3C83DA35E84",
     "package_name": "com.vcinema.client.tv",
     "package_url": "http://app.shafa.com/download/568f87b276437c3b6f5b4bb7.apk"
   },
   {
     "app_name": "哔哩哔哩",
     "app_en_name": "bilibili",
-    "file_md5": "c691172810bceb2c692bfcbe50ac2055",
+    "file_md5": "01463C42A28BB75E142A0975FEEADBE1",
     "package_name": "com.xiaodianshi.tv.yst",
     "package_url": "http://app.shafa.com/download/5ae12f71fcc35db07ba80b07.apk"
   }
