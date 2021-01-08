@@ -6,6 +6,7 @@ import (
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/util"
 	"strconv"
+	"time"
 )
 
 type SdkEvents struct {
@@ -44,8 +45,11 @@ type EventKv struct {
 
 var TrailerExposureKey = "trailer:exposure" //记录预告片曝光 redis key
 
+var TableName = "stats_sdk_events"
+
 func (SdkEvents) TableName() string {
-	return "stats_sdk_events"
+	//return checkEventsTab()
+	return TableName
 }
 
 func InsertSdkEvent(data map[string]interface{}) error {
@@ -124,4 +128,17 @@ func RecordTrailerExposureNum(event SdkEvents) {
 			}
 		}
 	}
+}
+
+//分表， 每月记录一张事件统计表
+func checkEventsTab() string {
+	date := time.Now().Format("200601") //当前 年月
+	newTabName := TableName + "_" + date
+
+	if !db.HasTable(newTabName) { //不存在当月表 - 创建
+		tabSql := "CREATE TABLE IF NOT EXISTS " + newTabName + " (LIKE " + TableName + ")"
+		db.Exec(tabSql)
+	}
+
+	return newTabName
 }

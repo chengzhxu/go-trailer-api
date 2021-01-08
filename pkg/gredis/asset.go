@@ -129,55 +129,31 @@ type OpenApp struct {
 * 同步 Asset 数据并写入 Redis （暂定）
  */
 func (asset *Asset) SyncAssetToRedis() error {
+	assetId := asset.Id
 	conn := RedisConn.Get() //获取 Redis
 	asset.DurationStartDate = util.CheckTime(asset.DurationStartDate)
 	asset.DurationEndDate = util.CheckTime(asset.DurationEndDate)
 	if !checkRunAsset(asset) { //无效的 Asset    -    从 Redis 删除
-		_, err := conn.Do("zrem", IdKey, asset.Id) //从 Id 排序中移除
+		err := delAssetForRedis(conn, assetId)
 		if err != nil {
 			logging.Error(err)
 			return err
 		}
-		_, oe := conn.Do("zrem", DisplayOrderKey, asset.Id) //从自定义排序中移除
-		if oe != nil {
-			logging.Error(oe)
-			return oe
-		}
-		_, he := conn.Do("hdel", HSetKey, asset.Id) //从 Hash 中移除
-		if he != nil {
-			logging.Error(he)
-			return he
-		}
 	}
-	delErr := delAssetReConf(asset.Id, conn)
+
+	delErr := delAssetReConf(conn, assetId) //删除 Asset 定向配置信息
 	if delErr != nil {
 		logging.Error(delErr)
 		return delErr
 	}
 
-	assetId := asset.Id
-	asset.Score, _ = strconv.ParseFloat(fmt.Sprintf("%.1f", asset.Score), 64)
-	jsonBytes, err := json.Marshal(asset)
+	err := setAssetForRedis(conn, asset) //写入 Asset
 	if err != nil {
 		logging.Error(err)
 		return err
 	}
-	_, err = conn.Do("zadd", IdKey, assetId, assetId) //根据 Id 排序
-	if err != nil {
-		logging.Error(err)
-		return err
-	}
-	_, err = conn.Do("zadd", DisplayOrderKey, asset.DisplayOrder, assetId) //根据自定义排序
-	if err != nil {
-		logging.Error(err)
-		return err
-	}
-	_, err = conn.Do("hset", HSetKey, assetId, jsonBytes) //根据 Id 存储
-	if err != nil {
-		logging.Error(err)
-		return err
-	}
-	setErr := setAssetReConf(asset, conn)
+
+	setErr := setAssetReConf(conn, asset) //写入 Asset 定向配置信息
 	if setErr != nil {
 		logging.Error(setErr)
 		return setErr
@@ -220,14 +196,18 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 			return assetRes, err
 		}
 
-		reply, err := redis.Bytes(conn.Do("hget", HSetKey, v))
+		reply, err := conn.Do("hget", HSetKey, v)
+		if reply == nil {
+			continue
+		}
+		reAsset, _ := redis.Bytes(reply, err)
 		if err != nil {
 			logging.Error(err)
 			return assetRes, err
 		}
 
 		var asset *Asset
-		json.Unmarshal(reply, &asset)
+		json.Unmarshal(reAsset, &asset)
 
 		if !checkRunAsset(asset) { //无效的 Asset
 			continue
@@ -366,6 +346,48 @@ func checkAssetCap(asset *Asset, deviceNo string) bool {
 	return true
 }
 
+//清除 Asset    与 setAssetForRedis 方法中的 redis key 保持一致
+func delAssetForRedis(conn redis.Conn, assetId int) error {
+	_, err := conn.Do("zrem", IdKey, assetId) //从 Id 排序中移除
+	if err != nil {
+		return err
+	}
+	_, oe := conn.Do("zrem", DisplayOrderKey, assetId) //从自定义排序中移除
+	if oe != nil {
+		return oe
+	}
+	_, he := conn.Do("hdel", HSetKey, assetId) //从 Hash 中移除
+	if he != nil {
+		return he
+	}
+
+	return nil
+}
+
+//写入 Asset    与 delAssetForRedis 方法中的 redis key 保持一致
+func setAssetForRedis(conn redis.Conn, asset *Asset) error {
+	assetId := asset.Id
+	asset.Score, _ = strconv.ParseFloat(fmt.Sprintf("%.1f", asset.Score), 64)
+	jsonBytes, err := json.Marshal(asset)
+	if err != nil {
+		return err
+	}
+	_, err = conn.Do("zadd", IdKey, assetId, assetId) //根据 Id 排序
+	if err != nil {
+		return err
+	}
+	_, err = conn.Do("zadd", DisplayOrderKey, asset.DisplayOrder, assetId) //根据自定义排序
+	if err != nil {
+		return err
+	}
+	_, err = conn.Do("hset", HSetKey, assetId, jsonBytes) //根据 Id 存储
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // 素材 url 头替换  https =》 http
 func replaceAssetHttp(asset *Asset) *Asset {
 	domainArr := []string{".shafa.com", ".xmxapi.com", ".xmxcdn.com"} //自己域名不替换
@@ -477,49 +499,21 @@ func replaceAssetPicUrlsHttp(mapPics []interface{}) []interface{} {
 	return mapPics
 }
 
-//清洗 Redis Asset
-func ResetAsset() error {
-	conn := RedisConn.Get() //获取 Redis
-
-	assetArr, err := redis.Values(conn.Do("hkeys", HSetKey))
-	if err != nil {
-		logging.Error(err)
-		return err
-	}
-
-	for _, v := range assetArr {
-		assetId := fmt.Sprintf("%s", v)
-		score, _ := conn.Do("ZSCORE", DisplayOrderKey, assetId) //获取自定义排序数据
-
-		if score == nil { // 不存在自定义排序中  移除掉
-			_, err := conn.Do("zrem", IdKey, assetId) //从 Id 排序中移除
-			if err != nil {
-				logging.Error(err)
-				return err
-			}
-
-			_, he := conn.Do("hdel", HSetKey, assetId) //从 Hash 中移除
-			if he != nil {
-				logging.Error(he)
-				return he
-			}
-		}
-	}
-
-	return nil
-}
-
 //删除素材定向 or 排除信息
-func delAssetReConf(assetId int, conn redis.Conn) error {
+func delAssetReConf(conn redis.Conn, assetId int) error {
 	if assetId > 0 {
-		reply, err := redis.Bytes(conn.Do("hget", HSetKey, assetId))
+		reply, err := conn.Do("hget", HSetKey, assetId)
+		if reply == nil {
+			return nil
+		}
+		reAsset, _ := redis.Bytes(reply, err)
 		if err != nil {
 			logging.Error(err)
 			return err
 		}
 
 		var asset *Asset
-		json.Unmarshal(reply, &asset) //之前存放在 redis 中的素材信息
+		json.Unmarshal(reAsset, &asset) //之前存放在 redis 中的素材信息
 		e := todoAssetReConf(asset, 0, conn)
 		if e != nil {
 			logging.Error(e)
@@ -531,7 +525,7 @@ func delAssetReConf(assetId int, conn redis.Conn) error {
 }
 
 //写入素材定向 or 排除信息
-func setAssetReConf(asset *Asset, conn redis.Conn) error {
+func setAssetReConf(conn redis.Conn, asset *Asset) error {
 	err := todoAssetReConf(asset, 1, conn)
 	if err != nil {
 		logging.Error(err)
@@ -623,6 +617,57 @@ func todoAssetReConf(asset *Asset, t int, conn redis.Conn) error {
 				}
 			}
 		}
+	}
+
+	return nil
+}
+
+//清洗 Redis Asset
+func ResetAsset() error {
+	conn := RedisConn.Get() //获取 Redis
+
+	assetArr, err := redis.Values(conn.Do("hkeys", HSetKey))
+	if err != nil {
+		logging.Error(err)
+		return err
+	}
+
+	for _, v := range assetArr {
+		assetId := fmt.Sprintf("%s", v)
+		score, _ := conn.Do("ZSCORE", DisplayOrderKey, assetId) //获取自定义排序数据
+
+		if score == nil { // 不存在自定义排序中  移除掉
+			_, err := conn.Do("zrem", IdKey, assetId) //从 Id 排序中移除
+			if err != nil {
+				logging.Error(err)
+				return err
+			}
+
+			_, he := conn.Do("hdel", HSetKey, assetId) //从 Hash 中移除
+			if he != nil {
+				logging.Error(he)
+				return he
+			}
+		}
+	}
+
+	return nil
+}
+
+//移除 Redis Asset
+func RemoveAsset(assetId int) error {
+	conn := RedisConn.Get() //获取 Redis
+
+	e := delAssetReConf(conn, assetId) //先 移除 Redis 中 Asset 的定向配置信息; 因为移除配置信息需要获取 Redis 中素材的配置信息
+	if e != nil {
+		logging.Error(e)
+		return e
+	}
+
+	err := delAssetForRedis(conn, assetId) //后 移除 Redis 中的 Asset 信息
+	if err != nil {
+		logging.Error(err)
+		return err
 	}
 
 	return nil

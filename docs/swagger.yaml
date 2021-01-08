@@ -416,6 +416,30 @@ paths:
       summary: Trailer Conf
       tags:
       - Config
+  /trailer_api/console/remove_asset/{id}:
+    get:
+      description: 清除 Redis 素材数据
+      operationId: RemoveAsset
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: Remove Redis Asset
+      tags:
+      - Asset Console
   /trailer_api/console/reset_asset:
     get:
       description: 清洗 Redis 素材数据
@@ -433,7 +457,7 @@ paths:
             $ref: '#/definitions/app.Response'
       summary: Reset Redis Asset
       tags:
-      - Reset Redis
+      - Asset Console
   /trailer_api/stats/record_device:
     post:
       description: 设备信息上报
