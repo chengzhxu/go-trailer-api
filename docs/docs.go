@@ -672,6 +672,10 @@ var doc = `{
                     "description": "每页数量",
                     "type": "integer",
                     "example": 20
+                },
+                "region_code": {
+                    "description": "region_code",
+                    "type": "string"
                 }
             }
         },

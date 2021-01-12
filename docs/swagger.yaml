@@ -136,6 +136,9 @@ definitions:
         description: 每页数量
         example: 20
         type: integer
+      region_code:
+        description: region_code
+        type: string
     required:
     - channel_code
     - device_no

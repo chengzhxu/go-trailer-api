@@ -18,6 +18,9 @@ func Setup() {
 	trailerMySql = setting.TrailerDbSetting
 	createStatsConn()
 	createTrailerConn()
+
+	//将 MySql 地区信息写入文件，方便定向、排除地区【客户端素材列表接口】使用
+	WriteRegionToFile()
 }
 
 // CreateStatsConn closes database connection (unnecessary)

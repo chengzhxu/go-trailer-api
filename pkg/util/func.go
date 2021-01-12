@@ -5,6 +5,8 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/lionsoul2014/ip2region/binding/golang/ip2region"
+	ip2region2 "go-trailer-api/pkg/ip2region"
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/setting"
 	"net"
@@ -282,4 +284,15 @@ func CheckParamSignature(params map[string]interface{}, signature string) bool {
 	}
 
 	return false
+}
+
+func GetIpInfoByRequest(r *http.Request) ip2region.IpInfo {
+	ip := ClientPublicIP(r)
+	if ip == "" {
+		ip = ClientIP(r)
+	}
+	//根据 IP 获取地域信息
+	ips, _ := ip2region2.IpRegionDb.MemorySearch(ip)
+
+	return ips
 }

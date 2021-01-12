@@ -7,6 +7,8 @@ import (
 	"go-trailer-api/pkg/e"
 	"go-trailer-api/pkg/gredis"
 	"go-trailer-api/pkg/logging"
+	"go-trailer-api/pkg/model"
+	"go-trailer-api/pkg/util"
 	"go-trailer-api/routers/trailer_api"
 	"net/http"
 )
@@ -28,6 +30,11 @@ func GetTrailerList(c *gin.Context) {
 	if err != nil {
 		appG.Response(httpCode, errCode, err.Error())
 		return
+	}
+
+	if jsonRequest.RegionCode == "" {
+		ipInfo := util.GetIpInfoByRequest(c.Request) //根据请求获取地域信息
+		jsonRequest.RegionCode = model.ReadRegionFromFile(ipInfo.City)
 	}
 
 	assetRes, err := jsonRequest.QueryTrailerList()
@@ -67,6 +74,9 @@ func GetSecretTrailerList(c *gin.Context) {
 		appG.ResponseJson(http.StatusBadRequest, nil)
 		return
 	}
+
+	ipInfo := util.GetIpInfoByRequest(c.Request) //根据请求获取地域信息
+	jsonRequest.RegionCode = model.ReadRegionFromFile(ipInfo.City)
 
 	assetRes, err := jsonRequest.QueryTrailerList()
 	if err != nil {

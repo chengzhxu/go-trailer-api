@@ -53,6 +53,7 @@ type TrailerListParam struct {
 	ChannelCode string `json:"channel_code" binding:"required" example:""` //渠道码
 	DeviceNo    string `json:"device_no" binding:"required" example:""`    //设备号
 	IsSecure    bool   `json:"isSecure" binding:""`                        //判断返回链接形式 https or http;
+	RegionCode  string `json:"region_code" binding:""`                     //region_code
 }
 
 type AssetArray []*Asset
@@ -178,34 +179,46 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 	assetArr := AssetArray{}    //当前页素材信息
 	capAssetArr := AssetArray{} //当素材全部频控后 - 重新返回的素材信息
 
+	goalChannelArr := []string{} //定向 channel
+	exChannelArr := []string{}   //排除 channel
+	goalRegionArr := []string{}  //定向 region
+	runAsset := []string{}       //定向 & 排除后的 asset
+
 	conn := RedisConn.Get()
 	//按照自定义倒序获取所有的 AssetId
-	res, err := redis.Values(conn.Do("zrevrangebyscore", DisplayOrderKey, "+inf", "-inf"))
+	allAssetId, err := redis.Values(conn.Do("zrevrangebyscore", DisplayOrderKey, "+inf", "-inf"))
 	if err != nil {
 		logging.Error(err)
 		return assetRes, err
 	}
+	goalChannelArr = getGoalChannel(conn, rr.ChannelCode)  //定向 channel
+	exChannelArr = getExcludeChannel(conn, rr.ChannelCode) //排除 channel
+	goalRegionArr = getGoalRegion(conn, rr.RegionCode)
+	//定向 & 排除
+	for _, v := range allAssetId {
+		v := strings.ReplaceAll(fmt.Sprintf("%s", v), " ", "")
+		if util.StrInArray(v, exChannelArr) { //排除 channel
+			continue
+		}
+		if util.StrInArray(v, goalChannelArr) && util.StrInArray(v, goalRegionArr) { //定向 channel && 定向 region
+			runAsset = append(runAsset, v)
+		}
+	}
+	logging.Info(runAsset)
+	onAsset := getOnAsset(conn, runAsset)
 
 	rmCount := (page - 1) * pageSize //当前页之前的数量（忽略）
 	totalRows := 0                   //总数量
 	capTotalRows := 0                //频控均已到达时重新计算的总数量
 
-	for _, v := range res {
+	for _, v := range onAsset {
+		v := fmt.Sprintf("%s", v)
+
+		reAsset, _ := redis.Bytes(v, err)
 		if err != nil {
 			logging.Error(err)
 			return assetRes, err
 		}
-
-		reply, err := conn.Do("hget", HSetKey, v)
-		if reply == nil {
-			continue
-		}
-		reAsset, _ := redis.Bytes(reply, err)
-		if err != nil {
-			logging.Error(err)
-			return assetRes, err
-		}
-
 		var asset *Asset
 		json.Unmarshal(reAsset, &asset)
 
@@ -617,6 +630,104 @@ func todoAssetReConf(asset *Asset, t int, conn redis.Conn) error {
 				}
 			}
 		}
+	}
+
+	return nil
+}
+
+//定向 channel
+func getGoalChannel(conn redis.Conn, channelCode string) []string {
+	assetArr := []string{}
+
+	if channelCode != "" {
+		channelStr := "(" + channelCode + ":"
+		goalChannel, _ := redis.Values(conn.Do("ZRANGEBYLEX", ChannelGoal, channelStr, channelStr+"\\xff")) //定向 channel
+
+		for _, r := range goalChannel {
+			v := fmt.Sprintf("%s", r)
+			arr := strings.Split(v, ":")
+			if len(arr) == 2 {
+				assetArr = append(assetArr, strings.ReplaceAll(arr[1], " ", ""))
+			}
+		}
+	}
+
+	allChannel, _ := redis.Values(conn.Do("ZRANGEBYLEX", ChannelGoal, "(ALL:", "(ALL:\\xff")) //ALl channel
+	for _, r := range allChannel {
+		v := fmt.Sprintf("%s", r)
+		arr := strings.Split(v, ":")
+		if len(arr) == 2 {
+			assetArr = append(assetArr, strings.ReplaceAll(arr[1], " ", ""))
+		}
+	}
+
+	return assetArr
+}
+
+//排除 channel
+func getExcludeChannel(conn redis.Conn, channelCode string) []string {
+	assetArr := []string{}
+
+	if channelCode != "" {
+		channelStr := "(" + channelCode + ":"
+		exChannel, _ := redis.Values(conn.Do("ZRANGEBYLEX", ChannelExclude, channelStr, channelStr+"\\xff")) //排除 channel
+
+		for _, r := range exChannel {
+			v := fmt.Sprintf("%s", r)
+			arr := strings.Split(v, ":")
+			if len(arr) == 2 {
+				assetArr = append(assetArr, strings.ReplaceAll(arr[1], " ", ""))
+			}
+		}
+	}
+
+	return assetArr
+}
+
+//定向 region
+func getGoalRegion(conn redis.Conn, regionCode string) []string {
+	assetArr := []string{}
+
+	if regionCode != "" {
+		regionStr := "(" + regionCode + ":"
+		goalRegion, _ := redis.Values(conn.Do("ZRANGEBYLEX", RegionGoal, regionStr, regionStr+"\\xff")) //定向 region
+
+		for _, r := range goalRegion {
+			v := fmt.Sprintf("%s", r)
+			arr := strings.Split(v, ":")
+			if len(arr) == 2 {
+				assetArr = append(assetArr, strings.ReplaceAll(arr[1], " ", ""))
+			}
+		}
+	}
+
+	allRegion, _ := redis.Values(conn.Do("ZRANGEBYLEX", RegionGoal, "(ALL:", "(ALL:\\xff")) //排除 region
+	for _, r := range allRegion {
+		v := fmt.Sprintf("%s", r)
+		arr := strings.Split(v, ":")
+		if len(arr) == 2 {
+			assetArr = append(assetArr, strings.ReplaceAll(arr[1], " ", ""))
+		}
+	}
+
+	return assetArr
+}
+
+//获取 Asset  -  根据定向及排除过滤后的
+func getOnAsset(conn redis.Conn, items []string) []interface{} {
+	if len(items) > 0 {
+		fields := make([]interface{}, len(items)+1)
+		fields[0] = HSetKey
+		for i, vv := range items {
+			fields[i+1] = vv
+		}
+		reply, err := conn.Do("hmget", fields...)
+
+		if reply != nil {
+			assetRes, _ := redis.Values(reply, err)
+			return assetRes
+		}
+
 	}
 
 	return nil
