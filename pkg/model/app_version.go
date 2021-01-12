@@ -84,9 +84,14 @@ func FetchApp(ap AppParam) (*AppVersion, error) {
 
 	isHotUpdate := ap.IsHotUpdate                        //是否热更版本
 	appName := ap.AppName                                //版本名称
+	sdkName := ap.SdkName                                //SDK 名称
 	appVersionCode, _ := strconv.Atoi(ap.AppVersionCode) //版本 code
 	//取所有有效版本
 	var allVersion []*AppVersion
+
+	if strings.ReplaceAll(sdkName, " ", "") != "" {
+		appName = sdkName
+	}
 	err := trailerDb.Where("is_hot_update = ? and app_name = ? and app_version_code > ? ", isHotUpdate, appName, appVersionCode).Order("update_time DESC").Find(&allVersion).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
