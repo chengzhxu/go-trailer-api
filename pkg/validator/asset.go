@@ -102,6 +102,21 @@ func AssetChannelCode(fl validator.FieldLevel) bool {
 	return true
 }
 
+func AssetBanChannelCode(fl validator.FieldLevel) bool {
+	var (
+		v   []string
+		err error
+	)
+	if fl.Field().String() != "" {
+		err = ffjson.Unmarshal([]byte(fl.Field().String()), &v)
+		if err != nil {
+			return false
+		}
+	}
+
+	return true
+}
+
 func AssetRegionCode(fl validator.FieldLevel) bool {
 	var (
 		v   []string

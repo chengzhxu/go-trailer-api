@@ -573,7 +573,7 @@
                 },
                 "own_channel_id": {
                     "description": "素材所属渠道",
-                    "type": "string"
+                    "type": "integer"
                 },
                 "pic_urls": {
                     "description": "多张图片url  （json）",
