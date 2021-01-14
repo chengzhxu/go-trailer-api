@@ -13,37 +13,37 @@ import (
 
 type Asset struct {
 	Id                 int         `json:"id" binding:"required,bas_primary"`
-	Name               string      `json:"name" binding:""`                                   //名称
-	Remark             string      `json:"remark" binding:""`                                 //描述
-	Score              interface{} `json:"score" binding:""`                                  //评分
-	ViewLimit          int         `json:"view_limit" binding:""`                             //青少年观影限制 0  - 不限制 1 – 限制
-	ViewCities         string      `json:"view_cities" binding:""`                            //地区限制 （json）
-	ViewTags           string      `json:"view_tags" binding:""`                              //数据标签 （json）
-	Type               int         `json:"type" binding:"required,asset_type"`                //类型 1-视频 2-图片
-	CoverUrl           string      `json:"cover_url" binding:""`                              //封面图地址
-	MovieUrl           string      `json:"movie_url" binding:""`                              //视频地址
-	PicUrls            interface{} `json:"pic_urls" binding:""`                               //多张图片url  （json）
-	DurationStartDate  string      `json:"duration_start_date" binding:"required,bas_time"`   //资源有效期 - 开始时间
-	DurationEndDate    string      `json:"duration_end_date" binding:"required,bas_time"`     //资源有效期 - 结束时间
-	ActType            int         `json:"act_type" binding:"required,asset_act_type"`        //OK键动作类型 1-无动作 2-打开/下载应用 3-弹出二维码 4-加载长视频
-	ActToast           string      `json:"act_toast" binding:""`                              //OK键引导文案
-	Priority           int         `json:"priority" binding:""`                               //优先级  0:优先调用  1:优先下载
-	ImgStayTime        int         `json:"img_stay_time" binding:""`                          //单张图片停留时长(秒)
-	ActOpenApps        interface{} `json:"act_open_apps" binding:"asset_open_apps"`           //需要下载打开的应用  （json）
-	ActQrcodeUrl       string      `json:"act_qrcode_url" binding:""`                         //二维码地址
-	ActQrcodeOrgUrl    string      `json:"act_qrcode_org_url" binding:""`                     //二维码原链接url
-	ActQrcodeBgUrl     string      `json:"act_qrcode_bg_url" binding:""`                      //二维码背景图url
-	ActPopTime         int         `json:"act_pop_time" binding:""`                           //二维码自动弹出时间，单位：秒
-	ActLongMovieUrl    string      `json:"act_long_movie_url" binding:""`                     //长视频 url
-	ShelfStatus        int         `json:"shelf_status" binding:"required"`                   //上架状态 1-未上架 2-已上架 3-已下架
-	LastUpdateTime     string      `json:"last_update_time" binding:"required,bas_time"`      //最后更新时间 - 排序使用
-	DelFlag            int         `json:"del_flag" binding:"asset_is_del"`                   //是否删除  0:否  1:是
-	ScreenControlCycle int         `json:"screen_control_cycle" binding:"" example:"0"`       //频控周期  天数  自然日
-	ScreenControlCount int         `json:"screen_control_count" binding:"" example:"0"`       //周期内频控次数
-	DisplayOrder       int         `json:"display_order" binding:"" example:"0"`              //排序
-	ChannelCode        string      `json:"channel_code" binding:"asset_channel_code"`         //对应的渠道 - 全部为 ALL - json数组
-	ExcludeChannelCode string      `json:"exclude_channel_code" binding:"asset_channel_code"` //排除渠道 - json数组
-	RegionCode         string      `json:"region_code" binding:"asset_region_code"`           //定向地域 - 全部为 ALL - json数组
+	Name               string      `json:"name" binding:""`                                 //名称
+	Remark             string      `json:"remark" binding:""`                               //描述
+	Score              interface{} `json:"score" binding:""`                                //评分
+	ViewLimit          int         `json:"view_limit" binding:""`                           //青少年观影限制 0  - 不限制 1 – 限制
+	ViewCities         string      `json:"view_cities" binding:"asset_region_code"`         //地区 （json）
+	ViewTags           string      `json:"view_tags" binding:""`                            //数据标签 （json）
+	Type               int         `json:"type" binding:"required,asset_type"`              //类型 1-视频 2-图片
+	CoverUrl           string      `json:"cover_url" binding:""`                            //封面图地址
+	MovieUrl           string      `json:"movie_url" binding:""`                            //视频地址
+	PicUrls            interface{} `json:"pic_urls" binding:""`                             //多张图片url  （json）
+	DurationStartDate  string      `json:"duration_start_date" binding:"required,bas_time"` //资源有效期 - 开始时间
+	DurationEndDate    string      `json:"duration_end_date" binding:"required,bas_time"`   //资源有效期 - 结束时间
+	ActType            int         `json:"act_type" binding:"required,asset_act_type"`      //OK键动作类型 1-无动作 2-打开/下载应用 3-弹出二维码 4-加载长视频
+	ActToast           string      `json:"act_toast" binding:""`                            //OK键引导文案
+	Priority           int         `json:"priority" binding:""`                             //优先级  0:优先调用  1:优先下载
+	ImgStayTime        int         `json:"img_stay_time" binding:""`                        //单张图片停留时长(秒)
+	ActOpenApps        interface{} `json:"act_open_apps" binding:"asset_open_apps"`         //需要下载打开的应用  （json）
+	ActQrcodeUrl       string      `json:"act_qrcode_url" binding:""`                       //二维码地址
+	ActQrcodeOrgUrl    string      `json:"act_qrcode_org_url" binding:""`                   //二维码原链接url
+	ActQrcodeBgUrl     string      `json:"act_qrcode_bg_url" binding:""`                    //二维码背景图url
+	ActPopTime         int         `json:"act_pop_time" binding:""`                         //二维码自动弹出时间，单位：秒
+	ActLongMovieUrl    string      `json:"act_long_movie_url" binding:""`                   //长视频 url
+	ShelfStatus        int         `json:"shelf_status" binding:"required"`                 //上架状态 1-未上架 2-已上架 3-已下架
+	LastUpdateTime     string      `json:"last_update_time" binding:"required,bas_time"`    //最后更新时间 - 排序使用
+	DelFlag            int         `json:"del_flag" binding:"asset_is_del"`                 //是否删除  0:否  1:是
+	ScreenControlCycle int         `json:"screen_control_cycle" binding:"" example:"0"`     //频控周期  天数  自然日
+	ScreenControlCount int         `json:"screen_control_count" binding:"" example:"0"`     //周期内频控次数
+	DisplayOrder       int         `json:"display_order" binding:"" example:"0"`            //排序
+	ChannelCode        string      `json:"channel_code" binding:"asset_channel_code"`       //对应的渠道 - 全部为 ALL - json数组
+	BanChannelCode     string      `json:"ban_channel_code" binding:"asset_channel_code"`   //排除渠道 - json数组
+	OwnChannelId       string      `json:"own_channel_id" binding:""`                       //素材所属渠道
 }
 
 //预告片列表参数
@@ -77,10 +77,10 @@ var TrailerCapCountEndKey = ":count:" //素材频控 - 周期内播放次数 red
 var TrailerCapDateEndKey = ":date"    //素材频控 -  周期内首次播放时间 redis key  last_name
 
 //定向 & 排除   Redis key
-var TrailerGoalBeginKey = "trailer_asset:"                   //素材定向目的 first_name
-var ChannelGoal = TrailerGoalBeginKey + "channel:goal"       //定向渠道
-var ChannelExclude = TrailerGoalBeginKey + "channel:exclude" //排除渠道
-var RegionGoal = TrailerGoalBeginKey + "region:goal"         //定向地域
+var TrailerGoalBeginKey = "trailer_asset:"             //素材定向目的 first_name
+var ChannelGoal = TrailerGoalBeginKey + "channel:goal" //定向渠道
+var ChannelBan = TrailerGoalBeginKey + "channel:ban"   //排除渠道
+var RegionGoal = TrailerGoalBeginKey + "region:goal"   //定向地域
 
 func mapAsset(a *Asset) map[string]interface{} {
 	return map[string]interface{}{
@@ -113,8 +113,8 @@ func mapAsset(a *Asset) map[string]interface{} {
 		"screen_control_count": a.ScreenControlCount,
 		"display_order":        a.DisplayOrder,
 		"channel_code":         a.ChannelCode,
-		"exclude_channel_code": a.ExcludeChannelCode,
-		"region_code":          a.RegionCode,
+		"ban_channel_code":     a.BanChannelCode,
+		"own_channel_id":       a.OwnChannelId,
 	}
 }
 
@@ -191,8 +191,8 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 		logging.Error(err)
 		return assetRes, err
 	}
-	goalChannelArr = getGoalChannel(conn, rr.ChannelCode)  //定向 channel
-	exChannelArr = getExcludeChannel(conn, rr.ChannelCode) //排除 channel
+	goalChannelArr = getGoalChannel(conn, rr.ChannelCode) //定向 channel
+	exChannelArr = getBanChannel(conn, rr.ChannelCode)    //排除 channel
 	goalRegionArr = getGoalRegion(conn, rr.RegionCode)
 	//定向 & 排除
 	for _, v := range allAssetId {
@@ -581,9 +581,9 @@ func todoAssetReConf(asset *Asset, t int, conn redis.Conn) error {
 			}
 		}
 
-		if asset.ExcludeChannelCode != "" { //排除 channel
+		if asset.BanChannelCode != "" { //排除 channel
 			var mapChannel []string
-			err := json.Unmarshal([]byte(asset.ExcludeChannelCode), &mapChannel)
+			err := json.Unmarshal([]byte(asset.BanChannelCode), &mapChannel)
 			if err != nil {
 				logging.Error(err)
 				return err
@@ -591,13 +591,13 @@ func todoAssetReConf(asset *Asset, t int, conn redis.Conn) error {
 			for _, c := range mapChannel {
 				v := c + redisVal //redis value 规则
 				if t == 0 {       //删除
-					_, err := conn.Do("zrem", ChannelExclude, v)
+					_, err := conn.Do("zrem", ChannelBan, v)
 					if err != nil {
 						logging.Error(err)
 						return err
 					}
 				} else if t == 1 { //新增
-					_, err := conn.Do("zadd", ChannelExclude, redisScore, v)
+					_, err := conn.Do("zadd", ChannelBan, redisScore, v)
 					if err != nil {
 						logging.Error(err)
 						return err
@@ -606,9 +606,9 @@ func todoAssetReConf(asset *Asset, t int, conn redis.Conn) error {
 			}
 		}
 
-		if asset.RegionCode != "" { //定向地区
+		if asset.ViewCities != "" { //定向地区
 			var mapRegion []string
-			err := json.Unmarshal([]byte(asset.RegionCode), &mapRegion)
+			err := json.Unmarshal([]byte(asset.ViewCities), &mapRegion)
 			if err != nil {
 				logging.Error(err)
 				return err
@@ -665,12 +665,12 @@ func getGoalChannel(conn redis.Conn, channelCode string) []string {
 }
 
 //排除 channel
-func getExcludeChannel(conn redis.Conn, channelCode string) []string {
+func getBanChannel(conn redis.Conn, channelCode string) []string {
 	assetArr := []string{}
 
 	if channelCode != "" {
 		channelStr := "(" + channelCode + ":"
-		exChannel, _ := redis.Values(conn.Do("ZRANGEBYLEX", ChannelExclude, channelStr, channelStr+"\\xff")) //排除 channel
+		exChannel, _ := redis.Values(conn.Do("ZRANGEBYLEX", ChannelBan, channelStr, channelStr+"\\xff")) //排除 channel
 
 		for _, r := range exChannel {
 			v := fmt.Sprintf("%s", r)

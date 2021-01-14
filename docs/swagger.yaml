@@ -34,6 +34,9 @@ definitions:
       act_type:
         description: OK键动作类型 1-无动作 2-打开/下载应用 3-弹出二维码 4-加载长视频
         type: integer
+      ban_channel_code:
+        description: 排除渠道 - json数组
+        type: string
       channel_code:
         description: 对应的渠道 - 全部为 ALL - json数组
         type: string
@@ -53,9 +56,6 @@ definitions:
       duration_start_date:
         description: 资源有效期 - 开始时间
         type: string
-      exclude_channel_code:
-        description: 排除渠道 - json数组
-        type: string
       id:
         type: integer
       img_stay_time:
@@ -70,15 +70,15 @@ definitions:
       name:
         description: 名称
         type: string
+      own_channel_id:
+        description: 素材所属渠道
+        type: string
       pic_urls:
         description: 多张图片url  （json）
         type: object
       priority:
         description: 优先级  0:优先调用  1:优先下载
         type: integer
-      region_code:
-        description: 定向地域 - 全部为 ALL - json数组
-        type: string
       remark:
         description: 描述
         type: string
@@ -100,7 +100,7 @@ definitions:
         description: 类型 1-视频 2-图片
         type: integer
       view_cities:
-        description: 地区限制 （json）
+        description: 地区 （json）
         type: string
       view_limit:
         description: 青少年观影限制 0  - 不限制 1 – 限制

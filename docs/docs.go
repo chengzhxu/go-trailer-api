@@ -543,6 +543,10 @@ var doc = `{
                     "description": "OK键动作类型 1-无动作 2-打开/下载应用 3-弹出二维码 4-加载长视频",
                     "type": "integer"
                 },
+                "ban_channel_code": {
+                    "description": "排除渠道 - json数组",
+                    "type": "string"
+                },
                 "channel_code": {
                     "description": "对应的渠道 - 全部为 ALL - json数组",
                     "type": "string"
@@ -568,10 +572,6 @@ var doc = `{
                     "description": "资源有效期 - 开始时间",
                     "type": "string"
                 },
-                "exclude_channel_code": {
-                    "description": "排除渠道 - json数组",
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
@@ -591,6 +591,10 @@ var doc = `{
                     "description": "名称",
                     "type": "string"
                 },
+                "own_channel_id": {
+                    "description": "素材所属渠道",
+                    "type": "string"
+                },
                 "pic_urls": {
                     "description": "多张图片url  （json）",
                     "type": "object"
@@ -598,10 +602,6 @@ var doc = `{
                 "priority": {
                     "description": "优先级  0:优先调用  1:优先下载",
                     "type": "integer"
-                },
-                "region_code": {
-                    "description": "定向地域 - 全部为 ALL - json数组",
-                    "type": "string"
                 },
                 "remark": {
                     "description": "描述",
@@ -630,7 +630,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "view_cities": {
-                    "description": "地区限制 （json）",
+                    "description": "地区 （json）",
                     "type": "string"
                 },
                 "view_limit": {
