@@ -776,6 +776,10 @@ var doc = `{
                     "description": "IP",
                     "type": "string"
                 },
+                "mac": {
+                    "description": "MAC",
+                    "type": "string"
+                },
                 "resolution": {
                     "description": "分辨率",
                     "type": "string"
