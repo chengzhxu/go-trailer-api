@@ -283,7 +283,7 @@ func tranceAsset(asset *Asset, isSecure bool) *Asset {
 	asset.PicUrls = mapPics
 
 	oaArr := []OpenApp{} //打开的app
-	if asset.ActOpenApps != "" {
+	if asset.ActOpenApps != "" && asset.ActOpenApps != nil {
 		var openAppArray []OpenApp
 		err := json.Unmarshal([]byte(asset.ActOpenApps.(string)), &openAppArray)
 		if err != nil {
