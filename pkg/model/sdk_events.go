@@ -32,6 +32,7 @@ type SdkEvents struct {
 	SdkVersionCode string `json:"sdk_version_code" gorm:"column:sdk_version_code"`
 	PageName       string `json:"page_name" gorm:"column:page_name"`
 	IP             string `json:"ip" gorm:"column:ip"`
+	MAC            string `json:"mac" gorm:"column:mac"`
 	NetType        string `json:"net_type" gorm:"column:net_type"`
 	NewEventType   int    `json:"newevent_type" gorm:"column:newevent_type"`
 	EventName      string `json:"event_name" gorm:"column:event_name"`
@@ -75,6 +76,7 @@ func InsertSdkEvent(data map[string]interface{}) error {
 		SdkVersionCode: data["sdk_version_code"].(string),
 		PageName:       data["page_name"].(string),
 		IP:             data["ip"].(string),
+		MAC:            data["mac"].(string),
 		NetType:        data["net_type"].(string),
 		NewEventType:   data["newevent_type"].(int),
 		EventName:      data["event_name"].(string),

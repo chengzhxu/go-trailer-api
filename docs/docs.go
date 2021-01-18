@@ -931,6 +931,10 @@ var doc = `{
                     "description": "IP",
                     "type": "string"
                 },
+                "mac": {
+                    "description": "MAC 地址",
+                    "type": "string"
+                },
                 "net_type": {
                     "description": "网络类型\tWIFI/4G/5G",
                     "type": "string"
