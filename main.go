@@ -8,6 +8,7 @@ import (
 	"go-trailer-api/pkg/gredis"
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/model"
+	"go-trailer-api/pkg/nacos"
 	"go-trailer-api/pkg/setting"
 	"go-trailer-api/pkg/validator"
 	"go-trailer-api/routers"
@@ -21,6 +22,7 @@ const (
 
 func init() {
 	setting.Setup()
+	nacos.Setup()
 	logging.Setup()
 	validator.Setup()
 	gredis.Setup()

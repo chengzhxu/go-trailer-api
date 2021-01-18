@@ -10,14 +10,14 @@ import (
 	"time"
 )
 
-var RedisConn *redis.Pool
+var RedisConn redis.Pool
 
 func Setup() {
 	RedisConn = createRedisConn(setting.RedisSetting)
 }
 
-func createRedisConn(redisSetting *setting.Redis) *redis.Pool {
-	redisConn := &redis.Pool{
+func createRedisConn(redisSetting setting.Redis) redis.Pool {
+	redisConn := redis.Pool{
 		MaxIdle:     redisSetting.MaxIdle,
 		MaxActive:   redisSetting.MaxActive,
 		IdleTimeout: redisSetting.IdleTimeout,

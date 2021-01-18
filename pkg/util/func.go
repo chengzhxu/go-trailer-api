@@ -5,12 +5,13 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/nacos-group/nacos-sdk-go/vo"
 	"go-trailer-api/pkg/logging"
+	"go-trailer-api/pkg/nacos"
 	"go-trailer-api/pkg/setting"
 	"net"
 	"net/http"
 	"net/url"
-	"os"
 	"reflect"
 	"sort"
 	"strconv"
@@ -39,17 +40,26 @@ func GetStandbyTime() (error, int) {
 
 //app 包下载地址
 func GetAppPackage() appPackageArray {
-	file, _ := os.Open("conf/app_package.json")
-	defer file.Close()
-	decoder := json.NewDecoder(file)
+	//file, _ := os.Open("conf/app_package.json")
+	//defer file.Close()
+	//decoder := json.NewDecoder(file)
 	conf := appPackageArray{}
+	//
+	//for decoder.More() {
+	//	err := decoder.Decode(&conf)
+	//	if err != nil {
+	//		fmt.Println("Error:", err)
+	//	}
+	//}
 
-	for decoder.More() {
-		err := decoder.Decode(&conf)
-		if err != nil {
-			fmt.Println("Error:", err)
-		}
+	content, e3 := nacos.NacosClient.GetConfig(vo.ConfigParam{
+		DataId: "shafa-trailer-api-app-package.json",
+		Group:  "DEFAULT_GROUP",
+	})
+	if e3 != nil {
+		fmt.Printf("GetConfig err:%+v \n", e3)
 	}
+	json.Unmarshal([]byte(content), &conf)
 
 	return conf
 }
