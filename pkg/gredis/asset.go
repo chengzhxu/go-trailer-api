@@ -269,7 +269,7 @@ func (rr *TrailerListParam) QueryTrailerList() (AssetResult, error) {
 //封装客户端返回的素材信息
 func tranceAsset(asset *Asset, isSecure bool) *Asset {
 	var mapPics []interface{} //图片集合
-	if asset.PicUrls != "" {
+	if asset.PicUrls != "" && asset.PicUrls != nil {
 		err := json.Unmarshal([]byte(asset.PicUrls.(string)), &mapPics)
 		if err != nil {
 			logging.Error(err)
