@@ -70,12 +70,20 @@ type NacosConf struct {
 
 var NacosConfSetting = &NacosConf{}
 
+//nacos app_package config
+type NacosAppPackageConf struct {
+	DataId string
+	Group  string
+}
+
+var NacosAppPackageConfSetting = &NacosAppPackageConf{}
+
 //客户端待机时长配置
 type StandbyTimeConf struct {
 	Duration int
 }
 
-var StandbyTimeSetting = &StandbyTimeConf{}
+var StandbyTimeSetting = StandbyTimeConf{}
 
 var cfg *ini.File
 var conf string
@@ -93,8 +101,9 @@ func Setup() {
 	//mapTo("mysql-stats-db", StatsDbSetting)
 	//mapTo("mysql-trailer-db", TrailerDbSetting)
 	mapTo("nacos-server", NacosServerSetting)
-	mapTo("nacos-trailer", NacosConfSetting)
-	mapTo("standby-time", StandbyTimeSetting)
+	mapTo("nacos-config", NacosConfSetting)
+	mapTo("nacos-app-package-config", NacosAppPackageConfSetting)
+	//mapTo("standby-time", StandbyTimeSetting)
 
 	// server
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second

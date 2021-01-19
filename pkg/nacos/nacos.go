@@ -1,6 +1,7 @@
 package nacos
 
 import (
+	"fmt"
 	"github.com/goinggo/mapstructure"
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/clients/config_client"
@@ -14,12 +15,6 @@ import (
 var nacosServer *setting.NacosServer
 var nacosConf *setting.NacosConf
 var NacosClient config_client.IConfigClient
-
-type TrailerConf struct {
-	trailerStatsDB setting.StatsDatabase `yaml:"mysql-stats-db"`
-	trailerDB      *setting.TrailerDatabase
-	trailerRedis   *setting.Redis
-}
 
 func Setup() {
 	nacosServer = setting.NacosServerSetting
@@ -64,7 +59,7 @@ func createNacosClient() config_client.IConfigClient {
 	})
 
 	if err != nil {
-		log.Fatalf("Stats Nacos.Setup err: %v", err)
+		log.Fatalf("Nacos.Setup err: %v", err)
 	}
 
 	return nacosClient
@@ -76,18 +71,35 @@ func initConf() {
 		Group:  nacosConf.Group,
 	})
 	if err != nil {
-		log.Fatalf("Stats Nacos.GetConfig err: %v", err)
+		log.Fatalf("Nacos.GetConfig err: %v", err)
 	}
 
 	confresult := make(map[string]interface{})
 	yaml.Unmarshal([]byte(confStr), &confresult)
 
-	statsDbSetting := confresult["mysql-stats-db"].(map[interface{}]interface{})
-	mapstructure.Decode(statsDbSetting, &setting.StatsDbSetting)
+	for k, v := range confresult {
+		st := v.(map[interface{}]interface{})
+		if _, ok := st["password"]; ok {
+			st["password"] = fmt.Sprintf("%v", st["password"])
+		}
 
-	trailerDbSetting := confresult["mysql-trailer-db"].(map[interface{}]interface{})
-	mapstructure.Decode(trailerDbSetting, &setting.TrailerDbSetting)
+		mapTo(k, st)
+	}
+}
 
-	redisDbSetting := confresult["redis-db"].(map[interface{}]interface{})
-	mapstructure.Decode(redisDbSetting, &setting.RedisSetting)
+func mapTo(section string, v interface{}) {
+	switch section {
+	case "mysql-stats-db": //MySql trailer_stats
+		mapstructure.Decode(v, &setting.StatsDbSetting)
+		break
+	case "mysql-trailer-db": //MySql trailer
+		mapstructure.Decode(v, &setting.TrailerDbSetting)
+		break
+	case "redis-db": //Redis
+		mapstructure.Decode(v, &setting.RedisSetting)
+		break
+	case "standby-time": //Standby Time
+		mapstructure.Decode(v, &setting.StandbyTimeSetting)
+		break
+	}
 }
