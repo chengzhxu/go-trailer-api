@@ -1,6 +1,6 @@
 package model
 
-//App 版本更新黑名单规则
+//App 版本更新黑/白名单规则
 type AppBlackList struct {
 	IP                 string `json:"ip" gorm:"column:ip"`                                     //IP
 	DeviceNo           string `json:"device_no" gorm:"column:device_no"`                       //设备编号
