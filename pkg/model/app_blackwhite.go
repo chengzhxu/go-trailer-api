@@ -18,7 +18,7 @@ func (AppBlackWhite) TableName() string {
 	return "app_version_blackwhite"
 }
 
-func GetBlackByAppId(appId int) ([]*AppBlackWhite, error) {
+func GetBlackWhiteByAppId(appId int) ([]*AppBlackWhite, error) {
 	var list []*AppBlackWhite
 	if appId > 0 {
 		err := trailerDb.Where("app_id = ?", appId).Find(&list).Error
