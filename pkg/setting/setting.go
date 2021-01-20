@@ -63,6 +63,14 @@ type ALiYunOss struct {
 
 var ALiYunOssSetting = &ALiYunOss{}
 
+//APP 日志白名单
+type AppLogWhiteList struct {
+	DeviceNo    string
+	ChannelCode string
+}
+
+var AppLogWhiteListSetting = &AppLogWhiteList{}
+
 //客户端待机时长配置
 type StandbyTimeConf struct {
 	Duration int
@@ -85,6 +93,7 @@ func Setup() {
 	mapTo("mysql-stats-db", StatsDbSetting)
 	mapTo("mysql-trailer-db", TrailerDbSetting)
 	mapTo("aliyun-oss", ALiYunOssSetting)
+	mapTo("app-log-white-list", AppLogWhiteListSetting)
 	mapTo("standby-time", StandbyTimeSetting)
 
 	// server
