@@ -10,10 +10,11 @@ import (
 )
 
 type AppLog struct {
-	URL           string `json:"url" binding:""`                     //Log url
-	DeviceNo      string `json:"device_no" binding:"required"`       //设备号
-	OsVersionCode string `json:"os_version_code" binding:"required"` //系统版本
-	ChannelCode   string `json:"channel_code" binding:"required"`    //渠道号
+	URL           string `form:"url" json:"url" binding:""`                                 //Log url
+	DeviceNo      string `form:"device_no" json:"device_no" binding:"required"`             //设备号
+	OsVersionCode string `form:"os_version_code" json:"os_version_code" binding:"required"` //系统版本
+	ChannelCode   string `form:"channel_code" json:"channel_code" binding:"required"`       //渠道号
+	LogType       int    `form:"log_type" json:"log_type" binding:"required,app_log_type"`  //log 类型    1:沙发桌面  2:布丁屏保
 }
 
 func MapAppLog(log AppLog) map[string]interface{} {
@@ -36,7 +37,7 @@ func (log AppLog) Insert() error {
 }
 
 // 上传日志文件到阿里云 OSS
-func UploadLogToAlyOss(header *multipart.FileHeader, c *gin.Context) (string, error) {
+func UploadLogToAlyOss(header *multipart.FileHeader, logType int, c *gin.Context) (string, error) {
 	ossPath := "" //OSS 存储路径
 
 	localfile := "storage/" + header.Filename //本地文件路径
@@ -46,7 +47,7 @@ func UploadLogToAlyOss(header *multipart.FileHeader, c *gin.Context) (string, er
 		return ossPath, err
 	}
 
-	ossPath, ossErr := aliyun.UploadFileToAlyOss(localfile, header.Filename, 1)
+	ossPath, ossErr := aliyun.UploadFileToAlyOss(localfile, header.Filename, logType)
 	if ossErr != nil {
 		logging.Error(ossErr)
 		return ossPath, ossErr

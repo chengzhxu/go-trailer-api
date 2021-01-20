@@ -30,14 +30,14 @@ func UploadAppLog(c *gin.Context) {
 	}
 
 	jsonRequest := stats_service.AppLog{}
-	httpCode, errCode, err := app.BindAndValid(c, &jsonRequest)
 
-	if err != nil {
-		appG.Response(httpCode, errCode, err)
+	if err := c.ShouldBind(&jsonRequest); err != nil {
+		appG.Response(http.StatusBadRequest, e.InvalidParams, err.Error())
+		//c.JSON(400, gin.H{ "error": err.Error() })
 		return
 	}
 
-	logUrl, ossErr := stats_service.UploadLogToAlyOss(header, c)
+	logUrl, ossErr := stats_service.UploadLogToAlyOss(header, jsonRequest.LogType, c)
 	if ossErr != nil || logUrl == "" {
 		appG.Response(http.StatusInternalServerError, e.ErrorUploadAppLogToAlyError, err)
 		return

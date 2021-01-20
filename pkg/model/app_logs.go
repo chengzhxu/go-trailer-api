@@ -18,7 +18,7 @@ func (AppLogs) TableName() string {
 func InsertAppLog(data map[string]interface{}) error {
 	// todo mapTo function
 	AppLog := AppLogs{
-		URL:           data["device_no"].(string),
+		URL:           data["url"].(string),
 		DeviceNo:      data["device_no"].(string),
 		OsVersionCode: data["os_version_code"].(string),
 		ChannelCode:   data["channel_code"].(string),

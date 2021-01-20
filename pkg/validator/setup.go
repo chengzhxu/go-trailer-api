@@ -29,6 +29,7 @@ func Setup() {
 		"asset_is_del":       AssetIsDel,
 		"asset_open_apps":    AssetOpenApps,
 		"asset_channel_code": AssetChannelCode,
+		"app_log_type":       AppLogType,
 	}
 
 	for k, v := range arr {

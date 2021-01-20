@@ -17,15 +17,15 @@ func UploadFileToAlyOss(localfile string, uploadfile string, logType int) (strin
 	bucketName := setting.ALiYunOssSetting.BucketName
 	// 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
 	savePath := ""    //OSS 存储路径
-	if logType == 1 { //布丁屏保SDK
-		savePath = setting.ALiYunOssSetting.BuDingScreensaverPath
-	} else { //沙发桌面
+	if logType == 1 { // 沙发桌面
 		savePath = setting.ALiYunOssSetting.ShaFaLauncherPath
+	} else if logType == 2 { // 布丁屏保SDK
+		savePath = setting.ALiYunOssSetting.BuDingScreensaverPath
 	}
 	if savePath != "" {
 		length := len(savePath)
 		if util.SubStr(savePath, 0, 1) == "/" {
-			savePath = util.SubStr(savePath, 1, length-1)
+			savePath = util.SubStr(savePath, 1, length)
 		}
 	}
 	objectName := savePath + uploadfile
@@ -61,5 +61,5 @@ func getOssSavePath(savePath string) string {
 	endpointPath := strings.Replace(endpoint, "http://", "", -1)
 	endpointPath = strings.Replace(endpointPath, "https://", "", -1)
 
-	return bucketNamePath + "." + endpointPath + "/" + savePath
+	return "http://" + bucketNamePath + "." + endpointPath + "/" + savePath
 }

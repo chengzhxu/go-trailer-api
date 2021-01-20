@@ -101,3 +101,11 @@ func AssetChannelCode(fl validator.FieldLevel) bool {
 
 	return true
 }
+
+func AppLogType(fl validator.FieldLevel) bool {
+	if util.ExistIntElement(fl.Field().Int(), []int64{1, 2}) {
+		return true
+	}
+
+	return false
+}

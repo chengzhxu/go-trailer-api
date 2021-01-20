@@ -710,6 +710,7 @@ var doc = `{
             "required": [
                 "channel_code",
                 "device_no",
+                "log_type",
                 "os_version_code"
             ],
             "properties": {
@@ -720,6 +721,10 @@ var doc = `{
                 "device_no": {
                     "description": "设备号",
                     "type": "string"
+                },
+                "log_type": {
+                    "description": "log 类型    0:沙发桌面  1:布丁屏保",
+                    "type": "integer"
                 },
                 "os_version_code": {
                     "description": "系统版本",
