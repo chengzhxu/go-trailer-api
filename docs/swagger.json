@@ -248,6 +248,44 @@
                 }
             }
         },
+        "/trailer_api/stats/upload_app_log": {
+            "post": {
+                "description": "APP 应用日志上报",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "APP 应用日志上报",
+                "operationId": "Upload APP LOG",
+                "parameters": [
+                    {
+                        "description": "AppLog",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/stats_service.AppLog"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/trailer_api/test/check_interface": {
             "get": {
                 "description": "测试接口",
@@ -643,6 +681,32 @@
                     "type": "string"
                 },
                 "iv": {
+                    "type": "string"
+                }
+            }
+        },
+        "stats_service.AppLog": {
+            "type": "object",
+            "required": [
+                "channel_code",
+                "device_no",
+                "os_version_code"
+            ],
+            "properties": {
+                "channel_code": {
+                    "description": "渠道号",
+                    "type": "string"
+                },
+                "device_no": {
+                    "description": "设备号",
+                    "type": "string"
+                },
+                "os_version_code": {
+                    "description": "系统版本",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "Log url",
                     "type": "string"
                 }
             }

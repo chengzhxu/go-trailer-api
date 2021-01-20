@@ -18,6 +18,9 @@ var MsgFlags = map[int]string{
 	ErrorGetAssetEmptyChannelError: "channel_code 不能为空",
 	ErrorGetAssetEmptyPageError:    "page 不能为空",
 	ErrorGetNewAppError:            "获取 APP 更新版本失败",
+	ErrorGetUploadAppLogError:      "Log 文件获取失败",
+	ErrorUploadAppLogError:         "Log 文件上传失败失败",
+	ErrorUploadAppLogToAlyError:    "Log 文件传入阿里云失败",
 
 	ErrorEncryptError:   "加密失败",
 	ErrorSignatureError: "签名验证失败",

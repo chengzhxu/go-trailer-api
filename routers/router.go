@@ -36,6 +36,9 @@ func InitRouter() *gin.Engine {
 
 		//SDK 错误信息上报
 		apiStats.POST("record_sdk_err", stats.InsertSdkError)
+
+		//APP 应用日志上报
+		apiStats.POST("upload_app_log", stats.UploadAppLog)
 	}
 
 	apiTrailer := r.Group("/trailer_api/trailer")
