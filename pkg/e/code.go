@@ -21,6 +21,7 @@ const (
 	ErrorGetUploadAppLogError      = 70001
 	ErrorUploadAppLogError         = 70002
 	ErrorUploadAppLogToAlyError    = 70003
+	ErrorUploadAppLogTooLargeError = 70004
 
 	ErrorEncryptError   = 50050
 	ErrorSignatureError = 50051

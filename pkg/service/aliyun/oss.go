@@ -4,11 +4,12 @@ import (
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"go-trailer-api/pkg/setting"
 	"go-trailer-api/pkg/util"
+	"mime/multipart"
 	"strings"
 )
 
 // 上传文件到阿里云 OSS
-func UploadFileToAlyOss(localfile string, uploadfile string, logType int) (string, error) {
+func UploadFileToAlyOss(file multipart.File, uploadfile string, logType int) (string, error) {
 	ossPath := "" //存储到阿里云 oss 的地址
 
 	endpoint := setting.ALiYunOssSetting.Endpoint               // Endpoint
@@ -29,8 +30,6 @@ func UploadFileToAlyOss(localfile string, uploadfile string, logType int) (strin
 		}
 	}
 	objectName := savePath + uploadfile
-	// 由本地文件路径加文件名包括后缀组成，例如/users/local/myfile.txt。
-	localFileName := localfile
 	// 创建OSSClient实例。
 	client, err := oss.New(endpoint, accessKeyId, accessKeySecret)
 	if err != nil {
@@ -41,8 +40,8 @@ func UploadFileToAlyOss(localfile string, uploadfile string, logType int) (strin
 	if err != nil {
 		return ossPath, err
 	}
-	// 上传文件。
-	err = bucket.PutObjectFromFile(objectName, localFileName)
+	// 上传文件流
+	err = bucket.PutObject(objectName, file)
 	if err != nil {
 		return ossPath, err
 	}

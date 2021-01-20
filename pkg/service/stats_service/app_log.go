@@ -7,7 +7,6 @@ import (
 	"go-trailer-api/pkg/service/aliyun"
 	"go-trailer-api/pkg/setting"
 	"mime/multipart"
-	"os"
 	"strings"
 )
 
@@ -42,21 +41,17 @@ func (log AppLog) Insert() error {
 func UploadLogToAlyOss(header *multipart.FileHeader, logType int, c *gin.Context) (string, error) {
 	ossPath := "" //OSS 存储路径
 
-	localfile := "storage/" + header.Filename //本地文件路径
-	// gin 简单做了封装,拷贝了文件流
-	if err := c.SaveUploadedFile(header, localfile); err != nil {
-		logging.Error(err)
+	// 读取文件
+	file, err := header.Open()
+	if err != nil {
 		return ossPath, err
 	}
 
-	ossPath, ossErr := aliyun.UploadFileToAlyOss(localfile, header.Filename, logType)
+	ossPath, ossErr := aliyun.UploadFileToAlyOss(file, header.Filename, logType)
 	if ossErr != nil {
 		logging.Error(ossErr)
 		return ossPath, ossErr
 	}
-
-	// 删除 log 文件
-	os.Remove(localfile)
 
 	return ossPath, nil
 }
