@@ -7,6 +7,7 @@ import (
 	"go-trailer-api/pkg/e"
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/service/app_service"
+	"go-trailer-api/pkg/service/stats_service"
 	"go-trailer-api/pkg/util"
 	"go-trailer-api/routers/trailer_api"
 	"net/http"
@@ -77,8 +78,11 @@ func GetTrailerConf(c *gin.Context) {
 
 	appPackages := util.GetAppPackage() //app package 下载地址
 
+	AppLogWhiteList := stats_service.GetAppLogWhiteList() //APP 日志白名单
+
 	res["standby_time"] = standbyTime
 	res["app_package"] = appPackages
+	res["app_log_white_list"] = AppLogWhiteList
 
 	appG.Response(http.StatusOK, e.Success, res)
 }

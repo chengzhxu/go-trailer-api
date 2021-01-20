@@ -5,8 +5,10 @@ import (
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/model"
 	"go-trailer-api/pkg/service/aliyun"
+	"go-trailer-api/pkg/setting"
 	"mime/multipart"
 	"os"
+	"strings"
 )
 
 type AppLog struct {
@@ -57,4 +59,27 @@ func UploadLogToAlyOss(header *multipart.FileHeader, logType int, c *gin.Context
 	os.Remove(localfile)
 
 	return ossPath, nil
+}
+
+// 获取 Log 设备 & 渠道 白名单
+func GetAppLogWhiteList() map[string]interface{} {
+	whiteList := make(map[string]interface{})
+
+	deviceNo := strings.ReplaceAll(setting.AppLogWhiteListSetting.DeviceNo, " ", "")       //设备号
+	channelCode := strings.ReplaceAll(setting.AppLogWhiteListSetting.ChannelCode, " ", "") //渠道号
+
+	deviceNoArr := []string{}
+	channelCodeArr := []string{}
+
+	if deviceNo != "" {
+		deviceNoArr = strings.Split(deviceNo, ",")
+	}
+	if channelCode != "" {
+		channelCodeArr = strings.Split(channelCode, ",")
+	}
+
+	whiteList["device_no"] = deviceNoArr
+	whiteList["channel_code"] = channelCodeArr
+
+	return whiteList
 }
