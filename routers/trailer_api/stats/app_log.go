@@ -37,8 +37,16 @@ func UploadAppLog(c *gin.Context) {
 		return
 	}
 
-	logUrl, ossErr := stats_service.UploadLogToAlyOss(header, jsonRequest.LogType, c)
-	if ossErr != nil || logUrl == "" {
+	// too large  限制文件大小
+	maxSize := 1024 * 1024 * 21 // 21M
+	if header.Size > int64(maxSize) {
+		appG.Response(http.StatusInternalServerError, e.ErrorUploadAppLogTooLargeError, err)
+		return
+	}
+
+	// 上传文件到 OSS
+	logUrl, err := stats_service.UploadLogToAlyOss(header, jsonRequest.LogType, c)
+	if err != nil || logUrl == "" {
 		appG.Response(http.StatusInternalServerError, e.ErrorUploadAppLogToAlyError, err)
 		return
 	}

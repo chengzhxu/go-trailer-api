@@ -21,6 +21,7 @@ var MsgFlags = map[int]string{
 	ErrorGetUploadAppLogError:      "Log 文件获取失败",
 	ErrorUploadAppLogError:         "Log 文件上传失败失败",
 	ErrorUploadAppLogToAlyError:    "Log 文件传入阿里云失败",
+	ErrorUploadAppLogTooLargeError: "Log 文件过大",
 
 	ErrorEncryptError:   "加密失败",
 	ErrorSignatureError: "签名验证失败",
