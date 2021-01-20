@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
+	github.com/aliyun/aliyun-oss-go-sdk v2.1.6+incompatible
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-ini/ini v1.62.0
 	github.com/go-playground/validator/v10 v10.2.0
@@ -22,6 +23,7 @@ require (
 	github.com/swaggo/swag v1.5.1
 	go.uber.org/zap v1.16.0
 	golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1 // indirect
+	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324 // indirect
 	golang.org/x/tools v0.0.0-20200330040139-fa3cc9eebcfe // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect

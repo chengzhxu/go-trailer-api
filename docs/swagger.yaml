@@ -168,6 +168,29 @@ definitions:
       iv:
         type: string
     type: object
+  stats_service.AppLog:
+    properties:
+      channel_code:
+        description: 渠道号
+        type: string
+      device_no:
+        description: 设备号
+        type: string
+      log_type:
+        description: log 类型    0:沙发桌面  1:布丁屏保
+        type: integer
+      os_version_code:
+        description: 系统版本
+        type: string
+      url:
+        description: Log url
+        type: string
+    required:
+    - channel_code
+    - device_no
+    - log_type
+    - os_version_code
+    type: object
   stats_service.Device:
     properties:
       android_version_code:
@@ -565,6 +588,31 @@ paths:
           schema:
             $ref: '#/definitions/app.Response'
       summary: SDK 事件统计-加密
+      tags:
+      - Stats
+  /trailer_api/stats/upload_app_log:
+    post:
+      description: APP 应用日志上报
+      operationId: Upload APP LOG
+      parameters:
+      - description: AppLog
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/stats_service.AppLog'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: APP 应用日志上报
       tags:
       - Stats
   /trailer_api/test/check_interface:

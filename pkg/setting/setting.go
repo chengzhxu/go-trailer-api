@@ -51,6 +51,18 @@ type TrailerDatabase struct {
 
 var TrailerDbSetting = &TrailerDatabase{}
 
+//ALiYun OSS
+type ALiYunOss struct {
+	AccessKeyId           string
+	AccessKeySecret       string
+	Endpoint              string
+	BucketName            string
+	ShaFaLauncherPath     string
+	BuDingScreensaverPath string
+}
+
+var ALiYunOssSetting = &ALiYunOss{}
+
 //客户端待机时长配置
 type StandbyTimeConf struct {
 	Duration int
@@ -72,6 +84,7 @@ func Setup() {
 	mapTo("redis-db", RedisSetting)
 	mapTo("mysql-stats-db", StatsDbSetting)
 	mapTo("mysql-trailer-db", TrailerDbSetting)
+	mapTo("aliyun-oss", ALiYunOssSetting)
 	mapTo("standby-time", StandbyTimeSetting)
 
 	// server

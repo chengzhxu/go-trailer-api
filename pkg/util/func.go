@@ -241,6 +241,15 @@ func StrInArray(target string, strArray []string) bool {
 	return false
 }
 
+// 截取字符串
+func SubStr(str string, start int, length int) string {
+	if str == "" || start < 0 || length <= 0 {
+		return ""
+	}
+	rs := []rune(str)
+	return string(rs[start:length])
+}
+
 func Md5V(str string) string {
 	h := md5.New()
 	h.Write([]byte(str))
