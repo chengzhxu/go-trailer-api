@@ -15,6 +15,7 @@ type Device struct {
 	AppVersionCode     string `json:"app_version_code" binding:"required"`     //APP 版本 Code
 	AppVersionName     string `json:"app_version_name" binding:"required"`     //APP 版本名称
 	IP                 string `json:"ip" binding:"required"`                   //IP
+	MAC                string `json:"mac" binding:""`                          //MAC
 	Signature          string `json:"signature" binding:""`                    //签名
 }
 
@@ -32,6 +33,7 @@ func MapDevice(d Device) map[string]interface{} {
 		"app_version_code":     d.AppVersionCode,
 		"app_version_name":     d.AppVersionName,
 		"ip":                   d.IP,
+		"mac":                  d.MAC,
 	}
 }
 

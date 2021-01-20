@@ -20,6 +20,9 @@ import (
 func SyncTrailerAsset(c *gin.Context) {
 	appG := app.Gin{C: c}
 	jsonRequest := gredis.Asset{}
+	if jsonRequest.ActOpenApps == nil {
+		jsonRequest.ActOpenApps = "[]"
+	}
 	httpCode, errCode, err := app.BindAndValid(c, &jsonRequest)
 	if err != nil {
 		appG.Response(httpCode, errCode, err.Error())

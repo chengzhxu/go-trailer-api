@@ -361,7 +361,7 @@ func TestSignature(t *testing.T) {
   "app_version_code": "5",
   "app_version_name": "1.0.4",
   "channel_code": "tiaoshi",
-  "client_time": "2020-12-26 20:20:20",
+  "client_time": "2021-01-08 20:20:20",
   "device_brand": "samsung",
   "device_model": "SM-G9508",
   "device_no": "oGVivbkkk89BjF18nvBYbA_test",

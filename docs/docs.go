@@ -89,6 +89,42 @@ var doc = `{
                 }
             }
         },
+        "/trailer_api/console/remove_asset/{id}": {
+            "get": {
+                "description": "清除 Redis 素材数据",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Asset Console"
+                ],
+                "summary": "Remove Redis Asset",
+                "operationId": "RemoveAsset",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/trailer_api/console/reset_asset": {
             "get": {
                 "description": "清洗 Redis 素材数据",
@@ -96,7 +132,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Reset Redis"
+                    "Asset Console"
                 ],
                 "summary": "Reset Redis Asset",
                 "operationId": "ResetAsset",
@@ -507,6 +543,10 @@ var doc = `{
                     "description": "OK键动作类型 1-无动作 2-打开/下载应用 3-弹出二维码 4-加载长视频",
                     "type": "integer"
                 },
+                "ban_channel_code": {
+                    "description": "排除渠道 - json数组",
+                    "type": "string"
+                },
                 "channel_code": {
                     "description": "对应的渠道 - 全部为 ALL - json数组",
                     "type": "string"
@@ -551,6 +591,10 @@ var doc = `{
                     "description": "名称",
                     "type": "string"
                 },
+                "own_channel_id": {
+                    "description": "素材所属渠道",
+                    "type": "integer"
+                },
                 "pic_urls": {
                     "description": "多张图片url  （json）",
                     "type": "object"
@@ -586,7 +630,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "view_cities": {
-                    "description": "地区限制 （json）",
+                    "description": "地区 （json）",
                     "type": "string"
                 },
                 "view_limit": {
@@ -628,6 +672,10 @@ var doc = `{
                     "description": "每页数量",
                     "type": "integer",
                     "example": 20
+                },
+                "region_code": {
+                    "description": "region_code",
+                    "type": "string"
                 }
             }
         },
@@ -726,6 +774,10 @@ var doc = `{
                 },
                 "ip": {
                     "description": "IP",
+                    "type": "string"
+                },
+                "mac": {
+                    "description": "MAC",
                     "type": "string"
                 },
                 "resolution": {
@@ -877,6 +929,10 @@ var doc = `{
                 },
                 "ip": {
                     "description": "IP",
+                    "type": "string"
+                },
+                "mac": {
+                    "description": "MAC 地址",
                     "type": "string"
                 },
                 "net_type": {

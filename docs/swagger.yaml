@@ -34,6 +34,9 @@ definitions:
       act_type:
         description: OK键动作类型 1-无动作 2-打开/下载应用 3-弹出二维码 4-加载长视频
         type: integer
+      ban_channel_code:
+        description: 排除渠道 - json数组
+        type: string
       channel_code:
         description: 对应的渠道 - 全部为 ALL - json数组
         type: string
@@ -67,6 +70,9 @@ definitions:
       name:
         description: 名称
         type: string
+      own_channel_id:
+        description: 素材所属渠道
+        type: integer
       pic_urls:
         description: 多张图片url  （json）
         type: object
@@ -94,7 +100,7 @@ definitions:
         description: 类型 1-视频 2-图片
         type: integer
       view_cities:
-        description: 地区限制 （json）
+        description: 地区 （json）
         type: string
       view_limit:
         description: 青少年观影限制 0  - 不限制 1 – 限制
@@ -130,6 +136,9 @@ definitions:
         description: 每页数量
         example: 20
         type: integer
+      region_code:
+        description: region_code
+        type: string
     required:
     - channel_code
     - device_no
@@ -193,6 +202,9 @@ definitions:
         type: string
       ip:
         description: IP
+        type: string
+      mac:
+        description: MAC
         type: string
       resolution:
         description: 分辨率
@@ -308,6 +320,9 @@ definitions:
       ip:
         description: IP
         type: string
+      mac:
+        description: MAC 地址
+        type: string
       net_type:
         description: "网络类型\tWIFI/4G/5G"
         type: string
@@ -410,6 +425,30 @@ paths:
       summary: Trailer Conf
       tags:
       - Config
+  /trailer_api/console/remove_asset/{id}:
+    get:
+      description: 清除 Redis 素材数据
+      operationId: RemoveAsset
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: Remove Redis Asset
+      tags:
+      - Asset Console
   /trailer_api/console/reset_asset:
     get:
       description: 清洗 Redis 素材数据
@@ -427,7 +466,7 @@ paths:
             $ref: '#/definitions/app.Response'
       summary: Reset Redis Asset
       tags:
-      - Reset Redis
+      - Asset Console
   /trailer_api/stats/record_device:
     post:
       description: 设备信息上报

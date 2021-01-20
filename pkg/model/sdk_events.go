@@ -6,6 +6,7 @@ import (
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/util"
 	"strconv"
+	"time"
 )
 
 type SdkEvents struct {
@@ -31,6 +32,7 @@ type SdkEvents struct {
 	SdkVersionCode string `json:"sdk_version_code" gorm:"column:sdk_version_code"`
 	PageName       string `json:"page_name" gorm:"column:page_name"`
 	IP             string `json:"ip" gorm:"column:ip"`
+	MAC            string `json:"mac" gorm:"column:mac"`
 	NetType        string `json:"net_type" gorm:"column:net_type"`
 	NewEventType   int    `json:"newevent_type" gorm:"column:newevent_type"`
 	EventName      string `json:"event_name" gorm:"column:event_name"`
@@ -44,8 +46,11 @@ type EventKv struct {
 
 var TrailerExposureKey = "trailer:exposure" //记录预告片曝光 redis key
 
+var TableName = "stats_sdk_events"
+
 func (SdkEvents) TableName() string {
-	return "stats_sdk_events"
+	//return checkEventsTab()
+	return TableName
 }
 
 func InsertSdkEvent(data map[string]interface{}) error {
@@ -71,6 +76,7 @@ func InsertSdkEvent(data map[string]interface{}) error {
 		SdkVersionCode: data["sdk_version_code"].(string),
 		PageName:       data["page_name"].(string),
 		IP:             data["ip"].(string),
+		MAC:            data["mac"].(string),
 		NetType:        data["net_type"].(string),
 		NewEventType:   data["newevent_type"].(int),
 		EventName:      data["event_name"].(string),
@@ -120,9 +126,21 @@ func RecordTrailerExposureNum(event SdkEvents) {
 							}
 						}
 					}
-
 				}
 			}
 		}
 	}
+}
+
+//分表， 每月记录一张事件统计表
+func checkEventsTab() string {
+	date := time.Now().Format("200601") //当前 年月
+	newTabName := TableName + "_" + date
+
+	if !db.HasTable(newTabName) { //不存在当月表 - 创建
+		tabSql := "CREATE TABLE IF NOT EXISTS " + newTabName + " (LIKE " + TableName + ")"
+		db.Exec(tabSql)
+	}
+
+	return newTabName
 }

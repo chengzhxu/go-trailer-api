@@ -18,6 +18,7 @@ type Device struct {
 	AppVersionCode     string `json:"app_version_code" gorm:"column:app_version_code"`
 	AppVersionName     string `json:"app_version_name" gorm:"column:app_version_name"`
 	IP                 string `json:"ip" gorm:"column:ip"`
+	MAC                string `json:"mac" gorm:"column:mac"`
 	CreateTime         string `json:"create_time" gorm:"column:create_time"`
 }
 
@@ -40,6 +41,7 @@ func InsertDevice(data map[string]interface{}) error {
 		AppVersionName:     data["app_version_name"].(string),
 		AppVersionCode:     data["app_version_code"].(string),
 		IP:                 data["ip"].(string),
+		MAC:                data["mac"].(string),
 		CreateTime:         util.GetCurrentTime(),
 	}
 	if err := db.Create(&device).Error; err != nil {
