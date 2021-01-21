@@ -5,6 +5,8 @@ import (
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/model"
 	"go-trailer-api/pkg/util"
+	"io"
+	"os"
 )
 
 type SdkEvent struct {
@@ -52,6 +54,8 @@ type EventInfo struct {
 	EventType   int         `json:"event_type" binding:"required,sdk_event_type"`
 }
 
+var eventFilePath = "storage/sdk_events/"
+
 func MapSdkEvent(se SdkEvent) map[string]interface{} {
 	return map[string]interface{}{
 		"client_time":      se.ClientTime,
@@ -89,7 +93,12 @@ func (se SdkEvent) Insert() error {
 	}
 	sdkEvent := MapSdkEvent(se)
 
+	// 写入 MySql
 	if err := model.InsertSdkEvent(sdkEvent); err != nil {
+		return err
+	}
+	// 写入文件，上传至 ES
+	if err := sdkEventWriteFile(sdkEvent); err != nil {
 		return err
 	}
 
@@ -120,4 +129,38 @@ func TranceEventKtJson(se SdkEvent) []SdkEvent {
 	}
 
 	return eventArr
+}
+
+// 事件写入文件
+func sdkEventWriteFile(se map[string]interface{}) error {
+	if se["device_no"] != "" && se["channel_code"] != "" {
+		jsonStr, err := json.Marshal(se)
+		if err != nil {
+			return err
+		}
+
+		_, pathErr := os.Stat(eventFilePath)
+		if pathErr != nil {
+			os.Mkdir(eventFilePath, os.ModePerm)
+		}
+
+		fileName := util.GetCurrentDate() + ".log"
+		filePath := eventFilePath + fileName
+		var file *os.File
+
+		_, fileErr := os.Stat(filePath)
+		if fileErr != nil {
+			file, _ = os.Create(filePath)
+		} else {
+			file, _ = os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
+			defer file.Close()
+		}
+
+		_, writeErr := io.WriteString(file, string(jsonStr)+"\r\n")
+		if writeErr != nil {
+			return writeErr
+		}
+	}
+
+	return nil
 }
