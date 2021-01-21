@@ -7,23 +7,24 @@ import (
 	"github.com/nacos-group/nacos-sdk-go/clients/config_client"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
 	"github.com/nacos-group/nacos-sdk-go/vo"
-	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/setting"
 	"gopkg.in/yaml.v2"
 	"log"
 )
 
-var nacosServer *setting.NacosServer         // nacos 服务
-var nacosConf *setting.NacosConf             // nacos 服务端相关配置
-var nacosClientConf *setting.NacosClientConf // nacos 客户端相关配置
+var nacosServer *setting.NacosServer // nacos 服务
+var nacosConf *setting.NacosConf     // nacos 服务端相关配置
 var NacosClient config_client.IConfigClient
 
 func Setup() {
 	nacosServer = setting.NacosServerSetting
 	nacosConf = setting.NacosConfSetting
-	nacosClientConf = setting.NacosClientConfSetting
 	NacosClient = createNacosClient()
+
+	// 初始化配置
 	initConf()
+	// 监听 nacos
+	listenNacosConfig(nacosServer.NamespaceId, nacosConf.DataId, nacosConf.Group)
 }
 
 func createNacosClient() config_client.IConfigClient {
@@ -66,6 +67,19 @@ func createNacosClient() config_client.IConfigClient {
 	}
 
 	return nacosClient
+}
+
+// 监听 nacos，变更则重新拉取最新配置信息
+func listenNacosConfig(namespace string, dataId string, group string) {
+	NacosClient.ListenConfig(vo.ConfigParam{
+		DataId: dataId,
+		Group:  group,
+		OnChange: func(namespace, group, dataId, data string) {
+			Setup()
+			//gredis.Setup()
+			//model.Setup()
+		},
+	})
 }
 
 func initConf() {
@@ -112,24 +126,5 @@ func mapTo(section string, v interface{}) {
 	case "app-log-white-list": //APP Log WhiteList
 		mapstructure.Decode(v, &setting.AppLogWhiteListSetting)
 		break
-	}
-}
-
-// 获取客户端相关配置
-func GetClientConfig() {
-	confStr, err := NacosClient.GetConfig(vo.ConfigParam{
-		DataId: nacosClientConf.DataId,
-		Group:  nacosClientConf.Group,
-	})
-	if err != nil {
-		logging.Error(err)
-	}
-	confresult := make(map[string]interface{})
-	yaml.Unmarshal([]byte(confStr), &confresult)
-
-	for k, v := range confresult {
-		st := v.(map[interface{}]interface{})
-
-		mapTo(k, st)
 	}
 }

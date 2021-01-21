@@ -34,6 +34,12 @@ type appPackage struct {
 }
 type appPackageArray []*appPackage
 
+func GetStandbyTime() (error, int) {
+	standbyConf = setting.StandbyTimeSetting
+
+	return nil, standbyConf.Duration
+}
+
 //app 包下载地址
 func GetAppPackage() appPackageArray {
 	conf := appPackageArray{}

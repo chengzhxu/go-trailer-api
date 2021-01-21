@@ -78,14 +78,6 @@ type NacosAppPackageConf struct {
 
 var NacosAppPackageConfSetting = &NacosAppPackageConf{}
 
-//nacos client config
-type NacosClientConf struct {
-	DataId string
-	Group  string
-}
-
-var NacosClientConfSetting = &NacosClientConf{}
-
 //ALiYun OSS
 type ALiYunOss struct {
 	AccessKeyId           string `mapstructure:"access_key_id"`
@@ -131,7 +123,6 @@ func Setup() {
 	mapTo("nacos-server", NacosServerSetting)
 	mapTo("nacos-config", NacosConfSetting)
 	mapTo("nacos-app-package-config", NacosAppPackageConfSetting)
-	mapTo("nacos-client-config", NacosClientConfSetting)
 
 	// server
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second
