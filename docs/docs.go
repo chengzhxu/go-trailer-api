@@ -771,7 +771,7 @@ var doc = `{
                     "type": "string"
                 },
                 "log_type": {
-                    "description": "log 类型    0:沙发桌面  1:布丁屏保",
+                    "description": "log 类型    1:沙发桌面  2:布丁屏保",
                     "type": "integer"
                 },
                 "os_version_code": {
@@ -823,6 +823,10 @@ var doc = `{
                 },
                 "channel_code": {
                     "description": "渠道码",
+                    "type": "string"
+                },
+                "cpu_arch": {
+                    "description": "CpuArch",
                     "type": "string"
                 },
                 "device_model": {
@@ -966,6 +970,10 @@ var doc = `{
                 },
                 "client_time": {
                     "description": "客户端时间 格式：2020-12-12 12:12:12",
+                    "type": "string"
+                },
+                "cpu_arch": {
+                    "description": "CpuArch",
                     "type": "string"
                 },
                 "device_brand": {

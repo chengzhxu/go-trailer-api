@@ -30,6 +30,7 @@ type SdkEvent struct {
 	PageName       string `json:"page_name" `                          //所在页面
 	IP             string `json:"ip" `                                 //IP
 	MAC            string `json:"mac" `                                //MAC 地址
+	CpuArch        string `json:"cpu_arch" `                           //CpuArch
 	NetType        string `json:"net_type" binding:"required"`         //网络类型	WIFI/4G/5G
 	NewEventType   int    `json:"newevent_type" binding:""`            //事件类型  0:自定义事件,1:预置事件
 	EventName      string `json:"event_name" binding:""`               //事件名称
@@ -75,6 +76,7 @@ func MapSdkEvent(se SdkEvent) map[string]interface{} {
 		"page_name":        se.PageName,
 		"ip":               se.IP,
 		"mac":              se.MAC,
+		"cpu_arch":         se.CpuArch,
 		"net_type":         se.NetType,
 		"newevent_type":    se.NewEventType,
 		"event_name":       se.EventName,

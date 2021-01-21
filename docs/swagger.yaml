@@ -177,7 +177,7 @@ definitions:
         description: 设备号
         type: string
       log_type:
-        description: log 类型    0:沙发桌面  1:布丁屏保
+        description: log 类型    1:沙发桌面  2:布丁屏保
         type: integer
       os_version_code:
         description: 系统版本
@@ -210,6 +210,9 @@ definitions:
         type: string
       channel_code:
         description: 渠道码
+        type: string
+      cpu_arch:
+        description: CpuArch
         type: string
       device_model:
         description: 设备型号
@@ -318,6 +321,9 @@ definitions:
         type: string
       client_time:
         description: 客户端时间 格式：2020-12-12 12:12:12
+        type: string
+      cpu_arch:
+        description: CpuArch
         type: string
       device_brand:
         description: 设备品牌
