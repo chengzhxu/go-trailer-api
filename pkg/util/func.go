@@ -5,7 +5,9 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/lionsoul2014/ip2region/binding/golang/ip2region"
 	"github.com/nacos-group/nacos-sdk-go/vo"
+	ip2region2 "go-trailer-api/pkg/ip2region"
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/nacos"
 	"go-trailer-api/pkg/setting"
@@ -31,12 +33,6 @@ type appPackage struct {
 	PackageUrl  string `json:"package_url"`
 }
 type appPackageArray []*appPackage
-
-func GetStandbyTime() (error, int) {
-	standbyConf = setting.StandbyTimeSetting
-
-	return nil, standbyConf.Duration
-}
 
 //app 包下载地址
 func GetAppPackage() appPackageArray {
@@ -240,6 +236,15 @@ func StrInArray(target string, strArray []string) bool {
 	return false
 }
 
+// 截取字符串
+func SubStr(str string, start int, length int) string {
+	if str == "" || start < 0 || length <= 0 {
+		return ""
+	}
+	rs := []rune(str)
+	return string(rs[start:length])
+}
+
 func Md5V(str string) string {
 	h := md5.New()
 	h.Write([]byte(str))
@@ -283,4 +288,15 @@ func CheckParamSignature(params map[string]interface{}, signature string) bool {
 	}
 
 	return false
+}
+
+func GetIpInfoByRequest(r *http.Request) ip2region.IpInfo {
+	ip := ClientPublicIP(r)
+	if ip == "" {
+		ip = ClientIP(r)
+	}
+	//根据 IP 获取地域信息
+	ips, _ := ip2region2.IpRegionDb.MemorySearch(ip)
+
+	return ips
 }

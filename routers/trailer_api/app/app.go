@@ -6,7 +6,10 @@ import (
 	"go-trailer-api/pkg/app"
 	"go-trailer-api/pkg/e"
 	"go-trailer-api/pkg/logging"
+	"go-trailer-api/pkg/nacos"
 	"go-trailer-api/pkg/service/app_service"
+	"go-trailer-api/pkg/service/stats_service"
+	"go-trailer-api/pkg/setting"
 	"go-trailer-api/pkg/util"
 	"go-trailer-api/routers/trailer_api"
 	"net/http"
@@ -68,17 +71,17 @@ func GetTrailerConf(c *gin.Context) {
 	res := make(map[string]interface{})
 
 	standbyTime := 30
-	err, time := util.GetStandbyTime() //待机时长
-	if err == nil {
-		standbyTime = time
-	} else {
-		logging.Error(err)
-	}
 
-	appPackages := util.GetAppPackage() //app package 下载地址
+	nacos.GetClientConfig()
+	if setting.StandbyTimeSetting.Duration > 0 {
+		standbyTime = setting.StandbyTimeSetting.Duration
+	}
+	appPackages := util.GetAppPackage()                   //app package 下载地址
+	AppLogWhiteList := stats_service.GetAppLogWhiteList() //APP 日志白名单
 
 	res["standby_time"] = standbyTime
 	res["app_package"] = appPackages
+	res["app_log_white_list"] = AppLogWhiteList
 
 	appG.Response(http.StatusOK, e.Success, res)
 }

@@ -36,6 +36,9 @@ func InitRouter() *gin.Engine {
 
 		//SDK 错误信息上报
 		apiStats.POST("record_sdk_err", stats.InsertSdkError)
+
+		//APP 应用日志上报
+		apiStats.POST("upload_app_log", stats.UploadAppLog)
 	}
 
 	apiTrailer := r.Group("/trailer_api/trailer")
@@ -61,8 +64,11 @@ func InitRouter() *gin.Engine {
 
 	consoleApp := r.Group("/trailer_api/console")
 	{
-		//清洗 Redis 素材数据
+		//重写 Redis 素材数据 - 根据排序 - display_order
 		consoleApp.GET("reset_asset", console.ResetAsset)
+
+		//从 Redis 移除指定素材信息  - 异常数据清理
+		consoleApp.GET("remove_asset/:id", console.RemoveAsset)
 	}
 
 	testApp := r.Group("/trailer_api/test")

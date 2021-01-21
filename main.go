@@ -6,6 +6,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "go-trailer-api/docs"
 	"go-trailer-api/pkg/gredis"
+	"go-trailer-api/pkg/ip2region"
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/model"
 	"go-trailer-api/pkg/nacos"
@@ -26,6 +27,7 @@ func init() {
 	logging.Setup()
 	validator.Setup()
 	gredis.Setup()
+	ip2region.Setup()
 	model.Setup()
 }
 

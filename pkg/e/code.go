@@ -18,6 +18,10 @@ const (
 	ErrorGetAssetEmptyChannelError = 60012
 	ErrorGetAssetEmptyPageError    = 60013
 	ErrorGetNewAppError            = 60020
+	ErrorGetUploadAppLogError      = 70001
+	ErrorUploadAppLogError         = 70002
+	ErrorUploadAppLogToAlyError    = 70003
+	ErrorUploadAppLogTooLargeError = 70004
 
 	ErrorEncryptError   = 50050
 	ErrorSignatureError = 50051
