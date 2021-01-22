@@ -25,7 +25,7 @@ type Redis struct {
 	IdleTimeout time.Duration
 }
 
-var RedisSetting = &Redis{}
+var RedisSetting = Redis{}
 
 //MySql - Stats
 type StatsDatabase struct {
@@ -37,7 +37,7 @@ type StatsDatabase struct {
 	TablePrefix string
 }
 
-var StatsDbSetting = &StatsDatabase{}
+var StatsDbSetting = StatsDatabase{}
 
 //MySql - Trailer
 type TrailerDatabase struct {
@@ -49,52 +49,80 @@ type TrailerDatabase struct {
 	TablePrefix string
 }
 
-var TrailerDbSetting = &TrailerDatabase{}
+var TrailerDbSetting = TrailerDatabase{}
+
+//nacos server
+type NacosServer struct {
+	IpAddr      string
+	Part        uint64
+	NamespaceId string
+	LogDir      string
+	CacheDir    string
+}
+
+var NacosServerSetting = &NacosServer{}
+
+//nacos config
+type NacosConf struct {
+	DataId string
+	Group  string
+}
+
+var NacosConfSetting = &NacosConf{}
+
+//nacos app_package config
+type NacosAppPackageConf struct {
+	DataId string
+	Group  string
+}
+
+var NacosAppPackageConfSetting = &NacosAppPackageConf{}
 
 //ALiYun OSS
 type ALiYunOss struct {
-	AccessKeyId           string
-	AccessKeySecret       string
-	Endpoint              string
-	BucketName            string
-	ShaFaLauncherPath     string
-	BuDingScreensaverPath string
+	AccessKeyId           string `mapstructure:"access_key_id"`
+	AccessKeySecret       string `mapstructure:"access_key_secret"`
+	Endpoint              string `mapstructure:"endpoint"`
+	BucketName            string `mapstructure:"bucket_name"`
+	ShaFaLauncherPath     string `mapstructure:"shafa_launcher_path"`
+	BuDingScreensaverPath string `mapstructure:"buding_screensaver_path"`
 }
 
-var ALiYunOssSetting = &ALiYunOss{}
+var ALiYunOssSetting = ALiYunOss{}
 
 //APP 日志白名单
 type AppLogWhiteList struct {
-	DeviceNo    string
-	ChannelCode string
+	DeviceNo    string `mapstructure:"device_no"`
+	ChannelCode string `mapstructure:"channel_code"`
 }
 
-var AppLogWhiteListSetting = &AppLogWhiteList{}
+var AppLogWhiteListSetting = AppLogWhiteList{}
 
 //客户端待机时长配置
 type StandbyTimeConf struct {
 	Duration int
 }
 
-var StandbyTimeSetting = &StandbyTimeConf{}
+var StandbyTimeSetting = StandbyTimeConf{}
 
 var cfg *ini.File
+var conf string
 
 func Setup() {
 	var err error
 
 	cfg, err = ini.Load("conf/app.ini")
 	if err != nil {
-		log.Fatalf("setting.Setup, fail to parse 'conf/app.ini': %v", err)
+		log.Fatalf("setting.Setup, fail to parse 'nacos config': %v", err)
 	}
 
 	mapTo("server", ServerSetting)
-	mapTo("redis-db", RedisSetting)
-	mapTo("mysql-stats-db", StatsDbSetting)
-	mapTo("mysql-trailer-db", TrailerDbSetting)
-	mapTo("aliyun-oss", ALiYunOssSetting)
-	mapTo("app-log-white-list", AppLogWhiteListSetting)
-	mapTo("standby-time", StandbyTimeSetting)
+	//mapTo("redis-db", RedisSetting)
+	//mapTo("mysql-stats-db", StatsDbSetting)
+	//mapTo("mysql-trailer-db", TrailerDbSetting)
+	mapTo("nacos-server", NacosServerSetting)
+	mapTo("nacos-config", NacosConfSetting)
+	mapTo("nacos-app-package-config", NacosAppPackageConfSetting)
 
 	// server
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second

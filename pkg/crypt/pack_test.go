@@ -361,7 +361,7 @@ func TestSignature(t *testing.T) {
   "app_version_code": "5",
   "app_version_name": "1.0.4",
   "channel_code": "tiaoshi",
-  "client_time": "2021-01-08 20:20:20",
+  "client_time": "2021-01-16 20:20:20",
   "device_brand": "samsung",
   "device_model": "SM-G9508",
   "device_no": "oGVivbkkk89BjF18nvBYbA_test",
@@ -370,6 +370,7 @@ func TestSignature(t *testing.T) {
   "event_name": "",
   "imei": "",
   "ip": "",
+  "mac": "macmacmac",
   "net_type": "1",
   "newevent_type": 0,
   "newpuid": "0",
@@ -382,7 +383,7 @@ func TestSignature(t *testing.T) {
   "sdk_name": "screensaver_sdk",
   "sdk_version_code": "5",
   "sdk_version_name": "1.0.4",
-  "signature": "bee93d6655ab8d5287c79927003cd2b1"
+  "signature": "87ba4292351a41af727e188c4021eec7"
 }`)
 
 	params := make(map[string]interface{})

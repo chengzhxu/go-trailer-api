@@ -7,8 +7,8 @@ import (
 	"log"
 )
 
-var statsMySql *setting.StatsDatabase
-var trailerMySql *setting.TrailerDatabase
+var statsMySql setting.StatsDatabase
+var trailerMySql setting.TrailerDatabase
 var db *gorm.DB
 var trailerDb *gorm.DB
 

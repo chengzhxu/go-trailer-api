@@ -6,13 +6,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/lionsoul2014/ip2region/binding/golang/ip2region"
+	"github.com/nacos-group/nacos-sdk-go/vo"
 	ip2region2 "go-trailer-api/pkg/ip2region"
 	"go-trailer-api/pkg/logging"
+	"go-trailer-api/pkg/nacos"
 	"go-trailer-api/pkg/setting"
 	"net"
 	"net/http"
 	"net/url"
-	"os"
 	"reflect"
 	"sort"
 	"strconv"
@@ -21,7 +22,7 @@ import (
 )
 
 var signatureSalt = "trailer_signature_salt" //客户端接口签名 加密盐
-var standbyConf *setting.StandbyTimeConf     //客户端待机时长配置
+var standbyConf setting.StandbyTimeConf      //客户端待机时长配置
 
 //APP 包下载地址
 type appPackage struct {
@@ -41,16 +42,16 @@ func GetStandbyTime() (error, int) {
 
 //app 包下载地址
 func GetAppPackage() appPackageArray {
-	file, _ := os.Open("conf/app_package.json")
-	defer file.Close()
-	decoder := json.NewDecoder(file)
 	conf := appPackageArray{}
 
-	for decoder.More() {
-		err := decoder.Decode(&conf)
-		if err != nil {
-			fmt.Println("Error:", err)
-		}
+	content, err := nacos.NacosClient.GetConfig(vo.ConfigParam{
+		DataId: setting.NacosAppPackageConfSetting.DataId,
+		Group:  setting.NacosAppPackageConfSetting.Group,
+	})
+	if err != nil {
+		logging.Error(err)
+	} else {
+		json.Unmarshal([]byte(content), &conf)
 	}
 
 	return conf
