@@ -21,9 +21,9 @@ func Setup() {
 	nacosConf = setting.NacosConfSetting
 	NacosClient = createNacosClient()
 
-	// 初始化配置
-	initConf()
-	// 监听 nacos
+	// 加载 nacos 配置
+	loadConf()
+	// 监听 nacos 配置
 	listenNacosConfig(nacosServer.NamespaceId, nacosConf.DataId, nacosConf.Group)
 }
 
@@ -75,14 +75,12 @@ func listenNacosConfig(namespace string, dataId string, group string) {
 		DataId: dataId,
 		Group:  group,
 		OnChange: func(namespace, group, dataId, data string) {
-			Setup()
-			//gredis.Setup()
-			//model.Setup()
+			loadConf()
 		},
 	})
 }
 
-func initConf() {
+func loadConf() {
 	confStr, err := NacosClient.GetConfig(vo.ConfigParam{
 		DataId: nacosConf.DataId,
 		Group:  nacosConf.Group,
