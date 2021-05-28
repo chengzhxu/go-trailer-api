@@ -353,6 +353,15 @@ var doc = `{
                 ],
                 "summary": "Test Interface",
                 "operationId": "Test",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "TOKEN",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -389,6 +398,13 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/model.EDataResponse"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "TOKEN",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {

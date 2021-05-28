@@ -120,9 +120,9 @@ func Setup() {
 	//mapTo("redis-db", RedisSetting)
 	//mapTo("mysql-stats-db", StatsDbSetting)
 	//mapTo("mysql-trailer-db", TrailerDbSetting)
-	mapTo("nacos-server", NacosServerSetting)
-	mapTo("nacos-config", NacosConfSetting)
-	mapTo("nacos-app-package-config", NacosAppPackageConfSetting)
+	//mapTo("nacos-server", NacosServerSetting)
+	//mapTo("nacos-config", NacosConfSetting)
+	//mapTo("nacos-app-package-config", NacosAppPackageConfSetting)
 
 	// server
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second

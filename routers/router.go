@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"go-trailer-api/pkg/middleware"
 	"go-trailer-api/pkg/setting"
 	"go-trailer-api/routers/trailer_api/app"
 	"go-trailer-api/routers/trailer_api/console"
@@ -23,6 +24,7 @@ func InitRouter() *gin.Engine {
 	}
 
 	apiStats := r.Group("/trailer_api/stats")
+	apiStats.Use(middleware.CheckToken())
 	//apiStats.Use(jwt.JWT())
 	{
 		//设备信息上报
@@ -72,6 +74,7 @@ func InitRouter() *gin.Engine {
 	}
 
 	testApp := r.Group("/trailer_api/test")
+	testApp.Use(middleware.CheckToken())
 	{
 		//测试 test
 		testApp.GET("check_interface", testing.CheckInterface)
