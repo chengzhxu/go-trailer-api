@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	. "github.com/haxqer/gofunc"
+	. "github.com/chengzhxu/gofunc"
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/util"
 	"net/url"

@@ -104,7 +104,7 @@ func TimeToUnix(t string) int {
 	return int(tt.Unix())
 }
 
-//检查事件类型
+//检查时间类型
 func CheckTime(t string) string {
 	dArr := strings.Split(t, " ")
 	if len(dArr) == 2 {

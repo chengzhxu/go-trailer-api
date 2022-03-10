@@ -3,8 +3,7 @@ definitions:
     properties:
       code:
         type: integer
-      data:
-        type: object
+      data: {}
       msg:
         type: string
     type: object
@@ -15,7 +14,6 @@ definitions:
         type: string
       act_open_apps:
         description: 需要下载打开的应用  （json）
-        type: object
       act_pop_time:
         description: 二维码自动弹出时间，单位：秒
         type: integer
@@ -75,7 +73,6 @@ definitions:
         type: integer
       pic_urls:
         description: 多张图片url  （json）
-        type: object
       priority:
         description: 优先级  0:优先调用  1:优先下载
         type: integer
@@ -84,7 +81,6 @@ definitions:
         type: string
       score:
         description: 评分
-        type: object
       screen_control_count:
         description: 周期内频控次数
         example: 0
@@ -335,7 +331,8 @@ definitions:
         description: 设备号
         type: string
       event_info:
-        description: '参数和参数值数据 -json数组 - 格式：[{"event_kv_json":{"key1": "val1", "key2": "val2"},"event_name":"sss","event_type":1},...]'
+        description: '参数和参数值数据 -json数组 - 格式：[{"event_kv_json":{"key1": "val1", "key2":
+          "val2"},"event_name":"sss","event_type":1},...]'
         type: string
       event_kv_json:
         description: '参数和参数值数据 -json数组 - 格式：{"key1": "val1", "key2": "val2"}'

@@ -7,12 +7,12 @@ import (
 	"log"
 )
 
-var settingMySql *setting.Database
+var settingMySql setting.StatsDatabase
 var db *gorm.DB
 
 // Setup initializes the database instance
 func Setup() {
-	settingMySql = setting.DatabaseSetting
+	settingMySql = setting.StatsDbSetting
 	createConn()
 }
 
@@ -30,7 +30,7 @@ func createConn() {
 	}
 
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
-		return setting.DatabaseSetting.TablePrefix + defaultTableName
+		return setting.StatsDbSetting.TablePrefix + defaultTableName
 	}
 
 	db.SingularTable(true)
@@ -46,8 +46,6 @@ func CloseDB() {
 	defer db.Close()
 }
 
-
-
 //func exec(sqlStr string) (*gorm.DB, error) {
 //	response := db.Raw(sqlStr)
 //
@@ -57,4 +55,3 @@ func CloseDB() {
 //
 //	return response, err
 //}
-

@@ -2,7 +2,7 @@ package logging
 
 import (
 	"fmt"
-	"github.com/haxqer/gintools/file"
+	"github.com/EDDYCJY/go-gin-example/pkg/file"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"log"

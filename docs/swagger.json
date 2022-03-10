@@ -509,9 +509,7 @@
                 "code": {
                     "type": "integer"
                 },
-                "data": {
-                    "type": "object"
-                },
+                "data": {},
                 "msg": {
                     "type": "string"
                 }
@@ -534,8 +532,7 @@
                     "type": "string"
                 },
                 "act_open_apps": {
-                    "description": "需要下载打开的应用  （json）",
-                    "type": "object"
+                    "description": "需要下载打开的应用  （json）"
                 },
                 "act_pop_time": {
                     "description": "二维码自动弹出时间，单位：秒",
@@ -614,8 +611,7 @@
                     "type": "integer"
                 },
                 "pic_urls": {
-                    "description": "多张图片url  （json）",
-                    "type": "object"
+                    "description": "多张图片url  （json）"
                 },
                 "priority": {
                     "description": "优先级  0:优先调用  1:优先下载",
@@ -626,8 +622,7 @@
                     "type": "string"
                 },
                 "score": {
-                    "description": "评分",
-                    "type": "object"
+                    "description": "评分"
                 },
                 "screen_control_count": {
                     "description": "周期内频控次数",

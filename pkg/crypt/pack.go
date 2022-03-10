@@ -1,7 +1,7 @@
 package crypt
 
 import (
-	. "github.com/haxqer/gofunc"
+	. "github.com/chengzhxu/gofunc"
 	"math/rand"
 )
 
