@@ -16,6 +16,7 @@ import (
 // @Description 测试接口
 // @ID Test
 // @Produce json
+// @Param token header string true "TOKEN"
 // @Success 200 {object} app.Response
 // @Failure 500 {object} app.Response
 // @Router /trailer_api/test/check_interface [get]
@@ -31,6 +32,7 @@ func CheckInterface(c *gin.Context) {
 // @ID CheckSecretInterface
 // @Produce json
 // @Param name body model.EDataResponse true "UPDATE_APP"
+// @Param token header string true "TOKEN"
 // @Success 200 {object} app.Response
 // @Failure 500 {object} app.Response
 // @Router /trailer_api/test/check_secret_interface [post]

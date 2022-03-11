@@ -5,11 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "go-trailer-api/docs"
-	"go-trailer-api/pkg/gredis"
 	"go-trailer-api/pkg/ip2region"
 	"go-trailer-api/pkg/logging"
-	"go-trailer-api/pkg/model"
-	"go-trailer-api/pkg/nacos"
 	"go-trailer-api/pkg/setting"
 	"go-trailer-api/pkg/validator"
 	"go-trailer-api/routers"
@@ -23,12 +20,12 @@ const (
 
 func init() {
 	setting.Setup()
-	nacos.Setup()
+	//nacos.Setup()
 	logging.Setup()
 	validator.Setup()
-	gredis.Setup()
+	//gredis.Setup()
 	ip2region.Setup()
-	model.Setup()
+	//model.Setup()
 }
 
 func main() {

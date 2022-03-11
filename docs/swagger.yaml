@@ -686,6 +686,12 @@ paths:
     get:
       description: 测试接口
       operationId: Test
+      parameters:
+      - description: TOKEN
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -711,6 +717,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/model.EDataResponse'
+      - description: TOKEN
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:

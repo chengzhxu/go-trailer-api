@@ -1,9 +1,11 @@
 package e
 
 var MsgFlags = map[int]string{
-	Success:       "ok",
-	Error:         "fail",
-	InvalidParams: "请求参数错误",
+	Success:            "ok",
+	Error:              "fail",
+	InvalidParams:      "请求参数错误",
+	Unauthorized:       "Token 传入失败",
+	AuthorizationError: "无效 Token",
 
 	//
 	ErrorInsertSdkEvent:            "记录 SDK 统计事件时失败",

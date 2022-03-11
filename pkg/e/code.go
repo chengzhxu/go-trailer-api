@@ -1,9 +1,11 @@
 package e
 
 const (
-	Success       = 1
-	Error         = 500
-	InvalidParams = 400
+	Success            = 1
+	Error              = 500
+	InvalidParams      = 400
+	Unauthorized       = 401
+	AuthorizationError = 403
 
 	// internal
 	ErrorInsertSdkEvent            = 50001
