@@ -25,4 +25,7 @@ const (
 
 	ErrorEncryptError   = 50050
 	ErrorSignatureError = 50051
+
+	//Bird User
+	ErrorAddUserError = 80001
 )

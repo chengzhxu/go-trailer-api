@@ -25,6 +25,9 @@ var MsgFlags = map[int]string{
 
 	ErrorEncryptError:   "加密失败",
 	ErrorSignatureError: "签名验证失败",
+
+	// Bird Users
+	ErrorAddUserError: "用户添加失败！",
 }
 
 // GetMsg get error information based on Code

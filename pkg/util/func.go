@@ -11,6 +11,7 @@ import (
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/nacos"
 	"go-trailer-api/pkg/setting"
+	"math/rand"
 	"net"
 	"net/http"
 	"net/url"
@@ -305,4 +306,26 @@ func GetIpInfoByRequest(r *http.Request) ip2region.IpInfo {
 	ips, _ := ip2region2.IpRegionDb.MemorySearch(ip)
 
 	return ips
+}
+
+//生成随机数
+func RandNumber(min, max float64, decimal int) string {
+	gap := max - min
+	rd := rand.Int63n(int64(gap))
+	rd += int64(GetNowTimeStamp())
+	ret := float64(rd) / 1.0e6
+
+	if decimal == 0 {
+		return strconv.FormatFloat(ret, 'f', decimal, 64)
+	}
+
+	return fmt.Sprintf("%."+strconv.Itoa(decimal)+"f\n", ret)
+}
+
+func RandIntNumber(min, max int64) int64 {
+	if min >= max || min == 0 || max == 0 {
+		return max
+	}
+	rand.Seed(time.Now().UnixNano())
+	return rand.Int63n(max-min) + min
 }

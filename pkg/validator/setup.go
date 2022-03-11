@@ -32,6 +32,7 @@ func Setup() {
 		"asset_ban_channel_code": AssetBanChannelCode,
 		"asset_region_code":      AssetRegionCode,
 		"app_log_type":           AppLogType,
+		"gender":                 Gender,
 	}
 
 	for k, v := range arr {

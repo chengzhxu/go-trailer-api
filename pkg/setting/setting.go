@@ -39,6 +39,18 @@ type StatsDatabase struct {
 
 var StatsDbSetting = StatsDatabase{}
 
+//MySql - Bird
+type BirdDatabase struct {
+	Type        string
+	User        string
+	Password    string
+	Host        string
+	Name        string
+	TablePrefix string
+}
+
+var BirdDbSetting = BirdDatabase{}
+
 //MySql - Trailer
 type TrailerDatabase struct {
 	Type        string
@@ -69,6 +81,14 @@ type NacosConf struct {
 }
 
 var NacosConfSetting = &NacosConf{}
+
+//bird db config
+type BirdDbConf struct {
+	DataId string
+	Group  string
+}
+
+var BirdDbConfSetting = &BirdDbConf{}
 
 //nacos app_package config
 type NacosAppPackageConf struct {
@@ -122,6 +142,7 @@ func Setup() {
 	//mapTo("mysql-trailer-db", TrailerDbSetting)
 	mapTo("nacos-server", NacosServerSetting)
 	mapTo("nacos-config", NacosConfSetting)
+	mapTo("bird-db-config", BirdDbConfSetting)
 	mapTo("nacos-app-package-config", NacosAppPackageConfSetting)
 
 	// server

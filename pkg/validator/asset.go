@@ -137,3 +137,11 @@ func AppLogType(fl validator.FieldLevel) bool {
 
 	return false
 }
+
+func Gender(fl validator.FieldLevel) bool {
+	if util.ExistIntElement(fl.Field().Int(), []int64{0, 1}) {
+		return true
+	}
+
+	return false
+}

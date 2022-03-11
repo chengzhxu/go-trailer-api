@@ -5,6 +5,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"go-trailer-api/pkg/setting"
+	"go-trailer-api/routers/bird/user"
 	"go-trailer-api/routers/trailer_api/app"
 	"go-trailer-api/routers/trailer_api/console"
 	"go-trailer-api/routers/trailer_api/stats"
@@ -78,6 +79,12 @@ func InitRouter() *gin.Engine {
 
 		//解密接口 test
 		testApp.POST("check_secret_interface", testing.CheckSecretInterface)
+	}
+
+	apiBird := r.Group("/bird/userService")
+	{
+		apiBird.GET("listing", user.Listing) //用户 list
+		apiBird.POST("add", user.AddUser)    //新增用户
 	}
 
 	return r

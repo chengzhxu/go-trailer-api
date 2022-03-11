@@ -14,17 +14,21 @@ import (
 
 var nacosServer *setting.NacosServer // nacos 服务
 var nacosConf *setting.NacosConf     // nacos 服务端相关配置
+var birdDbConf *setting.BirdDbConf   // db 服务端相关配置
 var NacosClient config_client.IConfigClient
 
 func Setup() {
 	nacosServer = setting.NacosServerSetting
 	nacosConf = setting.NacosConfSetting
+	birdDbConf = setting.BirdDbConfSetting
 	NacosClient = createNacosClient()
 
 	// 加载 nacos 配置
-	loadConf()
+	loadConf(nacosConf.DataId, nacosConf.Group)
+	loadConf(birdDbConf.DataId, birdDbConf.Group)
 	// 监听 nacos 配置
 	listenNacosConfig(nacosServer.NamespaceId, nacosConf.DataId, nacosConf.Group)
+	listenNacosConfig(nacosServer.NamespaceId, birdDbConf.DataId, birdDbConf.Group)
 }
 
 func createNacosClient() config_client.IConfigClient {
@@ -75,15 +79,16 @@ func listenNacosConfig(namespace string, dataId string, group string) {
 		DataId: dataId,
 		Group:  group,
 		OnChange: func(namespace, group, dataId, data string) {
-			loadConf()
+			loadConf(dataId, group)
 		},
 	})
 }
 
-func loadConf() {
+func loadConf(dataId string, group string) {
+
 	confStr, err := NacosClient.GetConfig(vo.ConfigParam{
-		DataId: nacosConf.DataId,
-		Group:  nacosConf.Group,
+		DataId: dataId,
+		Group:  group,
 	})
 	if err != nil {
 		log.Fatalf("Nacos.GetConfig err: %v", err)
@@ -108,6 +113,9 @@ func mapTo(section string, v interface{}) {
 	switch section {
 	case "mysql-stats-db": //MySql trailer_stats
 		mapstructure.Decode(v, &setting.StatsDbSetting)
+		break
+	case "mysql-bird-db": //MySql bird
+		mapstructure.Decode(v, &setting.BirdDbSetting)
 		break
 	case "mysql-trailer-db": //MySql trailer
 		mapstructure.Decode(v, &setting.TrailerDbSetting)

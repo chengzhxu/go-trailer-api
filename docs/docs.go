@@ -23,6 +23,71 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/bird/userService/add": {
+            "post": {
+                "description": "新增用户",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bird"
+                ],
+                "summary": "Add User",
+                "operationId": "AddUser",
+                "parameters": [
+                    {
+                        "description": "UPDATE_APP",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userService.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/bird/userService/listing": {
+            "get": {
+                "description": "用户列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bird"
+                ],
+                "summary": "User List",
+                "operationId": "UserListing",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/trailer_api/app/get_new_app": {
             "post": {
                 "description": "获取最新的 APP 版本信息",
@@ -1056,6 +1121,35 @@ var doc = `{
                 },
                 "signature": {
                     "description": "签名",
+                    "type": "string"
+                }
+            }
+        },
+        "userService.User": {
+            "type": "object",
+            "required": [
+                "nickname",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "birthday": {
+                    "type": "string"
+                },
+                "gender": {
+                    "description": "性别",
+                    "type": "integer"
+                },
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "用户名",
                     "type": "string"
                 }
             }
