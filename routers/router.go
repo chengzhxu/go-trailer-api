@@ -84,10 +84,10 @@ func InitRouter() *gin.Engine {
 		testApp.POST("check_secret_interface", testing.CheckSecretInterface)
 	}
 
-	apiBird := r.Group("/bird/userService")
+	apiBird := r.Group("/bird/user")
 	{
-		apiBird.GET("listing", user.Listing) //用户 list
-		apiBird.POST("add", user.AddUser)    //新增用户
+		apiBird.POST("listing", user.Listing) //用户 list
+		apiBird.POST("add", user.AddUser)     //新增用户
 	}
 
 	return r

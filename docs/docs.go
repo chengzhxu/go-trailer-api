@@ -23,7 +23,7 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/bird/userService/add": {
+        "/bird/user/add": {
             "post": {
                 "description": "新增用户",
                 "produces": [
@@ -36,7 +36,7 @@ var doc = `{
                 "operationId": "AddUser",
                 "parameters": [
                     {
-                        "description": "UPDATE_APP",
+                        "description": "Add User",
                         "name": "name",
                         "in": "body",
                         "required": true,
@@ -61,8 +61,8 @@ var doc = `{
                 }
             }
         },
-        "/bird/userService/listing": {
-            "get": {
+        "/bird/user/listing": {
+            "post": {
                 "description": "用户列表",
                 "produces": [
                     "application/json"
@@ -72,6 +72,17 @@ var doc = `{
                 ],
                 "summary": "User List",
                 "operationId": "UserListing",
+                "parameters": [
+                    {
+                        "description": "User List",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userModel.UserListParams"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1137,6 +1148,29 @@ var doc = `{
                 },
                 "signature": {
                     "description": "签名",
+                    "type": "string"
+                }
+            }
+        },
+        "userModel.UserListParams": {
+            "type": "object",
+            "properties": {
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "页码",
+                    "type": "integer",
+                    "example": 1
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer",
+                    "example": 20
+                },
+                "username": {
+                    "description": "用户名",
                     "type": "string"
                 }
             }

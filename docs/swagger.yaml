@@ -405,6 +405,23 @@ definitions:
     - sdk_version_code
     - sdk_version_name
     type: object
+  userModel.UserListParams:
+    properties:
+      nickname:
+        description: 昵称
+        type: string
+      page:
+        description: 页码
+        example: 1
+        type: integer
+      page_size:
+        description: 每页数量
+        example: 20
+        type: integer
+      username:
+        description: 用户名
+        type: string
+    type: object
   userService.User:
     properties:
       birthday:
@@ -429,12 +446,12 @@ definitions:
 info:
   contact: {}
 paths:
-  /bird/userService/add:
+  /bird/user/add:
     post:
       description: 新增用户
       operationId: AddUser
       parameters:
-      - description: UPDATE_APP
+      - description: Add User
         in: body
         name: name
         required: true
@@ -454,10 +471,17 @@ paths:
       summary: Add User
       tags:
       - Bird
-  /bird/userService/listing:
-    get:
+  /bird/user/listing:
+    post:
       description: 用户列表
       operationId: UserListing
+      parameters:
+      - description: User List
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/userModel.UserListParams'
       produces:
       - application/json
       responses:

@@ -22,6 +22,7 @@ func MapUser(user User) map[string]interface{} {
 	}
 }
 
+//新增
 func (u User) Add() error {
 	userInfo := MapUser(u)
 
@@ -30,4 +31,10 @@ func (u User) Add() error {
 	}
 
 	return nil
+}
+
+//获取列表
+func Listing(params userModel.UserListParams) (error, list interface{}, total int64) {
+
+	return userModel.UserList(params)
 }

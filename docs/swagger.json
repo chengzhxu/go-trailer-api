@@ -4,7 +4,7 @@
         "contact": {}
     },
     "paths": {
-        "/bird/userService/add": {
+        "/bird/user/add": {
             "post": {
                 "description": "新增用户",
                 "produces": [
@@ -17,7 +17,7 @@
                 "operationId": "AddUser",
                 "parameters": [
                     {
-                        "description": "UPDATE_APP",
+                        "description": "Add User",
                         "name": "name",
                         "in": "body",
                         "required": true,
@@ -42,8 +42,8 @@
                 }
             }
         },
-        "/bird/userService/listing": {
-            "get": {
+        "/bird/user/listing": {
+            "post": {
                 "description": "用户列表",
                 "produces": [
                     "application/json"
@@ -53,6 +53,17 @@
                 ],
                 "summary": "User List",
                 "operationId": "UserListing",
+                "parameters": [
+                    {
+                        "description": "User List",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userModel.UserListParams"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1118,6 +1129,29 @@
                 },
                 "signature": {
                     "description": "签名",
+                    "type": "string"
+                }
+            }
+        },
+        "userModel.UserListParams": {
+            "type": "object",
+            "properties": {
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "页码",
+                    "type": "integer",
+                    "example": 1
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer",
+                    "example": 20
+                },
+                "username": {
+                    "description": "用户名",
                     "type": "string"
                 }
             }
