@@ -412,11 +412,9 @@ definitions:
         type: string
       page:
         description: 页码
-        example: 1
         type: integer
       page_size:
         description: 每页数量
-        example: 20
         type: integer
       username:
         description: 用户名
@@ -493,7 +491,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/app.Response'
-      summary: User List
+      summary: User Listing
       tags:
       - Bird
   /trailer_api/app/get_new_app:

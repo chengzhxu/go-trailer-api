@@ -70,7 +70,7 @@ var doc = `{
                 "tags": [
                     "Bird"
                 ],
-                "summary": "User List",
+                "summary": "User Listing",
                 "operationId": "UserListing",
                 "parameters": [
                     {
@@ -1161,13 +1161,11 @@ var doc = `{
                 },
                 "page": {
                     "description": "页码",
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 },
                 "page_size": {
                     "description": "每页数量",
-                    "type": "integer",
-                    "example": 20
+                    "type": "integer"
                 },
                 "username": {
                     "description": "用户名",
