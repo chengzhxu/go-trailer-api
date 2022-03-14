@@ -104,7 +104,7 @@ func Zrem(key string) bool {
 func ZrByScore(key string) bool {
 	conn := RedisConn.Get()
 
-	res, err := redis.Values(conn.Do("zrevrangebyscore", key, 7889155200, 1))
+	res, err := redis.Values(conn.Do("zrevrangebyscore", key, 7889, 1))
 	if err != nil {
 		fmt.Println(err)
 	}
