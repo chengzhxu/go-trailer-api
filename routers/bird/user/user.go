@@ -10,7 +10,7 @@ import (
 )
 
 // @tags Bird
-// @Summary User List
+// @Summary User Listing
 // @Description 用户列表
 // @ID UserListing
 // @Produce json
