@@ -1,5 +1,5 @@
 # go trailer api
-Go Project
+Go Bird Project
 
 ## how to run(for test)
 
