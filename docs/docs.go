@@ -70,7 +70,7 @@ var doc = `{
                 "tags": [
                     "Bird"
                 ],
-                "summary": "User List",
+                "summary": "User Listing",
                 "operationId": "UserListing",
                 "parameters": [
                     {
