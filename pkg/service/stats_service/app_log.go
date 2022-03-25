@@ -15,7 +15,7 @@ type AppLog struct {
 	DeviceNo      string `form:"device_no" json:"device_no" binding:"required"`             //设备号
 	OsVersionCode string `form:"os_version_code" json:"os_version_code" binding:"required"` //系统版本
 	ChannelCode   string `form:"channel_code" json:"channel_code" binding:"required"`       //渠道号
-	LogType       int    `form:"log_type" json:"log_type" binding:"required,app_log_type"`  //log 类型    1:沙发桌面  2:布丁屏保
+	LogType       int    `form:"log_type" json:"log_type" binding:"required,app_log_type"`  //es 类型    1:沙发桌面  2:布丁屏保
 }
 
 func MapAppLog(log AppLog) map[string]interface{} {

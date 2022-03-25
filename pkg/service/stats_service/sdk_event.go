@@ -146,7 +146,7 @@ func sdkEventWriteFile(se map[string]interface{}) error {
 			os.Mkdir(eventFilePath, os.ModePerm)
 		}
 
-		fileName := util.GetCurrentDate() + ".log"
+		fileName := util.GetCurrentDate() + ".es"
 		filePath := eventFilePath + fileName
 		var file *os.File
 

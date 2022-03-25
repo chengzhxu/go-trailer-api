@@ -11,11 +11,17 @@ import (
 	"go-trailer-api/pkg/logging"
 	"go-trailer-api/pkg/nacos"
 	"go-trailer-api/pkg/setting"
+	"io/ioutil"
+	"log"
 	"math/rand"
 	"net"
 	"net/http"
 	"net/url"
+	"os"
+	"path"
+	"path/filepath"
 	"reflect"
+	"runtime"
 	"sort"
 	"strconv"
 	"strings"
@@ -328,4 +334,71 @@ func RandIntNumber(min, max int64) int64 {
 	}
 	rand.Seed(time.Now().UnixNano())
 	return rand.Int63n(max-min) + min
+}
+
+func GetProjectRoot() string {
+	dir := getCurrentAbPathByExecutable()
+	tmpDir, _ := filepath.EvalSymlinks(os.TempDir())
+	if strings.Contains(dir, tmpDir) {
+		return getCurrentAbPathByCaller()
+	}
+	return dir
+}
+
+// 获取当前执行文件绝对路径
+func getCurrentAbPathByExecutable() string {
+	exePath, err := os.Executable()
+	if err != nil {
+		log.Fatal(err)
+	}
+	res, _ := filepath.EvalSymlinks(filepath.Dir(exePath))
+	return res
+}
+
+// 获取当前执行文件绝对路径（go run）
+func getCurrentAbPathByCaller() string {
+	var abPath string
+	_, filename, _, ok := runtime.Caller(0)
+	if ok {
+		abPath = path.Dir(filename)
+	}
+	return abPath
+}
+
+func GetLogContents() []string {
+
+	root := filepath.Dir(filepath.Dir(GetProjectRoot()))
+
+	//fmt.Println(root)
+
+	filePath := root + "/storage/logs/2022-03-21.log"
+
+	//f, err := os.Open(filePath)
+
+	lines, _ := ioutil.ReadFile(filePath)
+	//fmt.Println(lines)
+
+	contents := string(lines)
+	return strings.Split(contents, "\n")
+
+	//f, err := os.Open("./storage/logs/2022-03-21.log")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//defer f.Close()
+	//
+	//rd := bufio.NewReader(f)
+	//
+	//
+	//for {
+	//	data, _, eof := rd.ReadLine()
+	//	//fmt.Println(data)
+	//
+	//	if eof == io.EOF {
+	//		break
+	//	}
+	//
+	//	constents = append(constents, string(data))
+	//	//fmt.Println(string(data))
+	//}
 }

@@ -857,7 +857,7 @@ var doc = `{
                     "type": "string"
                 },
                 "log_type": {
-                    "description": "log 类型    1:沙发桌面  2:布丁屏保",
+                    "description": "es 类型    1:沙发桌面  2:布丁屏保",
                     "type": "integer"
                 },
                 "os_version_code": {

@@ -40,7 +40,7 @@ func createNacosClient() config_client.IConfigClient {
 		},
 	}
 
-	LogDir := "/tmp/nacos/log"
+	LogDir := "/tmp/nacos/es"
 	CacheDir := "/tmp/nacos/cache"
 	if len(nacosServer.LogDir) > 0 {
 		LogDir = nacosServer.LogDir
@@ -129,7 +129,7 @@ func mapTo(section string, v interface{}) {
 	case "standby-time": //Standby Time
 		mapstructure.Decode(v, &setting.StandbyTimeSetting)
 		break
-	case "app-log-white-list": //APP Log WhiteList
+	case "app-es-white-list": //APP Log WhiteList
 		mapstructure.Decode(v, &setting.AppLogWhiteListSetting)
 		break
 	}
